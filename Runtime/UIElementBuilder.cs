@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Xml;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -74,6 +76,27 @@ public static class UIElementBuilder {
         { "Animated", ListViewReorderMode.Animated }
     };
 
+    private static readonly Dictionary<string, SliderDirection> SliderDirectionMap = new() {
+        { "Vertical", SliderDirection.Vertical },
+        { "Horizontal", SliderDirection.Horizontal }
+    };
+
+    private static readonly Dictionary<string, TouchScreenKeyboardType> TouchScreenKeyboardTypeMap = new() {
+        { "Default", TouchScreenKeyboardType.Default },
+        { "ASCIICapable", TouchScreenKeyboardType.ASCIICapable },
+        { "NumbersAndPunctuation", TouchScreenKeyboardType.NumbersAndPunctuation },
+        { "URL", TouchScreenKeyboardType.URL },
+        { "NumberPad", TouchScreenKeyboardType.NumberPad },
+        { "PhonePad", TouchScreenKeyboardType.PhonePad },
+        { "NamePhonePad", TouchScreenKeyboardType.NamePhonePad },
+        { "EmailAddress", TouchScreenKeyboardType.EmailAddress },
+        { "Social", TouchScreenKeyboardType.Social },
+        { "Search", TouchScreenKeyboardType.Search },
+        { "DecimalPad", TouchScreenKeyboardType.DecimalPad },
+        { "OneTimeCode", TouchScreenKeyboardType.OneTimeCode }
+    };
+
+
     /*
      * Public API
      */
@@ -86,10 +109,14 @@ public static class UIElementBuilder {
         doc.LoadXml("<ui:UXML xmlns:ui=\"UnityEngine.UIElements\">" + uiString + "</ui:UXML>");
 
         // Since we wrapped, the first child is root
-        XmlNode root = doc.DocumentElement.FirstChild; // Get the first child of the wrapper
+        if (doc.DocumentElement != null) {
+            XmlNode root = doc.DocumentElement.FirstChild; // Get the first child of the wrapper
 
-        // Return the created element
-        return CreateElement<T>(root);
+            // Return the created element
+            return CreateElement<T>(root);
+        }
+
+        throw new InvalidOperationException("The XML document does not have a valid root element.");
     }
 
     /*
@@ -103,7 +130,7 @@ public static class UIElementBuilder {
         // Step 2: Add attributes
         if (element != null && node.Attributes != null) {
             foreach (XmlAttribute attribute in node.Attributes) {
-                AddAttr(element, attribute);
+                AddAttr(element, attribute, node);
             }
         }
 
@@ -119,11 +146,7 @@ public static class UIElementBuilder {
         }
 
         // Step 4: Return the finished root element
-        if (element is T typedElement) {
-            return typedElement;
-        }
-
-        throw new InvalidOperationException($"The created element is not of type {typeof(T).Name}");
+        return element ?? throw new InvalidOperationException($"The created element is not of type {typeof(T).Name}");
     }
 
     private static T CreateElementBase<T>(XmlNode node) where T : VisualElement {
@@ -174,7 +197,19 @@ public static class UIElementBuilder {
             $"The created element is not of type {typeof(T).Name}. Element type is {element.GetType().Name}.");
     }
 
-    private static void AddAttr<T>(T el, XmlAttribute attr) where T : VisualElement {
+    private static XmlAttribute FindAttribute(XmlNode node, string attributeName) {
+        if (node.Attributes != null) {
+            foreach (XmlAttribute attribute in node.Attributes) {
+                if (attribute.Name == attributeName) {
+                    return attribute;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static void AddAttr<T>(T el, XmlAttribute attr, XmlNode node) where T : VisualElement {
         switch (attr.Name) {
             case "class":
                 AddClassAttr(el, attr);
@@ -296,12 +331,87 @@ public static class UIElementBuilder {
             case "label":
                 AddLabelAttr(el, attr);
                 return;
+            case "high-value":
+                AddHighValueAttr(el, attr);
+                return;
+            case "value":
+                AddValueAttr(el, attr, node);
+                return;
+            case "low-value":
+                AddLowValueAttr(el, attr);
+                return;
+            case "direction":
+                AddDirectionAttr(el, attr);
+                return;
+            case "max-length":
+                AddMaxLengthAttr(el, attr);
+                return;
+            case "password":
+                AddPasswordAttr(el, attr);
+                return;
+            case "mask-character":
+                AddMaskCharAttr(el, attr);
+                return;
+            case "readonly":
+                AddReadOnlyAttr(el, attr);
+                return;
+            case "is-delayed":
+                AddIsDelayedAttr(el, attr);
+                return;
+            case "hide-mobile-input":
+                AddHideMobileInputAttr(el, attr);
+                return;
+            case "keyboard-type":
+                AddKeyboardTypeAttr(el, attr);
+                return;
+            case "auto-correction":
+                AddAutoCorrectionAttr(el, attr);
+                return;
+            case "multiline":
+                AddMultilineAttr(el, attr);
+                return;
+            case "page-size":
+                AddPageSizeAttr(el, attr);
+                return;
+            case "show-input-field":
+                AddShowInputFieldAttr(el, attr);
+                return;
+            case "inverted":
+                AddInvertedAttr(el, attr);
+                return;
+            case "min-value":
+                AddMinValueAttr(el, attr);
+                return;
+            case "max-value":
+                AddMaxValueAttr(el, attr);
+                return;
+            case "low-limit":
+                AddLowLimitAttr(el, attr);
+                return;
+            case "high-limit":
+                AddHighLimitAttr(el, attr);
+                return;
+            case "title":
+                AddTitleAttr(el, attr);
+                return;
+            case "index":
+                AddIndexAttr(el, attr);
+                return;
+            case "choices":
+                AddChoicesAttr(el, attr);
+                return;
+            case "type":
+                // Handled in value
+                return;
+            case "include-obsolete-values":
+                // Handled in value
+                return;
+            default:
+                AttributeNameWarning(el, attr);
+                return;
         }
-
-
-        // If we make it all the way here it's an unknown or unsupported attribute
-        AttributeNameWarning(el, attr);
     }
+
 
     /*
      * Attribute Setters
@@ -343,12 +453,35 @@ public static class UIElementBuilder {
         }
     }
 
+    private static void SetCharAttr<T>(T el, XmlAttribute attr, Action<T, char> add) where T : VisualElement {
+        if (char.TryParse(attr.Value, out char character)) {
+            add(el, character);
+        }
+        else {
+            AttributeValueWarning(el, attr);
+        }
+    }
+
+
     private static void SetEnumAttr<T, T2>(T el, XmlAttribute attr, Dictionary<string, T2> map, Action<T, T2> add)
         where T : VisualElement {
         if (map.TryGetValue(attr.Value, out T2 enumValue)) {
             add(el, enumValue);
         }
         else {
+            AttributeValueWarning(el, attr);
+        }
+    }
+
+    private static void SetCustomEnumValue(EnumField el, string value, Type enumType) {
+        if (Enum.TryParse(enumType, value, true, out object enumValue)) {
+            el.Init((Enum)enumValue);
+            el.value = (Enum)enumValue;
+        }
+        else {
+            XmlDocument doc = new();
+            XmlAttribute attr = doc.CreateAttribute("value");
+            attr.Value = value;
             AttributeValueWarning(el, attr);
         }
     }
@@ -421,7 +554,21 @@ public static class UIElementBuilder {
     private static void AddTouchScrollTypeAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
         switch (gEl) {
             case ScrollView el:
-                SetEnumAttr(el, attr, TouchScrollBehaviorMap, (e, v) => el.touchScrollBehavior = v);
+                SetEnumAttr(el, attr, TouchScrollBehaviorMap, (e, v) => e.touchScrollBehavior = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddPageSizeAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case Slider el:
+                SetFloatAttr(el, attr, (e, v) => e.pageSize = v);
+                break;
+            case SliderInt el:
+                SetFloatAttr(el, attr, (e, v) => e.pageSize = v);
                 break;
             default:
                 AttributeUnsupportedWarning(gEl, attr);
@@ -432,7 +579,7 @@ public static class UIElementBuilder {
     private static void AddHorizontalPageSizeAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
         switch (gEl) {
             case ScrollView el:
-                SetFloatAttr(el, attr, (e, v) => el.horizontalPageSize = v);
+                SetFloatAttr(el, attr, (e, v) => e.horizontalPageSize = v);
                 break;
             default:
                 AttributeUnsupportedWarning(gEl, attr);
@@ -465,7 +612,7 @@ public static class UIElementBuilder {
     private static void AddHorizontalScrollerVisibilityAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
         switch (gEl) {
             case ScrollView el:
-                SetEnumAttr(el, attr, HorizontalScrollerVisibilityMap, (e, v) => el.horizontalScrollerVisibility = v);
+                SetEnumAttr(el, attr, HorizontalScrollerVisibilityMap, (e, v) => e.horizontalScrollerVisibility = v);
                 break;
             default:
                 AttributeUnsupportedWarning(gEl, attr);
@@ -515,6 +662,36 @@ public static class UIElementBuilder {
             case Toggle el:
                 el.bindingPath = attr.Value;
                 break;
+            case TextField el:
+                el.bindingPath = attr.Value;
+                break;
+            case Foldout el:
+                el.bindingPath = attr.Value;
+                break;
+            case Slider el:
+                el.bindingPath = attr.Value;
+                break;
+            case SliderInt el:
+                el.bindingPath = attr.Value;
+                break;
+            case MinMaxSlider el:
+                el.bindingPath = attr.Value;
+                break;
+            case ProgressBar el:
+                el.bindingPath = attr.Value;
+                break;
+            case DropdownField el:
+                el.bindingPath = attr.Value;
+                break;
+            case EnumField el:
+                el.bindingPath = attr.Value;
+                break;
+            case RadioButton el:
+                el.bindingPath = attr.Value;
+                break;
+            case RadioButtonGroup el:
+                el.bindingPath = attr.Value;
+                break;
             default:
                 AttributeUnsupportedWarning(gEl, attr);
                 break;
@@ -530,6 +707,12 @@ public static class UIElementBuilder {
                 el.text = attr.Value;
                 break;
             case Button el:
+                el.text = attr.Value;
+                break;
+            case Foldout el:
+                el.text = attr.Value;
+                break;
+            case RadioButton el:
                 el.text = attr.Value;
                 break;
             default:
@@ -677,6 +860,17 @@ public static class UIElementBuilder {
         }
     }
 
+    private static void AddTitleAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case ProgressBar el:
+                el.title = attr.Value;
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
     private static void AddShowAddRemoveFooterAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
         switch (gEl) {
             case ListView el:
@@ -741,11 +935,373 @@ public static class UIElementBuilder {
             case Toggle el:
                 el.label = attr.Value;
                 break;
+            case TextField el:
+                el.label = attr.Value;
+                break;
+            case Slider el:
+                el.label = attr.Value;
+                break;
+            case SliderInt el:
+                el.label = attr.Value;
+                break;
+            case MinMaxSlider el:
+                el.label = attr.Value;
+                break;
+            case DropdownField el:
+                el.label = attr.Value;
+                break;
+            case EnumField el:
+                el.label = attr.Value;
+                break;
+            case RadioButton el:
+                el.label = attr.Value;
+                break;
+            case RadioButtonGroup el:
+                el.label = attr.Value;
+                break;
             default:
                 AttributeUnsupportedWarning(gEl, attr);
                 break;
         }
     }
+
+    private static void AddHighValueAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case Scroller el:
+                SetFloatAttr(el, attr, (e, v) => e.highValue = v);
+                break;
+            case Slider el:
+                SetFloatAttr(el, attr, (e, v) => e.highValue = v);
+                break;
+            case SliderInt el:
+                SetIntAttr(el, attr, (e, v) => e.highValue = v);
+                break;
+            case ProgressBar el:
+                SetFloatAttr(el, attr, (e, v) => e.highValue = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddLowValueAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case Scroller el:
+                SetFloatAttr(el, attr, (e, v) => e.lowValue = v);
+                break;
+            case Slider el:
+                SetFloatAttr(el, attr, (e, v) => e.lowValue = v);
+                break;
+            case SliderInt el:
+                SetIntAttr(el, attr, (e, v) => e.lowValue = v);
+                break;
+            case ProgressBar el:
+                SetFloatAttr(el, attr, (e, v) => e.lowValue = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddValueAttr<T>(T gEl, XmlAttribute attr, XmlNode node) where T : VisualElement {
+        switch (gEl) {
+            case Scroller el:
+                SetFloatAttr(el, attr, (e, v) => e.value = v);
+                break;
+            case TextField el:
+                el.value = attr.Value;
+                break;
+            case Foldout el:
+                SetBooleanAttr(el, attr, (e, v) => e.value = v);
+                break;
+            case ProgressBar el:
+                SetFloatAttr(el, attr, (e, v) => e.value = v);
+                break;
+            case EnumField el:
+                AddEnumFieldValueAttr(el, attr, node);
+                break;
+            case RadioButton el:
+                SetBooleanAttr(el, attr, (e, v) => e.value = v);
+                break;
+            case RadioButtonGroup el:
+                SetIntAttr(el, attr, (e, v) => e.value = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddEnumFieldValueAttr(EnumField el, XmlAttribute attr, XmlNode node) {
+        // EnumField has properties that need to be set during initialization
+        XmlAttribute typeAttr = FindAttribute(node, "type");
+        XmlAttribute obsoleteAttr = FindAttribute(node, "include-obsolete-values");
+
+        // Type attribute is required
+        if (typeAttr != null) {
+            // Find the enum type
+            Type enumType = Type.GetType(typeAttr.Value);
+
+            // If it exists and is an enum
+            if (enumType != null && enumType.IsEnum) {
+                // Find the obsolete values attribute if it exists
+                bool includeObsoleteValues =
+                    obsoleteAttr != null && bool.TryParse(obsoleteAttr.Value, out bool result) && result;
+
+                // Get the enum values
+                Array enumValues = Enum.GetValues(enumType);
+
+                if (enumValues.Length > 0) {
+                    Enum defaultEnumValue;
+
+                    if (includeObsoleteValues) {
+                        // Include obsolete enum values
+                        defaultEnumValue = enumValues.Cast<Enum>()
+                            .FirstOrDefault(v => v.GetType().GetField(v.ToString())
+                                .GetCustomAttribute<ObsoleteAttribute>() != null);
+                    }
+                    else {
+                        // Default to the first non-obsolete value
+                        defaultEnumValue = enumValues.Cast<Enum>()
+                            .FirstOrDefault(v => v.GetType().GetField(v.ToString())
+                                .GetCustomAttribute<ObsoleteAttribute>() == null);
+                    }
+
+                    // Initialize the EnumField
+                    el.Init(defaultEnumValue ?? (Enum)enumValues.GetValue(0));
+
+                    // Set the value
+                    SetCustomEnumValue(el, attr.Value, enumType);
+                }
+                else {
+                    // Handle the case where there are no enum values
+                    AttributeValueWarning(el, attr);
+                }
+            }
+            else {
+                AttributeValueWarning(el, attr);
+            }
+        }
+    }
+
+    private static void AddDirectionAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case Scroller el:
+                SetEnumAttr(el, attr, SliderDirectionMap, (e, v) => e.direction = v);
+                break;
+            case Slider el:
+                SetEnumAttr(el, attr, SliderDirectionMap, (e, v) => e.direction = v);
+                break;
+            case SliderInt el:
+                SetEnumAttr(el, attr, SliderDirectionMap, (e, v) => e.direction = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddMultilineAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case TextField el:
+                SetBooleanAttr(el, attr, (e, v) => e.multiline = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddAutoCorrectionAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case TextField el:
+                SetBooleanAttr(el, attr, (e, v) => e.autoCorrection = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddKeyboardTypeAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case TextField el:
+                SetEnumAttr(el, attr, TouchScreenKeyboardTypeMap, (e, v) => e.keyboardType = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddHideMobileInputAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case TextField el:
+                SetBooleanAttr(el, attr, (e, v) => e.hideMobileInput = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddIsDelayedAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case TextField el:
+                SetBooleanAttr(el, attr, (e, v) => e.isDelayed = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+
+    private static void AddReadOnlyAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case TextField el:
+                SetBooleanAttr(el, attr, (e, v) => e.isReadOnly = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddMaskCharAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case TextField el:
+                SetCharAttr(el, attr, (e, v) => e.maskChar = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddMaxLengthAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case TextField el:
+                SetIntAttr(el, attr, (e, v) => e.maxLength = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddPasswordAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case TextField el:
+                SetBooleanAttr(el, attr, (e, v) => e.isPasswordField = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddShowInputFieldAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case Slider el:
+                SetBooleanAttr(el, attr, (e, v) => e.showInputField = v);
+                break;
+            case SliderInt el:
+                SetBooleanAttr(el, attr, (e, v) => e.showInputField = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddInvertedAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case Slider el:
+                SetBooleanAttr(el, attr, (e, v) => e.inverted = v);
+                break;
+            case SliderInt el:
+                SetBooleanAttr(el, attr, (e, v) => e.inverted = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddMinValueAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case MinMaxSlider el:
+                SetFloatAttr(el, attr, (e, v) => e.minValue = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddMaxValueAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case MinMaxSlider el:
+                SetFloatAttr(el, attr, (e, v) => e.maxValue = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddLowLimitAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case MinMaxSlider el:
+                SetFloatAttr(el, attr, (e, v) => e.lowLimit = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddHighLimitAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case MinMaxSlider el:
+                SetFloatAttr(el, attr, (e, v) => e.highLimit = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddIndexAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case DropdownField el:
+                SetIntAttr(el, attr, (e, v) => e.index = v);
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddChoicesAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
+        switch (gEl) {
+            case DropdownField el:
+                el.choices = attr.Value.Split(',').ToList();
+                break;
+            case RadioButtonGroup el:
+                el.choices = attr.Value.Split(',').ToList();
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+
+    //type="UnityEngine.TextAlignment, UnityEngine.TextRenderingModule" include-obsolete-values="true"
 
 
     /*
