@@ -1,0 +1,21 @@
+{
+  "name": "com.rkstudios.uielementbuilder",
+  "displayName": "UI Element Builder",
+  "version": "0.0.1",
+  "unity": "2020.3",
+  "description": "A Unity package that builds UI elements from UXML strings.",
+  "keywords": [
+    "UI",
+    "UXML",
+    "UI Elements",
+    "UI Toolkit",
+    "Builder"
+  ],
+  "license": "MIT",
+  "category": "UI",
+  "dependencies": {},
+  "author": {
+    "name": "Robert Klein",
+    "url": "https://robbyk.dev"
+  }
+}
