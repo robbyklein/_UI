@@ -131,3 +131,4 @@ Assets/WSATestCertificate.pfx
 .vs/
 .DS_Store
 !*.meta
+LICENSE.meta
