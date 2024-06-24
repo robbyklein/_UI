@@ -110,7 +110,7 @@ public static class UIElementBuilder {
 
         // Since we wrapped, the first child is root
         if (doc.DocumentElement != null) {
-            XmlNode root = doc.DocumentElement.FirstChild; // Get the first child of the wrapper
+            XmlNode root = doc.DocumentElement.FirstChild;
 
             // Return the created element
             return CreateElement<T>(root);
@@ -406,6 +406,29 @@ public static class UIElementBuilder {
             case "include-obsolete-values":
                 // Handled in value
                 return;
+            case "x":
+            case "y":
+            case "z":
+            case "w":
+            case "h":
+                AddVectorAttrs(el, attr, node);
+                break;
+            case "cx":
+            case "cy":
+            case "cz":
+            case "ex":
+            case "ey":
+            case "ez":
+                AddBoundsAttrs(el, attr, node);
+                break;
+            case "px":
+            case "py":
+            case "pz":
+            case "sx":
+            case "sy":
+            case "sz":
+                AddBoundsIntAttrs(el, attr, node);
+                break;
             default:
                 AttributeNameWarning(el, attr);
                 return;
@@ -435,9 +458,37 @@ public static class UIElementBuilder {
         }
     }
 
+    private static void SetHash128Attr<T>(T el, XmlAttribute attr, Action<T, Hash128> add) where T : VisualElement {
+        try {
+            Hash128 hashValue = Hash128.Parse(attr.Value);
+            add(el, hashValue);
+        }
+        catch (Exception) {
+            AttributeValueWarning(el, attr);
+        }
+    }
+
     private static void SetFloatAttr<T>(T el, XmlAttribute attr, Action<T, float> add) where T : VisualElement {
         if (float.TryParse(attr.Value, out float floatNum)) {
             add(el, floatNum);
+        }
+        else {
+            AttributeValueWarning(el, attr);
+        }
+    }
+
+    private static void SetUlongAttr<T>(T el, XmlAttribute attr, Action<T, ulong> add) where T : VisualElement {
+        if (ulong.TryParse(attr.Value, out ulong ulongNum)) {
+            add(el, ulongNum);
+        }
+        else {
+            AttributeValueWarning(el, attr);
+        }
+    }
+
+    private static void SetUintAttr<T>(T el, XmlAttribute attr, Action<T, uint> add) where T : VisualElement {
+        if (uint.TryParse(attr.Value, out uint uintNum)) {
+            add(el, uintNum);
         }
         else {
             AttributeValueWarning(el, attr);
@@ -690,6 +741,54 @@ public static class UIElementBuilder {
                 el.bindingPath = attr.Value;
                 break;
             case RadioButtonGroup el:
+                el.bindingPath = attr.Value;
+                break;
+            case IntegerField el:
+                el.bindingPath = attr.Value;
+                break;
+            case FloatField el:
+                el.bindingPath = attr.Value;
+                break;
+            case LongField el:
+                el.bindingPath = attr.Value;
+                break;
+            case DoubleField el:
+                el.bindingPath = attr.Value;
+                break;
+            case Hash128Field el:
+                el.bindingPath = attr.Value;
+                break;
+            case Vector2Field el:
+                el.bindingPath = attr.Value;
+                break;
+            case Vector3Field el:
+                el.bindingPath = attr.Value;
+                break;
+            case Vector4Field el:
+                el.bindingPath = attr.Value;
+                break;
+            case RectField el:
+                el.bindingPath = attr.Value;
+                break;
+            case BoundsField el:
+                el.bindingPath = attr.Value;
+                break;
+            case UnsignedIntegerField el:
+                el.bindingPath = attr.Value;
+                break;
+            case UnsignedLongField el:
+                el.bindingPath = attr.Value;
+                break;
+            case Vector2IntField el:
+                el.bindingPath = attr.Value;
+                break;
+            case Vector3IntField el:
+                el.bindingPath = attr.Value;
+                break;
+            case RectIntField el:
+                el.bindingPath = attr.Value;
+                break;
+            case BoundsIntField el:
                 el.bindingPath = attr.Value;
                 break;
             default:
@@ -959,6 +1058,54 @@ public static class UIElementBuilder {
             case RadioButtonGroup el:
                 el.label = attr.Value;
                 break;
+            case IntegerField el:
+                el.bindingPath = attr.Value;
+                break;
+            case FloatField el:
+                el.bindingPath = attr.Value;
+                break;
+            case LongField el:
+                el.bindingPath = attr.Value;
+                break;
+            case DoubleField el:
+                el.bindingPath = attr.Value;
+                break;
+            case Hash128Field el:
+                el.bindingPath = attr.Value;
+                break;
+            case Vector2Field el:
+                el.bindingPath = attr.Value;
+                break;
+            case Vector3Field el:
+                el.bindingPath = attr.Value;
+                break;
+            case Vector4Field el:
+                el.bindingPath = attr.Value;
+                break;
+            case RectField el:
+                el.bindingPath = attr.Value;
+                break;
+            case BoundsField el:
+                el.bindingPath = attr.Value;
+                break;
+            case UnsignedIntegerField el:
+                el.bindingPath = attr.Value;
+                break;
+            case UnsignedLongField el:
+                el.bindingPath = attr.Value;
+                break;
+            case Vector2IntField el:
+                el.bindingPath = attr.Value;
+                break;
+            case Vector3IntField el:
+                el.bindingPath = attr.Value;
+                break;
+            case RectIntField el:
+                el.bindingPath = attr.Value;
+                break;
+            case BoundsIntField el:
+                el.bindingPath = attr.Value;
+                break;
             default:
                 AttributeUnsupportedWarning(gEl, attr);
                 break;
@@ -1027,6 +1174,24 @@ public static class UIElementBuilder {
                 break;
             case RadioButtonGroup el:
                 SetIntAttr(el, attr, (e, v) => e.value = v);
+                break;
+            case IntegerField el:
+                SetIntAttr(el, attr, (e, v) => e.value = v);
+                break;
+            case FloatField el:
+                SetFloatAttr(el, attr, (e, v) => e.value = v);
+                break;
+            case LongField el:
+                SetLongAttr(el, attr, (e, v) => e.value = v);
+                break;
+            case Hash128Field el:
+                SetHash128Attr(el, attr, (e, v) => e.value = v);
+                break;
+            case UnsignedIntegerField el:
+                SetUintAttr(el, attr, (e, v) => e.value = v);
+                break;
+            case UnsignedLongField el:
+                SetUlongAttr(el, attr, (e, v) => e.value = v);
                 break;
             default:
                 AttributeUnsupportedWarning(gEl, attr);
@@ -1152,6 +1317,24 @@ public static class UIElementBuilder {
             case TextField el:
                 SetBooleanAttr(el, attr, (e, v) => e.isDelayed = v);
                 break;
+            case IntegerField el:
+                SetBooleanAttr(el, attr, (e, v) => e.isDelayed = v);
+                break;
+            case FloatField el:
+                SetBooleanAttr(el, attr, (e, v) => e.isDelayed = v);
+                break;
+            case LongField el:
+                SetBooleanAttr(el, attr, (e, v) => e.isDelayed = v);
+                break;
+            case Hash128Field el:
+                SetBooleanAttr(el, attr, (e, v) => e.isDelayed = v);
+                break;
+            case UnsignedIntegerField el:
+                SetBooleanAttr(el, attr, (e, v) => e.isDelayed = v);
+                break;
+            case UnsignedLongField el:
+                SetBooleanAttr(el, attr, (e, v) => e.isDelayed = v);
+                break;
             default:
                 AttributeUnsupportedWarning(gEl, attr);
                 break;
@@ -1162,6 +1345,24 @@ public static class UIElementBuilder {
     private static void AddReadOnlyAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
         switch (gEl) {
             case TextField el:
+                SetBooleanAttr(el, attr, (e, v) => e.isReadOnly = v);
+                break;
+            case IntegerField el:
+                SetBooleanAttr(el, attr, (e, v) => e.isReadOnly = v);
+                break;
+            case FloatField el:
+                SetBooleanAttr(el, attr, (e, v) => e.isReadOnly = v);
+                break;
+            case LongField el:
+                SetBooleanAttr(el, attr, (e, v) => e.isReadOnly = v);
+                break;
+            case Hash128Field el:
+                SetBooleanAttr(el, attr, (e, v) => e.isReadOnly = v);
+                break;
+            case UnsignedIntegerField el:
+                SetBooleanAttr(el, attr, (e, v) => e.isReadOnly = v);
+                break;
+            case UnsignedLongField el:
                 SetBooleanAttr(el, attr, (e, v) => e.isReadOnly = v);
                 break;
             default:
@@ -1300,8 +1501,111 @@ public static class UIElementBuilder {
         }
     }
 
+    private static void AddVectorAttrs<T>(T gEl, XmlAttribute attr, XmlNode node) where T : VisualElement {
+        XmlAttribute xAttr = FindAttribute(node, "x");
+        XmlAttribute yAttr = FindAttribute(node, "y");
+        XmlAttribute zAttr = FindAttribute(node, "z");
+        XmlAttribute wAttr = FindAttribute(node, "w");
+        XmlAttribute hAttr = FindAttribute(node, "h");
 
-    //type="UnityEngine.TextAlignment, UnityEngine.TextRenderingModule" include-obsolete-values="true"
+        if (node.Name == "ui:Vector2IntField" || node.Name == "ui:Vector3IntField" || node.Name == "ui:RectIntField") {
+            int x = xAttr != null && int.TryParse(xAttr.Value, out int xValue) ? xValue : 0;
+            int y = yAttr != null && int.TryParse(yAttr.Value, out int yValue) ? yValue : 0;
+            int z = zAttr != null && int.TryParse(zAttr.Value, out int zValue) ? zValue : 0;
+            int w = wAttr != null && int.TryParse(wAttr.Value, out int wValue) ? wValue : 0;
+            int h = hAttr != null && int.TryParse(hAttr.Value, out int hValue) ? hValue : 0;
+
+            switch (gEl) {
+                case Vector2IntField el:
+                    el.value = new Vector2Int(x, y);
+                    break;
+                case Vector3IntField el:
+                    el.value = new Vector3Int(x, y, z);
+                    break;
+                case RectIntField el:
+                    el.value = new RectInt(x, y, w, h);
+                    break;
+                default:
+                    AttributeUnsupportedWarning(gEl, attr);
+                    break;
+            }
+        }
+        else {
+            float x = xAttr != null && float.TryParse(xAttr.Value, out float xValue) ? xValue : 0f;
+            float y = yAttr != null && float.TryParse(yAttr.Value, out float yValue) ? yValue : 0f;
+            float z = zAttr != null && float.TryParse(zAttr.Value, out float zValue) ? zValue : 0f;
+            float w = wAttr != null && float.TryParse(wAttr.Value, out float wValue) ? wValue : 0f;
+            float h = hAttr != null && float.TryParse(hAttr.Value, out float hValue) ? hValue : 0f;
+
+            switch (gEl) {
+                case Vector2Field el:
+                    el.value = new Vector2(x, y);
+                    break;
+                case Vector3Field el:
+                    el.value = new Vector3(x, y, z);
+                    break;
+                case Vector4Field el:
+                    el.value = new Vector4(x, y, z, w);
+                    break;
+                case RectField el:
+                    el.value = new Rect(x, y, w, h);
+                    break;
+                default:
+                    AttributeUnsupportedWarning(gEl, attr);
+                    break;
+            }
+        }
+    }
+
+    private static void AddBoundsAttrs<T>(T gEl, XmlAttribute attr, XmlNode node) where T : VisualElement {
+        XmlAttribute cxAttr = FindAttribute(node, "cx");
+        XmlAttribute cyAttr = FindAttribute(node, "cy");
+        XmlAttribute czAttr = FindAttribute(node, "cz");
+        XmlAttribute exAttr = FindAttribute(node, "ex");
+        XmlAttribute eyAttr = FindAttribute(node, "ey");
+        XmlAttribute ezAttr = FindAttribute(node, "ez");
+
+        float cx = cxAttr != null && float.TryParse(cxAttr.Value, out float cxValue) ? cxValue : 0f;
+        float cy = cyAttr != null && float.TryParse(cyAttr.Value, out float cyValue) ? cyValue : 0f;
+        float cz = czAttr != null && float.TryParse(czAttr.Value, out float czValue) ? czValue : 0f;
+        float ex = exAttr != null && float.TryParse(exAttr.Value, out float exValue) ? exValue : 0f;
+        float ey = eyAttr != null && float.TryParse(eyAttr.Value, out float eyValue) ? eyValue : 0f;
+        float ez = ezAttr != null && float.TryParse(ezAttr.Value, out float ezValue) ? ezValue : 0f;
+
+        switch (gEl) {
+            case BoundsField el:
+                el.value = new Bounds(new Vector3(cx, cy, cz), new Vector3(ex, ey, ez));
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
+
+    private static void AddBoundsIntAttrs<T>(T gEl, XmlAttribute attr, XmlNode node) where T : VisualElement {
+        XmlAttribute pxAttr = FindAttribute(node, "px");
+        XmlAttribute pyAttr = FindAttribute(node, "py");
+        XmlAttribute pzAttr = FindAttribute(node, "pz");
+        XmlAttribute sxAttr = FindAttribute(node, "sx");
+        XmlAttribute syAttr = FindAttribute(node, "sy");
+        XmlAttribute szAttr = FindAttribute(node, "sz");
+
+        int px = pxAttr != null && int.TryParse(pxAttr.Value, out int pxValue) ? pxValue : 0;
+        int py = pyAttr != null && int.TryParse(pyAttr.Value, out int pyValue) ? pyValue : 0;
+        int pz = pzAttr != null && int.TryParse(pzAttr.Value, out int pzValue) ? pzValue : 0;
+        int sx = sxAttr != null && int.TryParse(sxAttr.Value, out int sxValue) ? sxValue : 0;
+        int sy = syAttr != null && int.TryParse(syAttr.Value, out int syValue) ? syValue : 0;
+        int sz = szAttr != null && int.TryParse(szAttr.Value, out int szValue) ? szValue : 0;
+
+        switch (gEl) {
+            case BoundsIntField el:
+                el.value = new BoundsInt(new Vector3Int(px, py, pz), new Vector3Int(sx, sy, sz));
+                break;
+            default:
+                AttributeUnsupportedWarning(gEl, attr);
+                break;
+        }
+    }
 
 
     /*
