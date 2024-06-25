@@ -116,6 +116,43 @@ public static class UIElementBuilder {
         throw new InvalidOperationException("The XML document does not have a valid root element.");
     }
 
+    public static Dictionary<string, string> ParseUSS(string ussString) {
+        Dictionary<string, string> styles = new();
+        // "font-size: 200px; color: #ffffff; background-size: 40px;"
+
+        // Split into properties
+        string[] properties = ussString.Split(";");
+        
+        // Loop them
+        foreach (string property in properties) {
+            // Trim extra white space
+            var trimmedProperty = property.Trim();
+            
+            // Make sure we actually have a property to work with
+            if (string.IsNullOrEmpty(trimmedProperty)) {
+                continue;
+            }
+
+            // Split by : giving us a key and value
+            var keyValue = trimmedProperty.Split(new[] { ':' }, 2);
+            
+            //  it's not exactly two somethings invalid
+            if (keyValue.Length != 2) {
+                // TODO: log an error here
+                continue;
+            }
+            
+            // Remove any excess whitespace
+            var key = keyValue[0].Trim();
+            var value = keyValue[1].Trim();
+
+            // Add to the dictionary
+            styles[key] = value;
+        }
+
+        return styles;
+    }
+    
     /*
      * Element Building
      */
@@ -124,13 +161,13 @@ public static class UIElementBuilder {
         // Step 1: Create base element
         T element = CreateElementBase<T>(node);
 
-        // Step 2: Add attributes
+        // Step 2: Add attributes (ex. style)
         if (element != null && node.Attributes != null) {
             foreach (XmlAttribute attribute in node.Attributes) {
                 AddAttr(element, attribute, node);
             }
         }
-
+        
         // Step 3: Build nested elements recursively
         if (element != null && node.HasChildNodes) {
             foreach (XmlNode childNode in node.ChildNodes) {
@@ -414,9 +451,28 @@ public static class UIElementBuilder {
             case "sz":
                 AddBoundsIntAttrs(el, attr, node);
                 break;
+            case "style":
+                ParseAndApplyUSS(el, attr);
+                break;
             default:
                 AttributeNameWarning(el, attr);
                 return;
+        }
+    }
+    
+    /*
+     * USS
+     */
+
+    private static void ParseAndApplyUSS(VisualElement el, XmlNode attr) {
+        string ussString = attr.Value;
+        if (ussString == null) return;
+
+        Dictionary<string, string> styles = ParseUSS(ussString);
+        
+        foreach (var kvp in styles)
+        {
+            Debug.Log($"{kvp.Key}: {kvp.Value}");
         }
     }
 
