@@ -96,7 +96,6 @@ public static class UIElementBuilder {
         { "OneTimeCode", TouchScreenKeyboardType.OneTimeCode }
     };
 
-
     /*
      * Public API
      */
@@ -111,8 +110,6 @@ public static class UIElementBuilder {
         // Since we wrapped, the first child is root
         if (doc.DocumentElement != null) {
             XmlNode root = doc.DocumentElement.FirstChild;
-
-            // Return the created element
             return CreateElement<T>(root);
         }
 
@@ -195,18 +192,6 @@ public static class UIElementBuilder {
 
         throw new InvalidOperationException(
             $"The created element is not of type {typeof(T).Name}. Element type is {element.GetType().Name}.");
-    }
-
-    private static XmlAttribute FindAttribute(XmlNode node, string attributeName) {
-        if (node.Attributes != null) {
-            foreach (XmlAttribute attribute in node.Attributes) {
-                if (attribute.Name == attributeName) {
-                    return attribute;
-                }
-            }
-        }
-
-        return null;
     }
 
     private static void AddAttr<T>(T el, XmlAttribute attr, XmlNode node) where T : VisualElement {
@@ -435,7 +420,6 @@ public static class UIElementBuilder {
         }
     }
 
-
     /*
      * Attribute Setters
      */
@@ -512,7 +496,6 @@ public static class UIElementBuilder {
             AttributeValueWarning(el, attr);
         }
     }
-
 
     private static void SetEnumAttr<T, T2>(T el, XmlAttribute attr, Dictionary<string, T2> map, Action<T, T2> add)
         where T : VisualElement {
@@ -1017,7 +1000,6 @@ public static class UIElementBuilder {
         }
     }
 
-
     private static void AddAutoExpandAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
         switch (gEl) {
             case TreeView el:
@@ -1201,8 +1183,8 @@ public static class UIElementBuilder {
 
     private static void AddEnumFieldValueAttr(EnumField el, XmlAttribute attr, XmlNode node) {
         // EnumField has properties that need to be set during initialization
-        XmlAttribute typeAttr = FindAttribute(node, "type");
-        XmlAttribute obsoleteAttr = FindAttribute(node, "include-obsolete-values");
+        XmlAttribute typeAttr = node.Attributes?["type"];
+        XmlAttribute obsoleteAttr = node.Attributes?["include-obsolete-values"];
 
         // Type attribute is required
         if (typeAttr != null) {
@@ -1340,7 +1322,6 @@ public static class UIElementBuilder {
                 break;
         }
     }
-
 
     private static void AddReadOnlyAttr<T>(T gEl, XmlAttribute attr) where T : VisualElement {
         switch (gEl) {
@@ -1502,11 +1483,11 @@ public static class UIElementBuilder {
     }
 
     private static void AddVectorAttrs<T>(T gEl, XmlAttribute attr, XmlNode node) where T : VisualElement {
-        XmlAttribute xAttr = FindAttribute(node, "x");
-        XmlAttribute yAttr = FindAttribute(node, "y");
-        XmlAttribute zAttr = FindAttribute(node, "z");
-        XmlAttribute wAttr = FindAttribute(node, "w");
-        XmlAttribute hAttr = FindAttribute(node, "h");
+        XmlAttribute xAttr = node.Attributes?["x"];
+        XmlAttribute yAttr = node.Attributes?["y"];
+        XmlAttribute zAttr = node.Attributes?["z"];
+        XmlAttribute wAttr = node.Attributes?["w"];
+        XmlAttribute hAttr = node.Attributes?["h"];
 
         if (node.Name == "ui:Vector2IntField" || node.Name == "ui:Vector3IntField" || node.Name == "ui:RectIntField") {
             int x = xAttr != null && int.TryParse(xAttr.Value, out int xValue) ? xValue : 0;
@@ -1558,12 +1539,12 @@ public static class UIElementBuilder {
     }
 
     private static void AddBoundsAttrs<T>(T gEl, XmlAttribute attr, XmlNode node) where T : VisualElement {
-        XmlAttribute cxAttr = FindAttribute(node, "cx");
-        XmlAttribute cyAttr = FindAttribute(node, "cy");
-        XmlAttribute czAttr = FindAttribute(node, "cz");
-        XmlAttribute exAttr = FindAttribute(node, "ex");
-        XmlAttribute eyAttr = FindAttribute(node, "ey");
-        XmlAttribute ezAttr = FindAttribute(node, "ez");
+        XmlAttribute cxAttr = node.Attributes?["cx"];
+        XmlAttribute cyAttr = node.Attributes?["cy"];
+        XmlAttribute czAttr = node.Attributes?["cz"];
+        XmlAttribute exAttr = node.Attributes?["ex"];
+        XmlAttribute eyAttr = node.Attributes?["ey"];
+        XmlAttribute ezAttr = node.Attributes?["ez"];
 
         float cx = cxAttr != null && float.TryParse(cxAttr.Value, out float cxValue) ? cxValue : 0f;
         float cy = cyAttr != null && float.TryParse(cyAttr.Value, out float cyValue) ? cyValue : 0f;
@@ -1583,12 +1564,12 @@ public static class UIElementBuilder {
     }
 
     private static void AddBoundsIntAttrs<T>(T gEl, XmlAttribute attr, XmlNode node) where T : VisualElement {
-        XmlAttribute pxAttr = FindAttribute(node, "px");
-        XmlAttribute pyAttr = FindAttribute(node, "py");
-        XmlAttribute pzAttr = FindAttribute(node, "pz");
-        XmlAttribute sxAttr = FindAttribute(node, "sx");
-        XmlAttribute syAttr = FindAttribute(node, "sy");
-        XmlAttribute szAttr = FindAttribute(node, "sz");
+        XmlAttribute pxAttr = node.Attributes?["px"];
+        XmlAttribute pyAttr = node.Attributes?["py"];
+        XmlAttribute pzAttr = node.Attributes?["pz"];
+        XmlAttribute sxAttr = node.Attributes?["sx"];
+        XmlAttribute syAttr = node.Attributes?["sy"];
+        XmlAttribute szAttr = node.Attributes?["sz"];
 
         int px = pxAttr != null && int.TryParse(pxAttr.Value, out int pxValue) ? pxValue : 0;
         int py = pyAttr != null && int.TryParse(pyAttr.Value, out int pyValue) ? pyValue : 0;
@@ -1607,7 +1588,6 @@ public static class UIElementBuilder {
         }
     }
 
-
     /*
      * Warning Logs
      */
@@ -1616,17 +1596,17 @@ public static class UIElementBuilder {
         return string.IsNullOrEmpty(element.name) ? "Unnamed element" : element.name;
     }
 
-    public static void AttributeNameWarning(VisualElement element, XmlAttribute attribute) {
+    private static void AttributeNameWarning(VisualElement element, XmlAttribute attribute) {
         Debug.LogWarning(
             $"Invalid attribute name on {GetElementName(element)}: {attribute.Name}=\"{attribute.Value}\"");
     }
 
-    public static void AttributeValueWarning(VisualElement element, XmlAttribute attribute) {
+    private static void AttributeValueWarning(VisualElement element, XmlAttribute attribute) {
         Debug.LogWarning(
             $"Invalid attribute value on {GetElementName(element)}: {attribute.Name}=\"{attribute.Value}\"");
     }
 
-    public static void AttributeUnsupportedWarning(VisualElement element, XmlAttribute attribute) {
+    private static void AttributeUnsupportedWarning(VisualElement element, XmlAttribute attribute) {
         Debug.LogWarning(
             $"Unsupported attribute on {GetElementName(element)}: {attribute.Name}=\"{attribute.Value}\"");
     }
