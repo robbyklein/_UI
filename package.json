@@ -1,14 +1,15 @@
 {
-  "name": "com.rkstudios.uielementbuilder",
-  "displayName": "UI Element Builder",
-  "version": "0.0.5",
+  "name": "com.rkstudios.uibuddy",
+  "displayName": "UIBuddy",
+  "version": "0.0.6",
   "unity": "2020.3",
-  "description": "A Unity package that builds UI elements from UXML strings.",
+  "description": "A Unity package that simplifies the creation of dynamic UI elements and the application of dynamic styles.",
   "keywords": [
     "UI",
     "UXML",
     "UI Elements",
     "UI Toolkit",
+    "USS",
     "Builder"
   ],
   "license": "MIT",
