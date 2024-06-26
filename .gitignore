@@ -130,6 +130,6 @@ UpgradeLog*.XML
 Assets/WSATestCertificate.pfx
 .vs/
 .DS_Store
-*.meta
-!*.cs.meta
+# *.meta
+# !*.cs.meta
 LICENSE.meta
