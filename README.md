@@ -12,6 +12,10 @@ UIBuddy can be installed with the Unity Package Manager via git url.
 https://github.com/robbyklein/UIBuddy
 ```
 
+<img width="330" alt="image" src="https://github.com/robbyklein/UIBuddy/assets/6813372/e0619b86-b5df-4191-9842-dbe8774c6293">
+
+<img width="258" alt="image" src="https://github.com/robbyklein/UIBuddy/assets/6813372/ee835cf7-b6bc-4d38-8a7f-5007cbe27f12">
+
 ## Examples
 
 ```cs
