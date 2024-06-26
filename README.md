@@ -19,7 +19,7 @@ https://github.com/robbyklein/UIBuddy
 ## Examples
 
 ```cs
-VisualElement menuItem = UIElementBuilder.Build<VisualElement>(@"
+VisualElement menuItem = UIEBuddy.Build<VisualElement>(@"
     <ui:VisualElement name=""MenuItem"" view-data-key=""aabc"" picking-mode=""Ignore"" tooltip=""Click to select"" usage-hints=""DynamicTransform"" tabindex=""1"" focusable=""true"" style=""flex-grow: 1;"">
         <ui:Label tabindex=""2"" text=""Option"" parse-escape-sequences=""false"" display-tooltip-when-elided=""true"" view-data-key=""qwe"" usage-hints=""GroupTransform"" focusable=""true"" binding-path=""apples"" enable-rich-text=""false"" />
         <ui:Button text=""Select"" parse-escape-sequences=""true"" display-tooltip-when-elided=""false"" view-data-key=""xcbv"" usage-hints=""DynamicTransform"" tabindex=""3"" focusable=""false"" binding-path=""potatoe"" enable-rich-text=""false"" />
