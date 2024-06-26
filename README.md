@@ -1,8 +1,16 @@
-# UIElementBuilder
+# UIBuddy
 
-UIElementBuilder makes it easy to create complex UI Elements dynamically from UXML Strings.
+A Unity package that simplifies the creation of dynamic UI elements and the application of dynamic styles.
 
 ⚠️ This library is under active development and is subject to breaking changes.
+
+## Installation
+
+UIBuddy can be installed with the Unity Package Manager via git url.
+
+```
+https://github.com/robbyklein/UIBuddy
+```
 
 ## Examples
 

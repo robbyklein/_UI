@@ -22,4 +22,14 @@ internal static class Logging {
         Debug.LogWarning(
             $"Unsupported attribute on {GetElementName(element)}: {attribute.Name}=\"{attribute.Value}\"");
     }
+
+    internal static void StylePropertyInvalidWarning(string property) {
+        Debug.LogWarning(
+            $"Unsupported uss property: {property}");
+    }
+
+    internal static void StyleValueInvalidWarning(string property) {
+        Debug.LogWarning(
+            $"Unsupported uss value: {property}");
+    }
 }

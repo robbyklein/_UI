@@ -1,7 +1,15 @@
 using System.Collections.Generic;
 using System.Xml;
+using UIBuddyTypes;
 using UnityEngine;
 using UnityEngine.UIElements;
+
+namespace UIBuddyTypes {
+    public struct StylePropertyValue {
+        public string Value;
+        public StyleUnit Unit;
+    }
+}
 
 internal class USS {
     internal static void ParseAndApplyUSS(VisualElement el, XmlNode attr) {
@@ -10,17 +18,16 @@ internal class USS {
             return;
         }
 
-        Dictionary<string, string> styles = ParseUSS(ussString);
+        Dictionary<StyleProperty, string> styles = ParseUSS(ussString);
 
-        foreach (KeyValuePair<string, string> kvp in styles) {
+        foreach (KeyValuePair<StyleProperty, string> kvp in styles) {
             Debug.Log($"{kvp.Key}: {kvp.Value}");
         }
     }
 
 
-    public static Dictionary<string, string> ParseUSS(string ussString) {
-        Dictionary<string, string> styles = new();
-        // "font-size: 200px; color: #ffffff; background-size: 40px;"
+    public static Dictionary<StyleProperty, string> ParseUSS(string ussString) {
+        Dictionary<StyleProperty, string> styles = new();
 
         // Split into properties
         string[] properties = ussString.Split(";");
@@ -44,12 +51,23 @@ internal class USS {
                 continue;
             }
 
-            // Remove any excess whitespace
+            // Check key
             string key = keyValue[0].Trim();
+
+            if (!Maps.StyleProperties.TryGetValue(key, out StyleProperty styleProperty)) {
+                Logging.StylePropertyInvalidWarning(key);
+                continue;
+            }
+
+            // Check value
             string value = keyValue[1].Trim();
 
-            // Add to the dictionary
-            styles[key] = value;
+            if (value == "") {
+                Logging.StylePropertyInvalidWarning(key);
+                continue;
+            }
+
+            styles[styleProperty] = value;
         }
 
         return styles;
