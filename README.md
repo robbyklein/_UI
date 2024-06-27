@@ -12,12 +12,16 @@ UIBuddy can be installed with the Unity Package Manager via git url.
 https://github.com/robbyklein/UIBuddy
 ```
 
+<img width="330" alt="image" src="https://github.com/robbyklein/UIBuddy/assets/6813372/e0619b86-b5df-4191-9842-dbe8774c6293">
+
+<img width="258" alt="image" src="https://github.com/robbyklein/UIBuddy/assets/6813372/ee835cf7-b6bc-4d38-8a7f-5007cbe27f12">
+
 ## Examples
 
 ### UI Element construction
 
 ```cs
-VisualElement menuItem = UIElementBuilder.Build<VisualElement>(@"
+VisualElement menuItem = UIEBuddy.Build<VisualElement>(@"
     <ui:VisualElement name=""MenuItem"" view-data-key=""aabc"" picking-mode=""Ignore"" tooltip=""Click to select"" usage-hints=""DynamicTransform"" tabindex=""1"" focusable=""true"" style=""flex-grow: 1;"">
         <ui:Label tabindex=""2"" text=""Option"" parse-escape-sequences=""false"" display-tooltip-when-elided=""true"" view-data-key=""qwe"" usage-hints=""GroupTransform"" focusable=""true"" binding-path=""apples"" enable-rich-text=""false"" />
         <ui:Button text=""Select"" parse-escape-sequences=""true"" display-tooltip-when-elided=""false"" view-data-key=""xcbv"" usage-hints=""DynamicTransform"" tabindex=""3"" focusable=""false"" binding-path=""potatoe"" enable-rich-text=""false"" />
