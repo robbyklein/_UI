@@ -32,8 +32,8 @@ VisualElement menuItem = UIEBuddy.Build<VisualElement>(@"
 ### Styling
 
 ```csharp
-UIBuddy.Style(poop, StyleProperty.FlexDirection, "row");
-UIBuddy.Style(poop, StyleProperty.AlignItems, "flex-end");
+UIBuddy.Style(menuItem, StyleProperty.FlexDirection, "row");
+UIBuddy.Style(menuItem, StyleProperty.AlignItems, "flex-end");
 ```
 
 
