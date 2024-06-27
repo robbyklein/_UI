@@ -14,7 +14,8 @@ https://github.com/robbyklein/UIBuddy
 
 ## Examples
 
-### UI Element constructing
+### UI Element construction
+
 ```cs
 VisualElement menuItem = UIElementBuilder.Build<VisualElement>(@"
     <ui:VisualElement name=""MenuItem"" view-data-key=""aabc"" picking-mode=""Ignore"" tooltip=""Click to select"" usage-hints=""DynamicTransform"" tabindex=""1"" focusable=""true"" style=""flex-grow: 1;"">
@@ -25,6 +26,7 @@ VisualElement menuItem = UIElementBuilder.Build<VisualElement>(@"
 ```
 
 ### Styling
+
 ```csharp
 UIBuddy.Style(poop, StyleProperty.FlexDirection, "row");
 UIBuddy.Style(poop, StyleProperty.AlignItems, "flex-end");
@@ -77,7 +79,7 @@ UIBuddy.Style(poop, StyleProperty.AlignItems, "flex-end");
 
 | Property                           | Implemented |
 |------------------------------------|-------------|
-| align-content                      | ✅           |
+| align-content                      | ❌           |
 | align-items                        | ❌           |
 | align-self                         | ❌           |
 | all                                | ❌           |
@@ -109,7 +111,7 @@ UIBuddy.Style(poop, StyleProperty.AlignItems, "flex-end");
 | display                            | ❌           |
 | flex                               | ❌           |
 | flex-basis                         | ❌           |
-| flex-direction                     | ✅           |
+| flex-direction                     | ❌           |
 | flex-grow                          | ❌           |
 | flex-shrink                        | ❌           |
 | flex-wrap                          | ❌           |
