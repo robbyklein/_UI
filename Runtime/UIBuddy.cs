@@ -1,5 +1,6 @@
 using System;
 using System.Xml;
+using UIBuddyTypes;
 using UnityEngine.UIElements;
 
 
@@ -18,6 +19,17 @@ public static class UIBuddy {
         }
 
         throw new InvalidOperationException("The XML document does not have a valid root element.");
+    }
+
+    public static void Style(VisualElement el, StyleProperty property, string value) {
+        switch (property) {
+            case StyleProperty.AlignItems:
+                USS.ApplyAlignContent(el, value);
+                break;
+            case StyleProperty.FlexDirection:
+                USS.ApplyFlexDirection(el, value);
+                break;
+        }
     }
 
     private static T CreateElement<T>(XmlNode node) where T : VisualElement {

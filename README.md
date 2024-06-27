@@ -14,6 +14,7 @@ https://github.com/robbyklein/UIBuddy
 
 ## Examples
 
+### UI Element constructing
 ```cs
 VisualElement menuItem = UIElementBuilder.Build<VisualElement>(@"
     <ui:VisualElement name=""MenuItem"" view-data-key=""aabc"" picking-mode=""Ignore"" tooltip=""Click to select"" usage-hints=""DynamicTransform"" tabindex=""1"" focusable=""true"" style=""flex-grow: 1;"">
@@ -21,6 +22,12 @@ VisualElement menuItem = UIElementBuilder.Build<VisualElement>(@"
         <ui:Button text=""Select"" parse-escape-sequences=""true"" display-tooltip-when-elided=""false"" view-data-key=""xcbv"" usage-hints=""DynamicTransform"" tabindex=""3"" focusable=""false"" binding-path=""potatoe"" enable-rich-text=""false"" />
     </ui:VisualElement>
 ");
+```
+
+### Styling
+```csharp
+UIBuddy.Style(poop, StyleProperty.FlexDirection, "row");
+UIBuddy.Style(poop, StyleProperty.AlignItems, "flex-end");
 ```
 
 
@@ -70,7 +77,7 @@ VisualElement menuItem = UIElementBuilder.Build<VisualElement>(@"
 
 | Property                           | Implemented |
 |------------------------------------|-------------|
-| align-content                      | ❌           |
+| align-content                      | ✅           |
 | align-items                        | ❌           |
 | align-self                         | ❌           |
 | all                                | ❌           |
@@ -102,7 +109,7 @@ VisualElement menuItem = UIElementBuilder.Build<VisualElement>(@"
 | display                            | ❌           |
 | flex                               | ❌           |
 | flex-basis                         | ❌           |
-| flex-direction                     | ❌           |
+| flex-direction                     | ✅           |
 | flex-grow                          | ❌           |
 | flex-shrink                        | ❌           |
 | flex-wrap                          | ❌           |

@@ -25,7 +25,7 @@ internal static class Logging {
 
     internal static void StylePropertyInvalidWarning(string property) {
         Debug.LogWarning(
-            $"Unsupported uss property: {property}");
+            $"Unknown uss property: {property}");
     }
 
     internal static void StyleValueInvalidWarning(string property) {
