@@ -24,10 +24,25 @@ public static class UIBuddy {
     public static void Style(VisualElement el, StyleProperty property, string value) {
         switch (property) {
             case StyleProperty.AlignItems:
+                USS.ApplyAlignItems(el, value);
+                break;
+            case StyleProperty.AlignContent:
                 USS.ApplyAlignContent(el, value);
+                break;
+            case StyleProperty.AlignSelf:
+                USS.ApplyAlignSelf(el, value);
                 break;
             case StyleProperty.FlexDirection:
                 USS.ApplyFlexDirection(el, value);
+                break;
+            case StyleProperty.Display:
+                USS.ApplyDisplay(el, value);
+                break;
+            case StyleProperty.FlexWrap:
+                USS.ApplyFlexWrap(el, value);
+                break;
+            case StyleProperty.JustifyContent:
+                USS.ApplyJustifyContent(el, value);
                 break;
         }
     }

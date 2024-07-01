@@ -100,6 +100,52 @@ internal class USS {
         }
     }
 
+    internal static void ApplyAlignItems(VisualElement el, string value) {
+        switch (value) {
+            case "center":
+                el.style.alignItems = Align.Center;
+                break;
+            case "auto":
+                el.style.alignItems = Align.Auto;
+                break;
+            case "stretch":
+                el.style.alignItems = Align.Stretch;
+                break;
+            case "flex-end":
+                el.style.alignItems = Align.FlexEnd;
+                break;
+            case "flex-start":
+                el.style.alignItems = Align.FlexStart;
+                break;
+            default:
+                Logging.StyleValueInvalidWarning(value);
+                break;
+        }
+    }
+
+    internal static void ApplyAlignSelf(VisualElement el, string value) {
+        switch (value) {
+            case "center":
+                el.style.alignSelf = Align.Center;
+                break;
+            case "auto":
+                el.style.alignSelf = Align.Auto;
+                break;
+            case "stretch":
+                el.style.alignSelf = Align.Stretch;
+                break;
+            case "flex-end":
+                el.style.alignSelf = Align.FlexEnd;
+                break;
+            case "flex-start":
+                el.style.alignSelf = Align.FlexStart;
+                break;
+            default:
+                Logging.StyleValueInvalidWarning(value);
+                break;
+        }
+    }
+
     internal static void ApplyFlexDirection(VisualElement el, string value) {
         switch (value) {
             case "row":
@@ -113,6 +159,60 @@ internal class USS {
                 break;
             case "row-reverse":
                 el.style.flexDirection = FlexDirection.RowReverse;
+                break;
+            default:
+                Logging.StyleValueInvalidWarning(value);
+                break;
+        }
+    }
+
+    internal static void ApplyDisplay(VisualElement el, string value) {
+        switch (value) {
+            case "flex":
+                el.style.display = DisplayStyle.Flex;
+                break;
+            case "none":
+                el.style.display = DisplayStyle.None;
+                break;
+            default:
+                Logging.StyleValueInvalidWarning(value);
+                break;
+        }
+    }
+
+    internal static void ApplyFlexWrap(VisualElement el, string value) {
+        switch (value) {
+            case "wrap":
+                el.style.flexWrap = Wrap.Wrap;
+                break;
+            case "nowrap":
+                el.style.flexWrap = Wrap.NoWrap;
+                break;
+            case "wrap-reverse":
+                el.style.flexWrap = Wrap.WrapReverse;
+                break;
+            default:
+                Logging.StyleValueInvalidWarning(value);
+                break;
+        }
+    }
+
+    internal static void ApplyJustifyContent(VisualElement el, string value) {
+        switch (value) {
+            case "flex-start":
+                el.style.justifyContent = Justify.FlexStart;
+                break;
+            case "flex-end":
+                el.style.justifyContent = Justify.FlexEnd;
+                break;
+            case "center":
+                el.style.justifyContent = Justify.Center;
+                break;
+            case "space-around":
+                el.style.justifyContent = Justify.SpaceAround;
+                break;
+            case "space-between":
+                el.style.justifyContent = Justify.SpaceBetween;
                 break;
             default:
                 Logging.StyleValueInvalidWarning(value);

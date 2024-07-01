@@ -83,9 +83,9 @@ UIBuddy.Style(menuItem, StyleProperty.AlignItems, "flex-end");
 
 | Property                           | Implemented |
 |------------------------------------|-----------|
-| align-content                      | ❌         |
+| align-content                      | ✅         |
 | align-items                        | ✅          |
-| align-self                         | ❌         |
+| align-self                         | ✅         |
 | all                                | ❌         |
 | background-color                   | ❌         |
 | background-image                   | ❌         |
@@ -112,16 +112,16 @@ UIBuddy.Style(menuItem, StyleProperty.AlignItems, "flex-end");
 | bottom                             | ❌         |
 | color                              | ❌         |
 | cursor                             | ❌         |
-| display                            | ❌         |
+| display                            | ✅         |
 | flex                               | ❌         |
 | flex-basis                         | ❌         |
 | flex-direction                     | ✅          |
 | flex-grow                          | ❌         |
 | flex-shrink                        | ❌         |
-| flex-wrap                          | ❌         |
+| flex-wrap                          | ✅         |
 | font-size                          | ❌         |
 | height                             | ❌         |
-| justify-content                    | ❌         |
+| justify-content                    | ✅         |
 | left                               | ❌         |
 | letter-spacing                     | ❌         |
 | margin                             | ❌         |
