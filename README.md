@@ -9,7 +9,7 @@ A Unity package that simplifies the creation of dynamic UI elements and the appl
 UIBuddy can be installed with the Unity Package Manager via git url.
 
 ```
-https://github.com/robbyklein/UIBuddy
+git@github.com:robbyklein/UIBuddy.git
 ```
 
 <img width="330" alt="image" src="https://github.com/robbyklein/UIBuddy/assets/6813372/e0619b86-b5df-4191-9842-dbe8774c6293">
