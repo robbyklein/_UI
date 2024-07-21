@@ -137,5 +137,6 @@ Assets/WSATestCertificate.pfx
 # Ignore all .meta files
 *.meta
 
-# Except .asmdef.meta files
+# Except for .asmdef.meta and essential asset meta files
 !*.asmdef.meta
+!Runtime/**
