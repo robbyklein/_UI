@@ -1,7 +1,6 @@
 using System;
 using UnityEngine.UIElements;
 
-
 internal static class Elements {
     internal static T Create<T>(string name) where T : VisualElement {
         VisualElement element = name switch {

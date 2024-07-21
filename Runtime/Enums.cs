@@ -6,6 +6,14 @@ namespace UIBuddyTypes {
         None
     }
 
+    public enum ColorType {
+        Named,
+        RGB,
+        RGBA,
+        HSL,
+        Hex
+    }
+
     public enum StyleProperty {
         AlignContent,
         AlignItems,
@@ -99,5 +107,13 @@ namespace UIBuddyTypes {
         WhiteSpace,
         Width,
         WordSpacing
+    }
+
+    internal enum USSBorderSide {
+        Top,
+        Left,
+        Right,
+        Bottom,
+        All
     }
 }

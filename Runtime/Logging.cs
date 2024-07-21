@@ -32,4 +32,9 @@ internal static class Logging {
         Debug.LogWarning(
             $"Unsupported uss value: {property}");
     }
+
+    internal static void InvalidColorWarning(VisualElement element, string colorString) {
+        Debug.LogWarning(
+            $"Invalid color value on {GetElementName(element)}:  {colorString}");
+    }
 }

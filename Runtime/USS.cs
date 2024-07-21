@@ -1,15 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Xml;
 using UIBuddyTypes;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UIBuddyTypes {
-    public struct StylePropertyValue {
-        public string Value;
-        public StyleUnit Unit;
-    }
-}
 
 internal class USS {
     internal static void ParseAndApplyUSS(VisualElement el, XmlNode attr) {
@@ -21,7 +16,7 @@ internal class USS {
         Dictionary<StyleProperty, string> styles = ParseUSS(ussString);
 
         foreach (KeyValuePair<StyleProperty, string> kvp in styles) {
-            Debug.Log($"{kvp.Key}: {kvp.Value}");
+            UIBuddy.Style(el, kvp.Key, kvp.Value);
         }
     }
 
@@ -217,6 +212,76 @@ internal class USS {
             default:
                 Logging.StyleValueInvalidWarning(value);
                 break;
+        }
+    }
+
+    internal static void ApplyBackgroundColor(VisualElement el, string value) {
+        try {
+            Color color = ColorParser.ColorStringToColor(value);
+            el.style.backgroundColor = new StyleColor(color);
+        }
+        catch {
+            Logging.InvalidColorWarning(el, value);
+        }
+    }
+
+    internal static void ApplyBorderColor(VisualElement el, string value, USSBorderSide side) {
+        try {
+            Color color = ColorParser.ColorStringToColor(value);
+
+            switch (side) {
+                case USSBorderSide.Bottom:
+                    el.style.borderBottomColor = new StyleColor(color);
+                    break;
+                case USSBorderSide.Top:
+                    el.style.borderTopColor = new StyleColor(color);
+                    break;
+                case USSBorderSide.Left:
+                    el.style.borderLeftColor = new StyleColor(color);
+                    break;
+                case USSBorderSide.Right:
+                    el.style.borderRightColor = new StyleColor(color);
+                    break;
+                case USSBorderSide.All:
+                    el.style.borderBottomColor = new StyleColor(color);
+                    el.style.borderTopColor = new StyleColor(color);
+                    el.style.borderLeftColor = new StyleColor(color);
+                    el.style.borderRightColor = new StyleColor(color);
+                    break;
+            }
+        }
+        catch {
+            Logging.InvalidColorWarning(el, value);
+        }
+    }
+
+    internal static void ApplyColor(VisualElement el, string value) {
+        try {
+            Color color = ColorParser.ColorStringToColor(value);
+            el.style.color = new StyleColor(color);
+        }
+        catch {
+            Logging.InvalidColorWarning(el, value);
+        }
+    }
+
+    internal static void ApplyUnityBackgroundImageTintColor(VisualElement el, string value) {
+        try {
+            Color color = ColorParser.ColorStringToColor(value);
+            el.style.unityBackgroundImageTintColor = new StyleColor(color);
+        }
+        catch {
+            Logging.InvalidColorWarning(el, value);
+        }
+    }
+
+    internal static void ApplyUnityTextOutlineColor(VisualElement el, string value) {
+        try {
+            Color color = ColorParser.ColorStringToColor(value);
+            el.style.unityTextOutlineColor = new StyleColor(color);
+        }
+        catch {
+            Logging.InvalidColorWarning(el, value);
         }
     }
 }

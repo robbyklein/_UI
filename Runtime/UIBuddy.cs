@@ -44,6 +44,33 @@ public static class UIBuddy {
             case StyleProperty.JustifyContent:
                 USS.ApplyJustifyContent(el, value);
                 break;
+            case StyleProperty.BackgroundColor:
+                USS.ApplyBackgroundColor(el, value);
+                break;
+            case StyleProperty.BorderColor:
+                USS.ApplyBorderColor(el, value, USSBorderSide.All);
+                break;
+            case StyleProperty.BorderTopColor:
+                USS.ApplyBorderColor(el, value, USSBorderSide.Top);
+                break;
+            case StyleProperty.BorderBottomColor:
+                USS.ApplyBorderColor(el, value, USSBorderSide.Bottom);
+                break;
+            case StyleProperty.BorderLeftColor:
+                USS.ApplyBorderColor(el, value, USSBorderSide.Left);
+                break;
+            case StyleProperty.BorderRightColor:
+                USS.ApplyBorderColor(el, value, USSBorderSide.Right);
+                break;
+            case StyleProperty.Color:
+                USS.ApplyColor(el, value);
+                break;
+            case StyleProperty.UnityBackgroundImageTintColor:
+                USS.ApplyUnityBackgroundImageTintColor(el, value);
+                break;
+            case StyleProperty.UnityTextOutlineColor:
+                USS.ApplyUnityTextOutlineColor(el, value);
+                break;
         }
     }
 
