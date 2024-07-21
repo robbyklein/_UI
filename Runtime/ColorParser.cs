@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 using UIBuddyTypes;
 using UnityEngine;
 
-
 internal static class ColorParser {
     private struct ColorInfo {
         public ColorType Type;
@@ -26,7 +25,7 @@ internal static class ColorParser {
                 float h = float.Parse(info.Value[0]);
                 float s = float.Parse(info.Value[1]) / 100f;
                 float l = float.Parse(info.Value[2]) / 100f;
-                return ColorFromHSL(h, s, l);
+                return ColorFromHsl(h, s, l);
             case ColorType.RGB:
                 byte r = byte.Parse(info.Value[0]);
                 byte g = byte.Parse(info.Value[1]);
@@ -52,7 +51,7 @@ internal static class ColorParser {
         if (IsNamedColor(colorString)) {
             return new ColorInfo() {
                 Type = ColorType.Named,
-                Value = new string[] { colorString }
+                Value = new[] { colorString }
             };
         }
 
@@ -60,7 +59,7 @@ internal static class ColorParser {
         if (Regex.IsMatch(colorString, @"^#(?:[0-9a-fA-F]{3}){1,2}$")) {
             return new ColorInfo() {
                 Type = ColorType.Hex,
-                Value = new string[] { colorString }
+                Value = new[] { colorString }
             };
         }
 
@@ -69,7 +68,7 @@ internal static class ColorParser {
         if (rgbMatch.Success) {
             return new ColorInfo() {
                 Type = ColorType.RGB,
-                Value = new string[] {
+                Value = new[] {
                     rgbMatch.Groups[1].Value,
                     rgbMatch.Groups[2].Value,
                     rgbMatch.Groups[3].Value
@@ -82,10 +81,10 @@ internal static class ColorParser {
         if (rgbaMatch.Success) {
             return new ColorInfo() {
                 Type = ColorType.RGBA,
-                Value = new string[] {
-                    rgbMatch.Groups[1].Value,
-                    rgbMatch.Groups[2].Value,
-                    rgbMatch.Groups[3].Value,
+                Value = new[] {
+                    rgbaMatch.Groups[1].Value,
+                    rgbaMatch.Groups[2].Value,
+                    rgbaMatch.Groups[3].Value,
                     rgbaMatch.Groups[4].Value
                 }
             };
@@ -96,10 +95,10 @@ internal static class ColorParser {
         if (hslMatch.Success) {
             return new ColorInfo() {
                 Type = ColorType.HSL,
-                Value = new string[] {
-                    rgbMatch.Groups[1].Value,
-                    rgbMatch.Groups[2].Value,
-                    rgbMatch.Groups[3].Value
+                Value = new[] {
+                    hslMatch.Groups[1].Value,
+                    hslMatch.Groups[2].Value,
+                    hslMatch.Groups[3].Value
                 }
             };
         }
@@ -119,7 +118,7 @@ internal static class ColorParser {
         return new Color32(r, g, b, 255);
     }
 
-    private static Color ColorFromHSL(float h, float s, float l) {
+    private static Color ColorFromHsl(float h, float s, float l) {
         float r = l;
         float g = l;
         float b = l;

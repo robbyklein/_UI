@@ -132,3 +132,11 @@ Assets/WSATestCertificate.pfx
 .DS_Store
 # *.meta
 # !*.cs.meta
+
+
+# Ignore all .meta files
+*.meta
+
+# Except for .asmdef.meta and essential asset meta files
+!*.asmdef.meta
+!Runtime/**
