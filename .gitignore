@@ -130,6 +130,12 @@ UpgradeLog*.XML
 Assets/WSATestCertificate.pfx
 .vs/
 .DS_Store
-# *.meta
-# !*.cs.meta
+
+
+# Ignore all .meta files
+*.meta
+
+# Except for .meta files in the /src directory
+!/src/**/*.meta
+
 
