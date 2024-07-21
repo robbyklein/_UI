@@ -141,3 +141,4 @@ Assets/WSATestCertificate.pfx
 !*.asmdef.meta
 !Runtime/**
 !Runtime.meta
+!package.json.meta
