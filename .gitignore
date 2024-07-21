@@ -140,3 +140,5 @@ Assets/WSATestCertificate.pfx
 # Except for .asmdef.meta and essential asset meta files
 !*.asmdef.meta
 !Runtime/**
+!Runtime.meta
+!package.json.meta
