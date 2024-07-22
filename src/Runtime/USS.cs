@@ -338,7 +338,6 @@ internal class USS {
         }
     }
 
-
     internal static void ApplyMargin(VisualElement el, string value, USSDirection direction) {
         try {
             StyleLength[] lengths = LengthParser.LengthStringsToStyleLengths(value);
@@ -386,6 +385,237 @@ internal class USS {
 
                     break;
             }
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+    internal static void ApplyBorderWidth(VisualElement el, string value, USSDirection direction) {
+        try {
+            StyleFloat[] lengths = LengthParser.LengthStringsToStyleFloats(value);
+
+            switch (direction) {
+                case USSDirection.Top:
+                    el.style.borderTopWidth = lengths[0];
+                    break;
+                case USSDirection.Right:
+                    el.style.borderRightWidth = lengths[0];
+                    break;
+                case USSDirection.Bottom:
+                    el.style.borderBottomWidth = lengths[0];
+                    break;
+                case USSDirection.Left:
+                    el.style.borderLeftWidth = lengths[0];
+                    break;
+                case USSDirection.All:
+                    switch (lengths.Length) {
+                        case 4:
+                            el.style.borderTopWidth = lengths[0];
+                            el.style.borderRightWidth = lengths[1];
+                            el.style.borderBottomWidth = lengths[2];
+                            el.style.borderLeftWidth = lengths[3];
+                            break;
+                        case 3:
+                            el.style.borderTopWidth = lengths[0];
+                            el.style.borderRightWidth = lengths[1];
+                            el.style.borderBottomWidth = lengths[2];
+                            el.style.borderLeftWidth = lengths[1];
+                            break;
+                        case 2:
+                            el.style.borderTopWidth = lengths[0];
+                            el.style.borderRightWidth = lengths[1];
+                            el.style.borderBottomWidth = lengths[0];
+                            el.style.borderLeftWidth = lengths[1];
+                            break;
+                        case 1:
+                            el.style.borderTopWidth = lengths[0];
+                            el.style.borderRightWidth = lengths[0];
+                            el.style.borderBottomWidth = lengths[0];
+                            el.style.borderLeftWidth = lengths[0];
+                            break;
+                    }
+
+                    break;
+            }
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+    internal static void ApplyDirection(VisualElement el, string value, USSDirection direction) {
+        try {
+            StyleLength length = LengthParser.LengthStringToStyleLength(value);
+
+            switch (direction) {
+                case USSDirection.Top:
+                    el.style.top = length;
+                    break;
+                case USSDirection.Right:
+                    el.style.right = length;
+                    break;
+                case USSDirection.Bottom:
+                    el.style.bottom = length;
+                    break;
+                case USSDirection.Left:
+                    el.style.left = length;
+                    break;
+            }
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+    internal static void ApplyWidth(VisualElement el, string value) {
+        try {
+            StyleLength length = LengthParser.LengthStringToStyleLength(value);
+            el.style.width = length;
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+    internal static void ApplyMaxWidth(VisualElement el, string value) {
+        try {
+            StyleLength length = LengthParser.LengthStringToStyleLength(value);
+            el.style.maxWidth = length;
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+    internal static void ApplyMinWidth(VisualElement el, string value) {
+        try {
+            StyleLength length = LengthParser.LengthStringToStyleLength(value);
+            el.style.minWidth = length;
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+    internal static void ApplyHeight(VisualElement el, string value) {
+        try {
+            StyleLength length = LengthParser.LengthStringToStyleLength(value);
+            el.style.height = length;
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+    internal static void ApplyMaxHeight(VisualElement el, string value) {
+        try {
+            StyleLength length = LengthParser.LengthStringToStyleLength(value);
+            el.style.maxHeight = length;
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+    internal static void ApplyMinHeight(VisualElement el, string value) {
+        try {
+            StyleLength length = LengthParser.LengthStringToStyleLength(value);
+            el.style.minHeight = length;
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+
+    internal static void ApplyBorderRadius(VisualElement el, string value, USSCorner corner) {
+        try {
+            StyleLength[] lengths = LengthParser.LengthStringsToStyleLengths(value);
+
+            switch (corner) {
+                case USSCorner.TopLeft:
+                    el.style.borderTopLeftRadius = lengths[0];
+                    break;
+                case USSCorner.TopRight:
+                    el.style.borderTopRightRadius = lengths[0];
+                    break;
+                case USSCorner.BottomLeft:
+                    el.style.borderBottomLeftRadius = lengths[0];
+                    break;
+                case USSCorner.BottomRight:
+                    el.style.borderBottomRightRadius = lengths[0];
+                    break;
+                case USSCorner.All:
+                    switch (lengths.Length) {
+                        case 4:
+                            el.style.borderTopLeftRadius = lengths[0];
+                            el.style.borderTopRightRadius = lengths[1];
+                            el.style.borderBottomRightRadius = lengths[2];
+                            el.style.borderBottomLeftRadius = lengths[3];
+                            break;
+                        case 3:
+                            el.style.borderTopLeftRadius = lengths[0];
+                            el.style.borderTopRightRadius = lengths[1];
+                            el.style.borderBottomLeftRadius = lengths[1];
+                            el.style.borderBottomRightRadius = lengths[2];
+                            break;
+                        case 2:
+                            el.style.borderTopLeftRadius = lengths[0];
+                            el.style.borderBottomRightRadius = lengths[0];
+                            el.style.borderTopRightRadius = lengths[1];
+                            el.style.borderBottomLeftRadius = lengths[1];
+                            break;
+                        case 1:
+                            el.style.borderTopLeftRadius = lengths[0];
+                            el.style.borderBottomRightRadius = lengths[0];
+                            el.style.borderTopRightRadius = lengths[0];
+                            el.style.borderBottomLeftRadius = lengths[0];
+                            break;
+                    }
+
+                    break;
+            }
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+    internal static void ApplyFontSize(VisualElement el, string value) {
+        try {
+            StyleLength length = LengthParser.LengthStringToStyleLength(value);
+            el.style.fontSize = length;
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+    internal static void ApplyLetterSpacing(VisualElement el, string value) {
+        try {
+            StyleLength length = LengthParser.LengthStringToStyleLength(value);
+            el.style.letterSpacing = length;
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+    internal static void ApplyOpacity(VisualElement el, string value) {
+        try {
+            StyleFloat amount = LengthParser.LengthStringToStyleFloat(value);
+            el.style.opacity = amount;
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+    internal static void ApplyWordSpacing(VisualElement el, string value) {
+        try {
+            StyleLength amount = LengthParser.LengthStringToStyleLength(value);
+            el.style.wordSpacing = amount;
         }
         catch {
             Logging.InvalidLengthWarning(el, value);

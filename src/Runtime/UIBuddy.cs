@@ -101,6 +101,78 @@ public static class UIBuddy {
             case StyleProperty.Margin:
                 USS.ApplyMargin(el, value, USSDirection.All);
                 break;
+            case StyleProperty.BorderTopWidth:
+                USS.ApplyBorderWidth(el, value, USSDirection.Top);
+                break;
+            case StyleProperty.BorderRightWidth:
+                USS.ApplyBorderWidth(el, value, USSDirection.Right);
+                break;
+            case StyleProperty.BorderBottomWidth:
+                USS.ApplyBorderWidth(el, value, USSDirection.Bottom);
+                break;
+            case StyleProperty.BorderLeftWidth:
+                USS.ApplyBorderWidth(el, value, USSDirection.Left);
+                break;
+            case StyleProperty.BorderWidth:
+                USS.ApplyBorderWidth(el, value, USSDirection.All);
+                break;
+            case StyleProperty.Top:
+                USS.ApplyDirection(el, value, USSDirection.Top);
+                break;
+            case StyleProperty.Bottom:
+                USS.ApplyDirection(el, value, USSDirection.Bottom);
+                break;
+            case StyleProperty.Left:
+                USS.ApplyDirection(el, value, USSDirection.Left);
+                break;
+            case StyleProperty.Right:
+                USS.ApplyDirection(el, value, USSDirection.Right);
+                break;
+            case StyleProperty.Width:
+                USS.ApplyWidth(el, value);
+                break;
+            case StyleProperty.MinWidth:
+                USS.ApplyMinWidth(el, value);
+                break;
+            case StyleProperty.MaxWidth:
+                USS.ApplyMaxWidth(el, value);
+                break;
+            case StyleProperty.Height:
+                USS.ApplyHeight(el, value);
+                break;
+            case StyleProperty.MinHeight:
+                USS.ApplyMinHeight(el, value);
+                break;
+            case StyleProperty.MaxHeight:
+                USS.ApplyMaxHeight(el, value);
+                break;
+            case StyleProperty.BorderTopLeftRadius:
+                USS.ApplyBorderRadius(el, value, USSCorner.TopLeft);
+                break;
+            case StyleProperty.BorderTopRightRadius:
+                USS.ApplyBorderRadius(el, value, USSCorner.TopRight);
+                break;
+            case StyleProperty.BorderBottomLeftRadius:
+                USS.ApplyBorderRadius(el, value, USSCorner.BottomLeft);
+                break;
+            case StyleProperty.BorderBottomRightRadius:
+                USS.ApplyBorderRadius(el, value, USSCorner.BottomRight);
+                break;
+            case StyleProperty.BorderRadius:
+                USS.ApplyBorderRadius(el, value, USSCorner.All);
+                break;
+            case StyleProperty.FontSize:
+                USS.ApplyFontSize(el, value);
+                break;
+            case StyleProperty.LetterSpacing:
+                USS.ApplyLetterSpacing(el, value);
+                break;
+            case StyleProperty.Opacity:
+                USS.ApplyLetterSpacing(el, value);
+                break;
+            case StyleProperty.WordSpacing:
+                USS.ApplyWordSpacing(el, value);
+                break;
         }
     }
 

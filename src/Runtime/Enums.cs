@@ -110,6 +110,14 @@ namespace UIBuddyTypes {
         All
     }
 
+    internal enum USSCorner {
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight,
+        All
+    }
+
     internal enum USSDirection {
         Top,
         Bottom,

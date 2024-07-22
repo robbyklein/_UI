@@ -23,6 +23,26 @@ internal static class LengthParser {
         throw new ArgumentException($"Invalid length string: {lengthString}", nameof(lengthString));
     }
 
+    internal static StyleFloat LengthStringToStyleFloat(string lengthString) {
+        if (string.IsNullOrEmpty(lengthString)) {
+            throw new ArgumentException("Length string cannot be null or empty", nameof(lengthString));
+        }
+
+        lengthString = lengthString.Trim().ToLower();
+        if (lengthString.EndsWith("px")) {
+            if (float.TryParse(lengthString.Substring(0, lengthString.Length - 2), out float pxValue)) {
+                return new StyleFloat(pxValue);
+            }
+        }
+        else if (lengthString.EndsWith("%")) {
+            if (float.TryParse(lengthString.Substring(0, lengthString.Length - 1), out float percentValue)) {
+                throw new ArgumentException($"UIBuddy does not current support percentage based border lengths");
+            }
+        }
+
+        throw new ArgumentException($"Invalid length string: {lengthString}", nameof(lengthString));
+    }
+
 
     internal static StyleLength[] LengthStringsToStyleLengths(string lengthsString) {
         if (string.IsNullOrEmpty(lengthsString)) {
@@ -37,5 +57,20 @@ internal static class LengthParser {
         }
 
         return styleLengths.ToArray();
+    }
+
+    internal static StyleFloat[] LengthStringsToStyleFloats(string lengthsString) {
+        if (string.IsNullOrEmpty(lengthsString)) {
+            throw new ArgumentException("Lengths string cannot be null or empty", nameof(lengthsString));
+        }
+
+        string[] lengths = lengthsString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        List<StyleFloat> styleFloats = new();
+
+        foreach (string length in lengths) {
+            styleFloats.Add(LengthStringToStyleFloat(length));
+        }
+
+        return styleFloats.ToArray();
     }
 }
