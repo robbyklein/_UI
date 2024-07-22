@@ -71,6 +71,36 @@ public static class UIBuddy {
             case StyleProperty.UnityTextOutlineColor:
                 USS.ApplyUnityTextOutlineColor(el, value);
                 break;
+            case StyleProperty.PaddingTop:
+                USS.ApplyPadding(el, value, USSDirection.Top);
+                break;
+            case StyleProperty.PaddingRight:
+                USS.ApplyPadding(el, value, USSDirection.Right);
+                break;
+            case StyleProperty.PaddingBottom:
+                USS.ApplyPadding(el, value, USSDirection.Bottom);
+                break;
+            case StyleProperty.PaddingLeft:
+                USS.ApplyPadding(el, value, USSDirection.Left);
+                break;
+            case StyleProperty.Padding:
+                USS.ApplyPadding(el, value, USSDirection.All);
+                break;
+            case StyleProperty.MarginTop:
+                USS.ApplyMargin(el, value, USSDirection.Top);
+                break;
+            case StyleProperty.MarginRight:
+                USS.ApplyMargin(el, value, USSDirection.Right);
+                break;
+            case StyleProperty.MarginBottom:
+                USS.ApplyMargin(el, value, USSDirection.Bottom);
+                break;
+            case StyleProperty.MarginLeft:
+                USS.ApplyMargin(el, value, USSDirection.Left);
+                break;
+            case StyleProperty.Margin:
+                USS.ApplyMargin(el, value, USSDirection.All);
+                break;
         }
     }
 

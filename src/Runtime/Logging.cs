@@ -37,4 +37,9 @@ internal static class Logging {
         Debug.LogWarning(
             $"Invalid color value on {GetElementName(element)}:  {colorString}");
     }
+
+    internal static void InvalidLengthWarning(VisualElement element, string lengthString) {
+        Debug.LogWarning(
+            $"Invalid length value on {GetElementName(element)}:  {lengthString}");
+    }
 }

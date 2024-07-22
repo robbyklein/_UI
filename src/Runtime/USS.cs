@@ -284,4 +284,111 @@ internal class USS {
             Logging.InvalidColorWarning(el, value);
         }
     }
+
+    internal static void ApplyPadding(VisualElement el, string value, USSDirection direction) {
+        try {
+            StyleLength[] lengths = LengthParser.LengthStringsToStyleLengths(value);
+
+            switch (direction) {
+                case USSDirection.Top:
+                    el.style.paddingTop = lengths[0];
+                    break;
+                case USSDirection.Right:
+                    el.style.paddingRight = lengths[0];
+                    break;
+                case USSDirection.Bottom:
+                    el.style.paddingBottom = lengths[0];
+                    break;
+                case USSDirection.Left:
+                    el.style.paddingLeft = lengths[0];
+                    break;
+                case USSDirection.All:
+                    switch (lengths.Length) {
+                        case 4:
+                            el.style.paddingTop = lengths[0];
+                            el.style.paddingRight = lengths[1];
+                            el.style.paddingBottom = lengths[2];
+                            el.style.paddingLeft = lengths[3];
+                            break;
+                        case 3:
+                            el.style.paddingTop = lengths[0];
+                            el.style.paddingRight = lengths[1];
+                            el.style.paddingBottom = lengths[2];
+                            el.style.paddingLeft = lengths[1];
+                            break;
+                        case 2:
+                            el.style.paddingTop = lengths[0];
+                            el.style.paddingRight = lengths[1];
+                            el.style.paddingBottom = lengths[0];
+                            el.style.paddingLeft = lengths[1];
+                            break;
+                        case 1:
+                            el.style.paddingTop = lengths[0];
+                            el.style.paddingRight = lengths[0];
+                            el.style.paddingBottom = lengths[0];
+                            el.style.paddingLeft = lengths[0];
+                            break;
+                    }
+
+                    break;
+            }
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+
+    internal static void ApplyMargin(VisualElement el, string value, USSDirection direction) {
+        try {
+            StyleLength[] lengths = LengthParser.LengthStringsToStyleLengths(value);
+
+            switch (direction) {
+                case USSDirection.Top:
+                    el.style.marginTop = lengths[0];
+                    break;
+                case USSDirection.Right:
+                    el.style.marginRight = lengths[0];
+                    break;
+                case USSDirection.Bottom:
+                    el.style.marginBottom = lengths[0];
+                    break;
+                case USSDirection.Left:
+                    el.style.marginLeft = lengths[0];
+                    break;
+                case USSDirection.All:
+                    switch (lengths.Length) {
+                        case 4:
+                            el.style.marginTop = lengths[0];
+                            el.style.marginRight = lengths[1];
+                            el.style.marginBottom = lengths[2];
+                            el.style.marginLeft = lengths[3];
+                            break;
+                        case 3:
+                            el.style.marginTop = lengths[0];
+                            el.style.marginRight = lengths[1];
+                            el.style.marginBottom = lengths[2];
+                            el.style.marginLeft = lengths[1];
+                            break;
+                        case 2:
+                            el.style.marginTop = lengths[0];
+                            el.style.marginRight = lengths[1];
+                            el.style.marginBottom = lengths[0];
+                            el.style.marginLeft = lengths[1];
+                            break;
+                        case 1:
+                            el.style.marginTop = lengths[0];
+                            el.style.marginRight = lengths[0];
+                            el.style.marginBottom = lengths[0];
+                            el.style.marginLeft = lengths[0];
+                            break;
+                    }
+
+                    break;
+            }
+        }
+        catch {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
 }

@@ -1,12 +1,5 @@
 namespace UIBuddyTypes {
-    public enum StyleUnit {
-        Pixel,
-        Percent,
-        ColorHex,
-        None
-    }
-
-    public enum ColorType {
+    internal enum ColorType {
         Named,
         RGB,
         RGBA,
@@ -114,6 +107,14 @@ namespace UIBuddyTypes {
         Left,
         Right,
         Bottom,
+        All
+    }
+
+    internal enum USSDirection {
+        Top,
+        Bottom,
+        Left,
+        Right,
         All
     }
 }
