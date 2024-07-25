@@ -38,7 +38,6 @@ UIBuddy.Style(menuItem, StyleProperty.AlignItems, "flex-end");
 
 ## Issues
 
-- It's currently not possible to lengths to "auto" (margin, height, left, etc.)
 - It's currently not possible to use percentage based border widths
 
 ## Support tables

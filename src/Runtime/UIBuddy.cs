@@ -168,7 +168,7 @@ public static class UIBuddy {
                 USS.ApplyLetterSpacing(el, value);
                 break;
             case StyleProperty.Opacity:
-                USS.ApplyLetterSpacing(el, value);
+                USS.ApplyOpacity(el, value);
                 break;
             case StyleProperty.WordSpacing:
                 USS.ApplyWordSpacing(el, value);

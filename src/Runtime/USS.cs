@@ -471,6 +471,7 @@ internal class USS {
     internal static void ApplyWidth(VisualElement el, string value) {
         try {
             StyleLength length = LengthParser.LengthStringToStyleLength(value);
+            Debug.Log("About to apply!");
             el.style.width = length;
         }
         catch {

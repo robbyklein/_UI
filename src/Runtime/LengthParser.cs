@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 internal static class LengthParser {
@@ -9,11 +10,27 @@ internal static class LengthParser {
         }
 
         lengthString = lengthString.Trim().ToLower();
-        if (lengthString.EndsWith("px")) {
+        if (lengthString == "auto") {
+            return new StyleLength(StyleKeyword.Auto);
+        }
+        else if (lengthString == "initial") {
+            return new StyleLength(StyleKeyword.Initial);
+        }
+        else if (lengthString == "none") {
+            return new StyleLength(StyleKeyword.None);
+        }
+        else if (lengthString == "null") {
+            return new StyleLength(StyleKeyword.Null);
+        }
+        else if (lengthString == "undefined") {
+            return new StyleLength(StyleKeyword.Undefined);
+        }
+        else if (lengthString.EndsWith("px")) {
             if (float.TryParse(lengthString.Substring(0, lengthString.Length - 2), out float pxValue)) {
                 return new StyleLength(pxValue);
             }
         }
+
         else if (lengthString.EndsWith("%")) {
             if (float.TryParse(lengthString.Substring(0, lengthString.Length - 1), out float percentValue)) {
                 return new StyleLength(new Length(percentValue, LengthUnit.Percent));
