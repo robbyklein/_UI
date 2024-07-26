@@ -1,7 +1,7 @@
 {
   "name": "com.rkstudios.uibuddy",
   "displayName": "UIBuddy",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "unity": "2020.3",
   "description": "A Unity package that simplifies the creation of dynamic UI elements and the application of dynamic styles.",
   "keywords": [

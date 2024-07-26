@@ -138,6 +138,33 @@ internal class USS {
         }
     }
 
+    internal static void ApplyStyleAngleStyle(VisualElement el, string v, Action<StyleRotate> set) {
+        try {
+            Rotate rotate = AngleParser.AngleStringToRotate(v);
+            set(new StyleRotate(rotate));
+        }
+        catch {
+            bool wasKeyword = ApplyIfKeyword(v, k => set(new StyleRotate((Rotate)(object)k)));
+            if (!wasKeyword) Logging.InvalidRotationWarning(el, v);
+        }
+    }
+
+    internal static void ApplyScaleStyle(VisualElement el, string v, Action<StyleScale> set) {
+        try {
+            Scale scale = ScaleParser.ScaleStringToScale(v);
+            set(new StyleScale(scale));
+        }
+        catch {
+            bool wasKeyword = ApplyIfKeyword(v, k => set(new StyleScale((Scale)(object)k)));
+            if (!wasKeyword) Logging.InvalidScaleWarning(el, v);
+        }
+    }
+
+    internal static void ApplyStyleInt(VisualElement el, string value, Action<StyleInt> set) {
+        if (int.TryParse(value, out int intValue)) set(new StyleInt(intValue));
+        else Logging.InvalidIntValueWarning(el, value);
+    }
+
     /*
      *  Style appliers
      */
@@ -220,6 +247,107 @@ internal class USS {
         };
 
         ApplyEnumStyle(el, value, v => el.style.justifyContent = v, valueMap);
+    }
+
+    internal static void ApplyOverflow(VisualElement el, string value) {
+        Dictionary<string, Overflow> valueMap = new() {
+            { "hidden", Overflow.Hidden },
+            { "visible", Overflow.Visible }
+        };
+
+        ApplyEnumStyle(el, value, v => el.style.overflow = v, valueMap);
+    }
+
+    internal static void ApplyPosition(VisualElement el, string value) {
+        Dictionary<string, Position> valueMap = new() {
+            { "absolute", Position.Absolute },
+            { "relative", Position.Relative }
+        };
+
+        ApplyEnumStyle(el, value, v => el.style.position = v, valueMap);
+    }
+
+    internal static void ApplyTextOverflow(VisualElement el, string value) {
+        Dictionary<string, TextOverflow> valueMap = new() {
+            { "clip", TextOverflow.Clip },
+            { "ellipsis", TextOverflow.Ellipsis }
+        };
+
+        ApplyEnumStyle(el, value, v => el.style.textOverflow = v, valueMap);
+    }
+
+    internal static void ApplyUnityBackgroundScaleMode(VisualElement el, string value) {
+        Dictionary<string, ScaleMode> valueMap = new() {
+            { "scale-to-fit", ScaleMode.ScaleToFit },
+            { "scale-and-crop", ScaleMode.ScaleAndCrop },
+            { "stretch-to-fill", ScaleMode.StretchToFill }
+        };
+
+        ApplyEnumStyle(el, value, v => el.style.unityBackgroundScaleMode = v, valueMap);
+    }
+
+    internal static void ApplyUnityFontStyle(VisualElement el, string value) {
+        Dictionary<string, FontStyle> valueMap = new() {
+            { "normal", FontStyle.Normal },
+            { "italic", FontStyle.Italic },
+            { "bold", FontStyle.Bold },
+            { "bold-and-italic", FontStyle.BoldAndItalic }
+        };
+
+        ApplyEnumStyle(el, value, v => el.style.unityFontStyleAndWeight = v, valueMap);
+    }
+
+    internal static void ApplyUnityTextAlign(VisualElement el, string value) {
+        Dictionary<string, TextAnchor> valueMap = new() {
+            { "upper-left", TextAnchor.UpperLeft },
+            { "middle-left", TextAnchor.MiddleLeft },
+            { "lower-left", TextAnchor.LowerLeft },
+            { "upper-center", TextAnchor.UpperCenter },
+            { "middle-center", TextAnchor.MiddleCenter },
+            { "lower-center", TextAnchor.LowerCenter },
+            { "upper-right", TextAnchor.UpperRight },
+            { "middle-right", TextAnchor.MiddleRight },
+            { "lower-right", TextAnchor.LowerRight }
+        };
+
+        ApplyEnumStyle(el, value, v => el.style.unityTextAlign = v, valueMap);
+    }
+
+    internal static void ApplyUnityTextOverflowPosition(VisualElement el, string value) {
+        Dictionary<string, TextOverflowPosition> valueMap = new() {
+            { "start", TextOverflowPosition.Start },
+            { "middle", TextOverflowPosition.Middle },
+            { "end", TextOverflowPosition.End }
+        };
+
+        ApplyEnumStyle(el, value, v => el.style.unityTextOverflowPosition = v, valueMap);
+    }
+
+    internal static void ApplyWhiteSpace(VisualElement el, string value) {
+        Dictionary<string, WhiteSpace> valueMap = new() {
+            { "normal", WhiteSpace.Normal },
+            { "nowrap", WhiteSpace.NoWrap }
+        };
+
+        ApplyEnumStyle(el, value, v => el.style.whiteSpace = v, valueMap);
+    }
+
+    internal static void ApplyVisibility(VisualElement el, string value) {
+        Dictionary<string, Visibility> valueMap = new() {
+            { "visible", Visibility.Visible },
+            { "hidden", Visibility.Hidden }
+        };
+
+        ApplyEnumStyle(el, value, v => el.style.visibility = v, valueMap);
+    }
+
+    internal static void ApplyUnityOverflowClipBox(VisualElement el, string value) {
+        Dictionary<string, OverflowClipBox> valueMap = new() {
+            { "padding-box", OverflowClipBox.PaddingBox },
+            { "content-box", OverflowClipBox.ContentBox }
+        };
+
+        ApplyEnumStyle(el, value, v => el.style.unityOverflowClipBox = v, valueMap);
     }
 
     #endregion
@@ -536,6 +664,62 @@ internal class USS {
 
     internal static void ApplyWordSpacing(VisualElement el, string value) {
         ApplyStyleLengthStyle(el, value, length => el.style.wordSpacing = length);
+    }
+
+    internal static void ApplyFlexBasis(VisualElement el, string value) {
+        ApplyStyleLengthStyle(el, value, length => el.style.flexBasis = length);
+    }
+
+    internal static void ApplyFlexGrow(VisualElement el, string value) {
+        ApplyStyleFloatStyle(el, value, length => el.style.flexGrow = length);
+    }
+
+    internal static void ApplyFlexShrink(VisualElement el, string value) {
+        ApplyStyleFloatStyle(el, value, length => el.style.flexShrink = length);
+    }
+
+    internal static void ApplyUnityTextOutlineWidth(VisualElement el, string value) {
+        ApplyStyleFloatStyle(el, value, length => el.style.unityTextOutlineWidth = length);
+    }
+
+    internal static void ApplyUnitySliceScale(VisualElement el, string value) {
+        ApplyStyleFloatStyle(el, value, length => el.style.unitySliceScale = length);
+    }
+
+    internal static void ApplyUnityParagraphSpacing(VisualElement el, string value) {
+        ApplyStyleLengthStyle(el, value, length => el.style.unityParagraphSpacing = length);
+    }
+
+    #endregion
+
+    #region StyleInt styles
+
+    internal static void ApplyUnitySliceLeft(VisualElement el, string value) {
+        ApplyStyleInt(el, value, v => el.style.unitySliceLeft = v);
+    }
+
+    internal static void ApplyUnitySliceRight(VisualElement el, string value) {
+        ApplyStyleInt(el, value, v => el.style.unitySliceRight = v);
+    }
+
+    internal static void ApplyUnitySliceTop(VisualElement el, string value) {
+        ApplyStyleInt(el, value, v => el.style.unitySliceTop = v);
+    }
+
+    internal static void ApplyUnitySliceBottom(VisualElement el, string value) {
+        ApplyStyleInt(el, value, v => el.style.unitySliceBottom = v);
+    }
+
+    #endregion
+
+    #region Other styles
+
+    internal static void ApplyRotate(VisualElement el, string value) {
+        ApplyStyleAngleStyle(el, value, length => el.style.rotate = length);
+    }
+
+    internal static void ApplyScale(VisualElement el, string value) {
+        ApplyScaleStyle(el, value, length => el.style.scale = length);
     }
 
     #endregion

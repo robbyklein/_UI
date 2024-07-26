@@ -42,4 +42,19 @@ internal static class Logging {
         Debug.LogWarning(
             $"Invalid length value on {GetElementName(element)}:  {lengthString}");
     }
+
+    internal static void InvalidRotationWarning(VisualElement element, string rotateString) {
+        Debug.LogWarning(
+            $"Invalid rotation value on {GetElementName(element)}:  {rotateString}");
+    }
+
+    internal static void InvalidScaleWarning(VisualElement element, string valueString) {
+        Debug.LogWarning(
+            $"Invalid scale value on {GetElementName(element)}:  {valueString}");
+    }
+
+    internal static void InvalidIntValueWarning(VisualElement element, string valueString) {
+        Debug.LogWarning(
+            $"Invalid integer value on {GetElementName(element)}:  {valueString}");
+    }
 }

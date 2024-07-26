@@ -173,6 +173,72 @@ public static class UIBuddy {
             case StyleProperty.WordSpacing:
                 USS.ApplyWordSpacing(el, value);
                 break;
+            case StyleProperty.FlexBasis:
+                USS.ApplyFlexBasis(el, value);
+                break;
+            case StyleProperty.FlexGrow:
+                USS.ApplyFlexGrow(el, value);
+                break;
+            case StyleProperty.FlexShrink:
+                USS.ApplyFlexShrink(el, value);
+                break;
+            case StyleProperty.Overflow:
+                USS.ApplyOverflow(el, value);
+                break;
+            case StyleProperty.Position:
+                USS.ApplyPosition(el, value);
+                break;
+            case StyleProperty.Rotate:
+                USS.ApplyRotate(el, value);
+                break;
+            case StyleProperty.TextOverflow:
+                USS.ApplyTextOverflow(el, value);
+                break;
+            case StyleProperty.Scale:
+                USS.ApplyScale(el, value);
+                break;
+            case StyleProperty.UnityBackgroundScaleMode:
+                USS.ApplyUnityBackgroundScaleMode(el, value);
+                break;
+            case StyleProperty.WhiteSpace:
+                USS.ApplyWhiteSpace(el, value);
+                break;
+            case StyleProperty.UnityFontStyle:
+                USS.ApplyUnityFontStyle(el, value);
+                break;
+            case StyleProperty.UnityTextAlign:
+                USS.ApplyUnityTextAlign(el, value);
+                break;
+            case StyleProperty.UnityTextOverflowPosition:
+                USS.ApplyUnityTextOverflowPosition(el, value);
+                break;
+            case StyleProperty.Visibility:
+                USS.ApplyVisibility(el, value);
+                break;
+            case StyleProperty.UnityTextOutlineWidth:
+                USS.ApplyUnityTextOutlineWidth(el, value);
+                break;
+            case StyleProperty.UnitySliceLeft:
+                USS.ApplyUnitySliceLeft(el, value);
+                break;
+            case StyleProperty.UnitySliceRight:
+                USS.ApplyUnitySliceRight(el, value);
+                break;
+            case StyleProperty.UnitySliceTop:
+                USS.ApplyUnitySliceTop(el, value);
+                break;
+            case StyleProperty.UnitySliceBottom:
+                USS.ApplyUnitySliceBottom(el, value);
+                break;
+            case StyleProperty.UnitySliceScale:
+                USS.ApplyUnitySliceScale(el, value);
+                break;
+            case StyleProperty.UnityParagraphSpacing:
+                USS.ApplyUnityParagraphSpacing(el, value);
+                break;
+            case StyleProperty.UnityOverflowClipBox:
+                USS.ApplyUnityOverflowClipBox(el, value);
+                break;
         }
     }
 
@@ -181,22 +247,17 @@ public static class UIBuddy {
         T element = Elements.Create<T>(node.LocalName);
 
         // Step 2: Add attributes (ex. style)
-        if (element != null && node.Attributes != null) {
-            foreach (XmlAttribute attribute in node.Attributes) {
+        if (element != null && node.Attributes != null)
+            foreach (XmlAttribute attribute in node.Attributes)
                 Attributes.Add(element, attribute, node);
-            }
-        }
 
         // Step 3: Build nested elements recursively
-        if (element != null && node.HasChildNodes) {
+        if (element != null && node.HasChildNodes)
             foreach (XmlNode childNode in node.ChildNodes) {
                 VisualElement childElement = CreateElement<VisualElement>(childNode);
 
-                if (childElement != null) {
-                    element.Add(childElement);
-                }
+                if (childElement != null) element.Add(childElement);
             }
-        }
 
         // Step 4: Return the finished root element
         return element ??
