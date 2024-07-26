@@ -5,7 +5,6 @@ using UIBuddyTypes;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-
 internal class USS {
     internal static void ParseAndApplyUSS(VisualElement el, XmlNode attr) {
         string ussString = attr.Value;
@@ -34,10 +33,9 @@ internal class USS {
             string[] keyValue = trimmedProperty.Split(new[] { ':' }, 2);
 
             //  it's not exactly two somethings invalid
-            if (keyValue.Length != 2) {
+            if (keyValue.Length != 2)
                 // TODO: log an error here
                 continue;
-            }
 
             // Check key
             string key = keyValue[0].Trim();
@@ -62,9 +60,6 @@ internal class USS {
     }
 
     internal static StyleKeyword? ValueToStyleKeyword(string value, bool excludeAuto = false) {
-        // There's other autos
-        if (excludeAuto && value == "auto") return null;
-
         switch (value) {
             case "auto":
                 return StyleKeyword.Auto;
@@ -81,8 +76,8 @@ internal class USS {
         }
     }
 
-    internal static bool ApplyIfKeyword(string value, Action<StyleKeyword> applyAction, bool excludeAuto = false) {
-        StyleKeyword? keyword = ValueToStyleKeyword(value, excludeAuto);
+    internal static bool ApplyIfKeyword(string value, Action<StyleKeyword> applyAction) {
+        StyleKeyword? keyword = ValueToStyleKeyword(value);
         if (keyword is { } validKeyword) {
             applyAction(validKeyword);
             return true;
@@ -91,228 +86,191 @@ internal class USS {
         return false;
     }
 
+    private static void ApplyEnumStyle<T>(VisualElement el, string v, Action<T> set, Dictionary<string, T> map) {
+        // First check if value is in mapping
+        if (map.TryGetValue(v, out T mappedValue)) set(mappedValue);
+
+        // Second check if its a keyword (auto, none, etc.)
+        else if (ApplyIfKeyword(v, k => set((T)(object)k))) return;
+
+        // Third log if both fail
+        else Logging.StyleValueInvalidWarning(v);
+    }
+
+    private static void ApplyColorStyle(VisualElement el, string v, Action<StyleColor> set) {
+        try {
+            // First check if its a value color string
+            Color color = ColorParser.ColorStringToColor(v);
+            set(new StyleColor(color));
+        }
+        catch {
+            // Second check if it was a keyword (auto, none, etc.)
+            bool wasKeyword = ApplyIfKeyword(v, k => set((StyleColor)(object)k));
+
+            // Third log an error
+            if (!wasKeyword) Logging.InvalidColorWarning(el, v);
+        }
+    }
+
+    private static void ApplyStyleLengthStyle(VisualElement el, string v, Action<StyleLength> set) {
+        try {
+            // First check if value length string
+            StyleLength length = LengthParser.LengthStringToStyleLength(v);
+            set(length);
+        }
+        catch {
+            // Second check if it was a keyword
+            bool wasKeyword = ApplyIfKeyword(v, k => set((StyleLength)(object)k));
+
+            // Third log an error if not
+            if (!wasKeyword) Logging.InvalidLengthWarning(el, v);
+        }
+    }
+
+    private static void ApplyStyleFloatStyle(VisualElement el, string v, Action<StyleFloat> set) {
+        try {
+            StyleFloat length = LengthParser.LengthStringToStyleFloat(v);
+            set(length);
+        }
+        catch {
+            bool wasKeyword = ApplyIfKeyword(v, k => set((StyleFloat)(object)k));
+            if (!wasKeyword) Logging.InvalidLengthWarning(el, v);
+        }
+    }
+
     /*
      *  Style appliers
      */
 
-    internal static void ApplyAlignContent(VisualElement el, string value) {
-        if (ApplyIfKeyword(value, k => el.style.alignContent = k, true)) return;
+    #region Enum styles
 
-        switch (value) {
-            case "center":
-                el.style.alignContent = Align.Center;
-                break;
-            case "auto":
-                el.style.alignContent = Align.Auto;
-                break;
-            case "stretch":
-                el.style.alignContent = Align.Stretch;
-                break;
-            case "flex-end":
-                el.style.alignContent = Align.FlexEnd;
-                break;
-            case "flex-start":
-                el.style.alignContent = Align.FlexStart;
-                break;
-            default:
-                Logging.StyleValueInvalidWarning(value);
-                break;
-        }
+    internal static void ApplyAlignContent(VisualElement el, string value) {
+        Dictionary<string, Align> valueMap = new() {
+            { "center", Align.Center },
+            { "auto", Align.Auto },
+            { "stretch", Align.Stretch },
+            { "flex-end", Align.FlexEnd },
+            { "flex-start", Align.FlexStart }
+        };
+
+        ApplyEnumStyle(el, value, v => el.style.alignContent = v, valueMap);
     }
 
     internal static void ApplyAlignItems(VisualElement el, string value) {
-        if (ApplyIfKeyword(value, k => el.style.alignItems = k, true)) return;
+        Dictionary<string, Align> valueMap = new() {
+            { "center", Align.Center },
+            { "auto", Align.Auto },
+            { "stretch", Align.Stretch },
+            { "flex-end", Align.FlexEnd },
+            { "flex-start", Align.FlexStart }
+        };
 
-        switch (value) {
-            case "center":
-                el.style.alignItems = Align.Center;
-                break;
-            case "auto":
-                el.style.alignItems = Align.Auto;
-                break;
-            case "stretch":
-                el.style.alignItems = Align.Stretch;
-                break;
-            case "flex-end":
-                el.style.alignItems = Align.FlexEnd;
-                break;
-            case "flex-start":
-                el.style.alignItems = Align.FlexStart;
-                break;
-            default:
-                Logging.StyleValueInvalidWarning(value);
-                break;
-        }
+        ApplyEnumStyle(el, value, v => el.style.alignItems = v, valueMap);
     }
 
     internal static void ApplyAlignSelf(VisualElement el, string value) {
-        if (ApplyIfKeyword(value, k => el.style.alignSelf = k, true)) return;
+        Dictionary<string, Align> valueMap = new() {
+            { "center", Align.Center },
+            { "auto", Align.Auto },
+            { "stretch", Align.Stretch },
+            { "flex-end", Align.FlexEnd },
+            { "flex-start", Align.FlexStart }
+        };
 
-        switch (value) {
-            case "center":
-                el.style.alignSelf = Align.Center;
-                break;
-            case "auto":
-                el.style.alignSelf = Align.Auto;
-                break;
-            case "stretch":
-                el.style.alignSelf = Align.Stretch;
-                break;
-            case "flex-end":
-                el.style.alignSelf = Align.FlexEnd;
-                break;
-            case "flex-start":
-                el.style.alignSelf = Align.FlexStart;
-                break;
-            default:
-                Logging.StyleValueInvalidWarning(value);
-                break;
-        }
+        ApplyEnumStyle(el, value, v => el.style.alignSelf = v, valueMap);
     }
 
     internal static void ApplyFlexDirection(VisualElement el, string value) {
-        if (ApplyIfKeyword(value, k => el.style.flexDirection = k)) return;
+        Dictionary<string, FlexDirection> valueMap = new() {
+            { "row", FlexDirection.Row },
+            { "column", FlexDirection.Column },
+            { "column-reverse", FlexDirection.ColumnReverse },
+            { "row-reverse", FlexDirection.RowReverse }
+        };
 
-        switch (value) {
-            case "row":
-                el.style.flexDirection = FlexDirection.Row;
-                break;
-            case "column":
-                el.style.flexDirection = FlexDirection.Column;
-                break;
-            case "column-reverse":
-                el.style.flexDirection = FlexDirection.ColumnReverse;
-                break;
-            case "row-reverse":
-                el.style.flexDirection = FlexDirection.RowReverse;
-                break;
-            default:
-                Logging.StyleValueInvalidWarning(value);
-                break;
-        }
+        ApplyEnumStyle(el, value, v => el.style.flexDirection = v, valueMap);
     }
 
     internal static void ApplyDisplay(VisualElement el, string value) {
-        if (ApplyIfKeyword(value, k => el.style.display = k)) return;
+        Dictionary<string, DisplayStyle> valueMap = new() {
+            { "flex", DisplayStyle.Flex },
+            { "none", DisplayStyle.None }
+        };
 
-        switch (value) {
-            case "flex":
-                el.style.display = DisplayStyle.Flex;
-                break;
-            case "none":
-                el.style.display = DisplayStyle.None;
-                break;
-            default:
-                Logging.StyleValueInvalidWarning(value);
-                break;
-        }
+        ApplyEnumStyle(el, value, v => el.style.display = v, valueMap);
     }
 
     internal static void ApplyFlexWrap(VisualElement el, string value) {
-        if (ApplyIfKeyword(value, k => el.style.flexWrap = k)) return;
+        Dictionary<string, Wrap> valueMap = new() {
+            { "wrap", Wrap.Wrap },
+            { "nowrap", Wrap.NoWrap },
+            { "wrap-reverse", Wrap.WrapReverse }
+        };
 
-        switch (value) {
-            case "wrap":
-                el.style.flexWrap = Wrap.Wrap;
-                break;
-            case "nowrap":
-                el.style.flexWrap = Wrap.NoWrap;
-                break;
-            case "wrap-reverse":
-                el.style.flexWrap = Wrap.WrapReverse;
-                break;
-            default:
-                Logging.StyleValueInvalidWarning(value);
-                break;
-        }
+        ApplyEnumStyle(el, value, v => el.style.flexWrap = v, valueMap);
     }
 
     internal static void ApplyJustifyContent(VisualElement el, string value) {
-        if (ApplyIfKeyword(value, k => el.style.justifyContent = k)) return;
+        Dictionary<string, Justify> valueMap = new() {
+            { "flex-start", Justify.FlexStart },
+            { "flex-end", Justify.FlexEnd },
+            { "center", Justify.Center },
+            { "space-around", Justify.SpaceAround },
+            { "space-between", Justify.SpaceBetween }
+        };
 
-        switch (value) {
-            case "flex-start":
-                el.style.justifyContent = Justify.FlexStart;
-                break;
-            case "flex-end":
-                el.style.justifyContent = Justify.FlexEnd;
-                break;
-            case "center":
-                el.style.justifyContent = Justify.Center;
-                break;
-            case "space-around":
-                el.style.justifyContent = Justify.SpaceAround;
-                break;
-            case "space-between":
-                el.style.justifyContent = Justify.SpaceBetween;
-                break;
-            default:
-                Logging.StyleValueInvalidWarning(value);
-                break;
-        }
+        ApplyEnumStyle(el, value, v => el.style.justifyContent = v, valueMap);
     }
 
-    internal static void ApplyBackgroundColor(VisualElement el, string value) {
-        if (ApplyIfKeyword(value, k => el.style.backgroundColor = k)) return;
+    #endregion
 
-        try {
-            Color color = ColorParser.ColorStringToColor(value);
-            el.style.backgroundColor = new StyleColor(color);
-        }
-        catch { Logging.InvalidColorWarning(el, value); }
+
+    #region Color styles
+
+    internal static void ApplyBackgroundColor(VisualElement el, string value) {
+        ApplyColorStyle(el, value, c => el.style.backgroundColor = c);
     }
 
     internal static void ApplyBorderColor(VisualElement el, string value, USSBorderSide side) {
-        try {
-            Color color = ColorParser.ColorStringToColor(value);
-
+        ApplyColorStyle(el, value, color => {
             switch (side) {
                 case USSBorderSide.Bottom:
-                    el.style.borderBottomColor = new StyleColor(color);
+                    el.style.borderBottomColor = color;
                     break;
                 case USSBorderSide.Top:
-                    el.style.borderTopColor = new StyleColor(color);
+                    el.style.borderTopColor = color;
                     break;
                 case USSBorderSide.Left:
-                    el.style.borderLeftColor = new StyleColor(color);
+                    el.style.borderLeftColor = color;
                     break;
                 case USSBorderSide.Right:
-                    el.style.borderRightColor = new StyleColor(color);
+                    el.style.borderRightColor = color;
                     break;
                 case USSBorderSide.All:
-                    el.style.borderBottomColor = new StyleColor(color);
-                    el.style.borderTopColor = new StyleColor(color);
-                    el.style.borderLeftColor = new StyleColor(color);
-                    el.style.borderRightColor = new StyleColor(color);
+                    el.style.borderBottomColor = color;
+                    el.style.borderTopColor = color;
+                    el.style.borderLeftColor = color;
+                    el.style.borderRightColor = color;
                     break;
             }
-        }
-        catch { Logging.InvalidColorWarning(el, value); }
+        });
     }
 
     internal static void ApplyColor(VisualElement el, string value) {
-        try {
-            Color color = ColorParser.ColorStringToColor(value);
-            el.style.color = new StyleColor(color);
-        }
-        catch { Logging.InvalidColorWarning(el, value); }
+        ApplyColorStyle(el, value, color => el.style.color = color);
     }
 
     internal static void ApplyUnityBackgroundImageTintColor(VisualElement el, string value) {
-        try {
-            Color color = ColorParser.ColorStringToColor(value);
-            el.style.unityBackgroundImageTintColor = new StyleColor(color);
-        }
-        catch { Logging.InvalidColorWarning(el, value); }
+        ApplyColorStyle(el, value, color => el.style.unityBackgroundImageTintColor = color);
     }
 
     internal static void ApplyUnityTextOutlineColor(VisualElement el, string value) {
-        try {
-            Color color = ColorParser.ColorStringToColor(value);
-            el.style.unityTextOutlineColor = new StyleColor(color);
-        }
-        catch { Logging.InvalidColorWarning(el, value); }
+        ApplyColorStyle(el, value, color => el.style.unityTextOutlineColor = color);
     }
+
+    #endregion
+
+    #region Length styles
 
     internal static void ApplyPadding(VisualElement el, string value, USSDirection direction) {
         try {
@@ -320,16 +278,16 @@ internal class USS {
 
             switch (direction) {
                 case USSDirection.Top:
-                    el.style.paddingTop = lengths[0];
+                    ApplyStyleLengthStyle(el, value, length => el.style.paddingTop = length);
                     break;
                 case USSDirection.Right:
-                    el.style.paddingRight = lengths[0];
+                    ApplyStyleLengthStyle(el, value, length => el.style.paddingRight = length);
                     break;
                 case USSDirection.Bottom:
-                    el.style.paddingBottom = lengths[0];
+                    ApplyStyleLengthStyle(el, value, length => el.style.paddingBottom = length);
                     break;
                 case USSDirection.Left:
-                    el.style.paddingLeft = lengths[0];
+                    ApplyStyleLengthStyle(el, value, length => el.style.paddingLeft = length);
                     break;
                 case USSDirection.All:
                     switch (lengths.Length) {
@@ -371,16 +329,16 @@ internal class USS {
 
             switch (direction) {
                 case USSDirection.Top:
-                    el.style.marginTop = lengths[0];
+                    ApplyStyleLengthStyle(el, value, length => el.style.marginTop = length);
                     break;
                 case USSDirection.Right:
-                    el.style.marginRight = lengths[0];
+                    ApplyStyleLengthStyle(el, value, length => el.style.marginRight = length);
                     break;
                 case USSDirection.Bottom:
-                    el.style.marginBottom = lengths[0];
+                    ApplyStyleLengthStyle(el, value, length => el.style.marginBottom = length);
                     break;
                 case USSDirection.Left:
-                    el.style.marginLeft = lengths[0];
+                    ApplyStyleLengthStyle(el, value, length => el.style.marginLeft = length);
                     break;
                 case USSDirection.All:
                     switch (lengths.Length) {
@@ -422,16 +380,16 @@ internal class USS {
 
             switch (direction) {
                 case USSDirection.Top:
-                    el.style.borderTopWidth = lengths[0];
+                    ApplyStyleFloatStyle(el, value, length => el.style.borderTopWidth = length);
                     break;
                 case USSDirection.Right:
-                    el.style.borderRightWidth = lengths[0];
+                    ApplyStyleFloatStyle(el, value, length => el.style.borderRightWidth = length);
                     break;
                 case USSDirection.Bottom:
-                    el.style.borderBottomWidth = lengths[0];
+                    ApplyStyleFloatStyle(el, value, length => el.style.borderBottomWidth = length);
                     break;
                 case USSDirection.Left:
-                    el.style.borderLeftWidth = lengths[0];
+                    ApplyStyleFloatStyle(el, value, length => el.style.borderLeftWidth = length);
                     break;
                 case USSDirection.All:
                     switch (lengths.Length) {
@@ -473,16 +431,16 @@ internal class USS {
 
             switch (direction) {
                 case USSDirection.Top:
-                    el.style.top = length;
+                    ApplyStyleLengthStyle(el, value, length => el.style.top = length);
                     break;
                 case USSDirection.Right:
-                    el.style.right = length;
+                    ApplyStyleLengthStyle(el, value, length => el.style.right = length);
                     break;
                 case USSDirection.Bottom:
-                    el.style.bottom = length;
+                    ApplyStyleLengthStyle(el, value, length => el.style.bottom = length);
                     break;
                 case USSDirection.Left:
-                    el.style.left = length;
+                    ApplyStyleLengthStyle(el, value, length => el.style.left = length);
                     break;
             }
         }
@@ -490,53 +448,28 @@ internal class USS {
     }
 
     internal static void ApplyWidth(VisualElement el, string value) {
-        try {
-            StyleLength length = LengthParser.LengthStringToStyleLength(value);
-            el.style.width = length;
-        }
-        catch { Logging.InvalidLengthWarning(el, value); }
+        ApplyStyleLengthStyle(el, value, length => el.style.width = length);
     }
 
     internal static void ApplyMaxWidth(VisualElement el, string value) {
-        try {
-            StyleLength length = LengthParser.LengthStringToStyleLength(value);
-            el.style.maxWidth = length;
-        }
-        catch { Logging.InvalidLengthWarning(el, value); }
+        ApplyStyleLengthStyle(el, value, length => el.style.maxWidth = length);
     }
 
     internal static void ApplyMinWidth(VisualElement el, string value) {
-        try {
-            StyleLength length = LengthParser.LengthStringToStyleLength(value);
-            el.style.minWidth = length;
-        }
-        catch { Logging.InvalidLengthWarning(el, value); }
+        ApplyStyleLengthStyle(el, value, length => el.style.minWidth = length);
     }
 
     internal static void ApplyHeight(VisualElement el, string value) {
-        try {
-            StyleLength length = LengthParser.LengthStringToStyleLength(value);
-            el.style.height = length;
-        }
-        catch { Logging.InvalidLengthWarning(el, value); }
+        ApplyStyleLengthStyle(el, value, length => el.style.height = length);
     }
 
     internal static void ApplyMaxHeight(VisualElement el, string value) {
-        try {
-            StyleLength length = LengthParser.LengthStringToStyleLength(value);
-            el.style.maxHeight = length;
-        }
-        catch { Logging.InvalidLengthWarning(el, value); }
+        ApplyStyleLengthStyle(el, value, length => el.style.maxHeight = length);
     }
 
     internal static void ApplyMinHeight(VisualElement el, string value) {
-        try {
-            StyleLength length = LengthParser.LengthStringToStyleLength(value);
-            el.style.minHeight = length;
-        }
-        catch { Logging.InvalidLengthWarning(el, value); }
+        ApplyStyleLengthStyle(el, value, length => el.style.minHeight = length);
     }
-
 
     internal static void ApplyBorderRadius(VisualElement el, string value, USSCorner corner) {
         try {
@@ -544,16 +477,16 @@ internal class USS {
 
             switch (corner) {
                 case USSCorner.TopLeft:
-                    el.style.borderTopLeftRadius = lengths[0];
+                    ApplyStyleLengthStyle(el, value, length => el.style.borderTopLeftRadius = length);
                     break;
                 case USSCorner.TopRight:
-                    el.style.borderTopRightRadius = lengths[0];
+                    ApplyStyleLengthStyle(el, value, length => el.style.borderTopRightRadius = length);
                     break;
                 case USSCorner.BottomLeft:
-                    el.style.borderBottomLeftRadius = lengths[0];
+                    ApplyStyleLengthStyle(el, value, length => el.style.borderBottomLeftRadius = length);
                     break;
                 case USSCorner.BottomRight:
-                    el.style.borderBottomRightRadius = lengths[0];
+                    ApplyStyleLengthStyle(el, value, length => el.style.borderBottomRightRadius = length);
                     break;
                 case USSCorner.All:
                     switch (lengths.Length) {
@@ -590,34 +523,20 @@ internal class USS {
     }
 
     internal static void ApplyFontSize(VisualElement el, string value) {
-        try {
-            StyleLength length = LengthParser.LengthStringToStyleLength(value);
-            el.style.fontSize = length;
-        }
-        catch { Logging.InvalidLengthWarning(el, value); }
+        ApplyStyleLengthStyle(el, value, length => el.style.fontSize = length);
     }
 
     internal static void ApplyLetterSpacing(VisualElement el, string value) {
-        try {
-            StyleLength length = LengthParser.LengthStringToStyleLength(value);
-            el.style.letterSpacing = length;
-        }
-        catch { Logging.InvalidLengthWarning(el, value); }
+        ApplyStyleLengthStyle(el, value, length => el.style.letterSpacing = length);
     }
 
     internal static void ApplyOpacity(VisualElement el, string value) {
-        try {
-            StyleFloat amount = LengthParser.LengthStringToStyleFloat(value);
-            el.style.opacity = amount;
-        }
-        catch { Logging.InvalidLengthWarning(el, value); }
+        ApplyStyleFloatStyle(el, value, length => el.style.opacity = length);
     }
 
     internal static void ApplyWordSpacing(VisualElement el, string value) {
-        try {
-            StyleLength amount = LengthParser.LengthStringToStyleLength(value);
-            el.style.wordSpacing = amount;
-        }
-        catch { Logging.InvalidLengthWarning(el, value); }
+        ApplyStyleLengthStyle(el, value, length => el.style.wordSpacing = length);
     }
+
+    #endregion
 }
