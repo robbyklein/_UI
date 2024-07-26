@@ -10,27 +10,22 @@ internal static class LengthParser {
         }
 
         lengthString = lengthString.Trim().ToLower();
-        if (lengthString == "auto") {
-            return new StyleLength(StyleKeyword.Auto);
+
+        // Check for keywords
+        StyleKeyword? keyword = USS.ValueToStyleKeyword(lengthString);
+        if (keyword is { } word) {
+            return word;
         }
-        else if (lengthString == "initial") {
-            return new StyleLength(StyleKeyword.Initial);
-        }
-        else if (lengthString == "none") {
-            return new StyleLength(StyleKeyword.None);
-        }
-        else if (lengthString == "null") {
-            return new StyleLength(StyleKeyword.Null);
-        }
-        else if (lengthString == "undefined") {
-            return new StyleLength(StyleKeyword.Undefined);
-        }
-        else if (lengthString.EndsWith("px")) {
+
+        // Check for px
+
+        if (lengthString.EndsWith("px")) {
             if (float.TryParse(lengthString.Substring(0, lengthString.Length - 2), out float pxValue)) {
                 return new StyleLength(pxValue);
             }
         }
 
+        // Check for 
         else if (lengthString.EndsWith("%")) {
             if (float.TryParse(lengthString.Substring(0, lengthString.Length - 1), out float percentValue)) {
                 return new StyleLength(new Length(percentValue, LengthUnit.Percent));
@@ -43,6 +38,12 @@ internal static class LengthParser {
     internal static StyleFloat LengthStringToStyleFloat(string lengthString) {
         if (string.IsNullOrEmpty(lengthString)) {
             throw new ArgumentException("Length string cannot be null or empty", nameof(lengthString));
+        }
+
+        // Check for keyords
+        StyleKeyword? keyword = USS.ValueToStyleKeyword(lengthString);
+        if (keyword is { } word) {
+            return word;
         }
 
         lengthString = lengthString.Trim().ToLower();
