@@ -239,6 +239,12 @@ public static class UIBuddy {
             case StyleProperty.UnityOverflowClipBox:
                 USS.ApplyUnityOverflowClipBox(el, value);
                 break;
+            case StyleProperty.BackgroundImage:
+                USS.ApplyBackgroundImage(el, value);
+                break;
+            case StyleProperty.BackgroundSize:
+                USS.ApplyBackgroundSize(el, value);
+                break;
         }
     }
 
@@ -247,17 +253,18 @@ public static class UIBuddy {
         T element = Elements.Create<T>(node.LocalName);
 
         // Step 2: Add attributes (ex. style)
-        if (element != null && node.Attributes != null)
-            foreach (XmlAttribute attribute in node.Attributes)
-                Attributes.Add(element, attribute, node);
+        if (element != null && node.Attributes != null) {
+            foreach (XmlAttribute attribute in node.Attributes) { Attributes.Add(element, attribute, node); }
+        }
 
         // Step 3: Build nested elements recursively
-        if (element != null && node.HasChildNodes)
+        if (element != null && node.HasChildNodes) {
             foreach (XmlNode childNode in node.ChildNodes) {
                 VisualElement childElement = CreateElement<VisualElement>(childNode);
 
                 if (childElement != null) element.Add(childElement);
             }
+        }
 
         // Step 4: Return the finished root element
         return element ??

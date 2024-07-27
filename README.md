@@ -39,6 +39,7 @@ UIBuddy.Style(menuItem, StyleProperty.AlignItems, "flex-end");
 ## Issues
 
 - It's currently not possible to use percentage based border widths
+- flex-grow needs to support 1
 
 ## Support tables
 
@@ -92,12 +93,12 @@ UIBuddy.Style(menuItem, StyleProperty.AlignItems, "flex-end");
 | align-self                         | ✅           |
 | all                                | ❌           |
 | background-color                   | ✅           |
-| background-image                   | ❌           |
+| background-image                   | ✅           |
 | background-position                | ❌           |
 | background-position-x              | ❌           |
 | background-position-y              | ❌           |
 | background-repeat                  | ❌           |
-| background-size                    | ❌           |
+| background-size                    | ✅           |
 | border-bottom-color                | ✅           |
 | border-bottom-left-radius          | ✅           |
 | border-bottom-right-radius         | ✅           |

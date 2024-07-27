@@ -2,93 +2,120 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ArgumentException = System.ArgumentException;
 
 internal static class LengthParser {
-    internal static StyleLength LengthStringToStyleLength(string lengthString) {
-        if (string.IsNullOrEmpty(lengthString)) {
-            throw new ArgumentException("Length string cannot be null or empty", nameof(lengthString));
-        }
+    internal static Length LengthStringToLength(string lengthString) {
+        // Make sure we have a string
+        if (string.IsNullOrEmpty(lengthString)) throw new ArgumentException("Invalid length string");
 
+        // Normalize it
         lengthString = lengthString.Trim().ToLower();
 
-        // Check for keywords
-        StyleKeyword? keyword = USS.ValueToStyleKeyword(lengthString);
-        if (keyword is { } word) {
-            return word;
-        }
-
         // Check for px
-
         if (lengthString.EndsWith("px")) {
             if (float.TryParse(lengthString.Substring(0, lengthString.Length - 2), out float pxValue)) {
-                return new StyleLength(pxValue);
+                return new Length(pxValue, LengthUnit.Pixel);
             }
         }
 
-        // Check for 
+        // Check for %
         else if (lengthString.EndsWith("%")) {
             if (float.TryParse(lengthString.Substring(0, lengthString.Length - 1), out float percentValue)) {
-                return new StyleLength(new Length(percentValue, LengthUnit.Percent));
+                return new Length(percentValue, LengthUnit.Percent);
             }
         }
 
-        throw new ArgumentException($"Invalid length string: {lengthString}", nameof(lengthString));
+        // Check for auto
+        else if (lengthString == "auto") return Length.Auto();
+
+        throw new ArgumentException($"Invalid length string: {lengthString}");
+    }
+
+    internal static StyleLength LengthStringToStyleLength(string lengthString) {
+        // Check for keywords
+        StyleKeyword? keyword = USS.ValueToStyleKeyword(lengthString);
+        if (keyword is { } word) { return new StyleLength(word); }
+
+        // Convert to a length
+        Length length = LengthStringToLength(lengthString);
+
+        // Convert to style length
+        return new StyleLength(length);
     }
 
     internal static StyleFloat LengthStringToStyleFloat(string lengthString) {
-        if (string.IsNullOrEmpty(lengthString)) {
-            throw new ArgumentException("Length string cannot be null or empty", nameof(lengthString));
-        }
+        if (string.IsNullOrEmpty(lengthString)) throw new ArgumentException("Invalid length string");
 
-        // Check for keyords
+        // Check for keywords
         StyleKeyword? keyword = USS.ValueToStyleKeyword(lengthString);
-        if (keyword is { } word) {
-            return word;
-        }
+        if (keyword is { } word) { return new StyleFloat(word); }
 
+        // Normalize it
         lengthString = lengthString.Trim().ToLower();
+
+        // Make sure we have a valid number and return as style float
         if (lengthString.EndsWith("px")) {
             if (float.TryParse(lengthString.Substring(0, lengthString.Length - 2), out float pxValue)) {
                 return new StyleFloat(pxValue);
             }
         }
-        else if (lengthString.EndsWith("%")) {
+
+        // Warning about unsupported %age
+        if (lengthString.EndsWith("%")) {
             if (float.TryParse(lengthString.Substring(0, lengthString.Length - 1), out float percentValue)) {
-                throw new ArgumentException($"UIBuddy does not current support percentage based border lengths");
+                throw new ArgumentException($"UIBuddy does not currently support percentage-based border lengths");
             }
         }
 
         throw new ArgumentException($"Invalid length string: {lengthString}", nameof(lengthString));
     }
 
-
     internal static StyleLength[] LengthStringsToStyleLengths(string lengthsString) {
-        if (string.IsNullOrEmpty(lengthsString)) {
-            throw new ArgumentException("Lengths string cannot be null or empty", nameof(lengthsString));
-        }
+        // Make sure we have a string
+        if (string.IsNullOrEmpty(lengthsString)) throw new ArgumentException("Invalid length string");
 
+        // Split into separate values
         string[] lengths = lengthsString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        List<StyleLength> styleLengths = new();
 
-        foreach (string length in lengths) {
-            styleLengths.Add(LengthStringToStyleLength(length));
-        }
+        // Create an array the length of the split string
+        StyleLength[] styleLengths = new StyleLength[lengths.Length];
 
-        return styleLengths.ToArray();
+        // Add each style length
+        for (int i = 0; i < lengths.Length; i++) { styleLengths[i] = LengthStringToStyleLength(lengths[i]); }
+
+        return styleLengths;
     }
 
     internal static StyleFloat[] LengthStringsToStyleFloats(string lengthsString) {
-        if (string.IsNullOrEmpty(lengthsString)) {
-            throw new ArgumentException("Lengths string cannot be null or empty", nameof(lengthsString));
-        }
+        // Make sure we have a string
+        if (string.IsNullOrEmpty(lengthsString)) { throw new ArgumentException("Invalid length string"); }
 
+        // Split into separate values
         string[] lengths = lengthsString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        List<StyleFloat> styleFloats = new();
 
-        foreach (string length in lengths) {
-            styleFloats.Add(LengthStringToStyleFloat(length));
-        }
+        // Create an array the length of the split string
+        StyleFloat[] styleFloats = new StyleFloat[lengths.Length];
 
-        return styleFloats.ToArray();
+        // Add each length
+        for (int i = 0; i < lengths.Length; i++) { styleFloats[i] = LengthStringToStyleFloat(lengths[i]); }
+
+        return styleFloats;
+    }
+
+    internal static Length[] LengthStringsToLengths(string lengthsString) {
+        // Make sure we have a string
+        if (string.IsNullOrEmpty(lengthsString)) { throw new ArgumentException("Invalid length string"); }
+
+        // Split into separate values
+        string[] lengths = lengthsString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        // Create an array the length of the split string
+        Length[] lengthsArray = new Length[lengths.Length];
+
+        // Add each length
+        for (int i = 0; i < lengths.Length; i++) { lengthsArray[i] = LengthStringToLength(lengths[i]); }
+
+        return lengthsArray;
     }
 }

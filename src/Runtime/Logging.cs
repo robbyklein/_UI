@@ -57,4 +57,9 @@ internal static class Logging {
         Debug.LogWarning(
             $"Invalid integer value on {GetElementName(element)}:  {valueString}");
     }
+
+    internal static void InvalidUrlWarning(VisualElement element, string valueString) {
+        Debug.LogWarning(
+            $"Invalid image url value on {GetElementName(element)}:  {valueString}");
+    }
 }

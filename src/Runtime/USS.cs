@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Xml;
 using UIBuddyTypes;
 using UnityEngine;
@@ -35,7 +36,9 @@ internal class USS {
             //  it's not exactly two somethings invalid
             if (keyValue.Length != 2)
                 // TODO: log an error here
+            {
                 continue;
+            }
 
             // Check key
             string key = keyValue[0].Trim();
@@ -88,13 +91,13 @@ internal class USS {
 
     private static void ApplyEnumStyle<T>(VisualElement el, string v, Action<T> set, Dictionary<string, T> map) {
         // First check if value is in mapping
-        if (map.TryGetValue(v, out T mappedValue)) set(mappedValue);
+        if (map.TryGetValue(v, out T mappedValue)) { set(mappedValue); }
 
         // Second check if its a keyword (auto, none, etc.)
-        else if (ApplyIfKeyword(v, k => set((T)(object)k))) return;
+        else if (ApplyIfKeyword(v, k => set((T)(object)k))) { return; }
 
         // Third log if both fail
-        else Logging.StyleValueInvalidWarning(v);
+        else { Logging.StyleValueInvalidWarning(v); }
     }
 
     private static void ApplyColorStyle(VisualElement el, string v, Action<StyleColor> set) {
@@ -161,15 +164,20 @@ internal class USS {
     }
 
     internal static void ApplyStyleInt(VisualElement el, string value, Action<StyleInt> set) {
-        if (int.TryParse(value, out int intValue)) set(new StyleInt(intValue));
-        else Logging.InvalidIntValueWarning(el, value);
+        if (int.TryParse(value, out int intValue)) { set(new StyleInt(intValue)); }
+        else { Logging.InvalidIntValueWarning(el, value); }
     }
+
 
     /*
      *  Style appliers
      */
 
     #region Enum styles
+
+    internal static void ApplyBackgroundRepeat(VisualElement el, string value) {
+        // el.style.backgroundRepeat = "";
+    }
 
     internal static void ApplyAlignContent(VisualElement el, string value) {
         Dictionary<string, Align> valueMap = new() {
@@ -351,7 +359,6 @@ internal class USS {
     }
 
     #endregion
-
 
     #region Color styles
 
@@ -720,6 +727,30 @@ internal class USS {
 
     internal static void ApplyScale(VisualElement el, string value) {
         ApplyScaleStyle(el, value, length => el.style.scale = length);
+    }
+
+    internal static void ApplyBackgroundImage(VisualElement el, string value) {
+        if (ApplyIfKeyword(value, k => el.style.backgroundImage = new StyleBackground((Texture2D)(object)null))) {
+            return;
+        }
+
+        try {
+            Texture2D texture = UrlParser.UrlStringToTexture2d(value);
+            if (texture != null) { el.style.backgroundImage = new StyleBackground(texture); }
+        }
+        catch { Logging.InvalidUrlWarning(el, value); }
+    }
+
+
+    internal static void ApplyBackgroundSize(VisualElement el, string value) {
+        try {
+            Length[] sizes = LengthParser.LengthStringsToLengths(value);
+
+            if (sizes.Length == 1) { el.style.backgroundSize = new BackgroundSize(sizes[0], sizes[0]); }
+            else if (sizes.Length == 2) { el.style.backgroundSize = new BackgroundSize(sizes[0], sizes[1]); }
+            else { Logging.InvalidLengthWarning(el, value); }
+        }
+        catch { Logging.InvalidLengthWarning(el, value); }
     }
 
     #endregion
