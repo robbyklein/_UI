@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Xml;
 using UIBuddyTypes;
 using UnityEngine;
@@ -89,12 +88,12 @@ internal class USS {
         return false;
     }
 
-    private static void ApplyEnumStyle<T>(VisualElement el, string v, Action<T> set, Dictionary<string, T> map) {
+    private static void ApplyEnumStyle<T>(VisualElement _, string v, Action<T> set, Dictionary<string, T> map) {
         // First check if value is in mapping
         if (map.TryGetValue(v, out T mappedValue)) { set(mappedValue); }
 
         // Second check if its a keyword (auto, none, etc.)
-        else if (ApplyIfKeyword(v, k => set((T)(object)k))) { return; }
+        else if (ApplyIfKeyword(v, k => set((T)(object)k))) { }
 
         // Third log if both fail
         else { Logging.StyleValueInvalidWarning(v); }
@@ -285,13 +284,7 @@ internal class USS {
     }
 
     internal static void ApplyUnityBackgroundScaleMode(VisualElement el, string value) {
-        Dictionary<string, ScaleMode> valueMap = new() {
-            { "scale-to-fit", ScaleMode.ScaleToFit },
-            { "scale-and-crop", ScaleMode.ScaleAndCrop },
-            { "stretch-to-fill", ScaleMode.StretchToFill }
-        };
-
-        ApplyEnumStyle(el, value, v => el.style.unityBackgroundScaleMode = v, valueMap);
+        Debug.LogWarning("unity-background-scale-mode is deprecated. Use background-* properties instead.");
     }
 
     internal static void ApplyUnityFontStyle(VisualElement el, string value) {
@@ -562,8 +555,6 @@ internal class USS {
 
     internal static void ApplyDirection(VisualElement el, string value, USSDirection direction) {
         try {
-            StyleLength length = LengthParser.LengthStringToStyleLength(value);
-
             switch (direction) {
                 case USSDirection.Top:
                     ApplyStyleLengthStyle(el, value, length => el.style.top = length);
@@ -730,15 +721,17 @@ internal class USS {
     }
 
     internal static void ApplyBackgroundImage(VisualElement el, string value) {
-        if (ApplyIfKeyword(value, k => el.style.backgroundImage = new StyleBackground((Texture2D)(object)null))) {
-            return;
-        }
+        if (ApplyIfKeyword(value, k => el.style.backgroundImage = k)) { return; }
 
         try {
             Texture2D texture = UrlParser.UrlStringToTexture2d(value);
             if (texture != null) { el.style.backgroundImage = new StyleBackground(texture); }
+            else { Logging.InvalidUrlWarning(el, value); }
         }
-        catch { Logging.InvalidUrlWarning(el, value); }
+        catch (Exception ex) {
+            Logging.InvalidUrlWarning(el, value);
+            Debug.LogError($"Error applying background image: {ex.Message}");
+        }
     }
 
 
@@ -751,6 +744,44 @@ internal class USS {
             else { Logging.InvalidLengthWarning(el, value); }
         }
         catch { Logging.InvalidLengthWarning(el, value); }
+    }
+
+    internal static void ApplyBackgroundPosition(VisualElement el, string value, USSAxis axis) {
+        if (ApplyIfKeyword(value, k => {
+                if (axis == USSAxis.X || axis == USSAxis.All) {
+                    el.style.backgroundPositionX = new StyleBackgroundPosition(k);
+                }
+
+                if (axis == USSAxis.Y || axis == USSAxis.All) {
+                    el.style.backgroundPositionY = new StyleBackgroundPosition(k);
+                }
+            })) { return; }
+
+        BackgroundPositionInfo[] positions = BackgroundPositionParser.Parse(value);
+
+        foreach (BackgroundPositionInfo position in positions) {
+            switch (position.Axis) {
+                case USSAxis.X:
+                    if (axis == USSAxis.X || axis == USSAxis.All) {
+                        el.style.backgroundPositionX = new BackgroundPosition(position.Keyword, position.Offset);
+                    }
+
+                    break;
+                case USSAxis.Y:
+                    if (axis == USSAxis.Y || axis == USSAxis.All) {
+                        el.style.backgroundPositionY = new BackgroundPosition(position.Keyword, position.Offset);
+                    }
+
+                    break;
+                case USSAxis.All:
+                    if (axis == USSAxis.All) {
+                        el.style.backgroundPositionX = new BackgroundPosition(position.Keyword, position.Offset);
+                        el.style.backgroundPositionY = new BackgroundPosition(position.Keyword, position.Offset);
+                    }
+
+                    break;
+            }
+        }
     }
 
     #endregion

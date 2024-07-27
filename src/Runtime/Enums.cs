@@ -125,4 +125,10 @@ namespace UIBuddyTypes {
         Right,
         All
     }
+
+    internal enum USSAxis {
+        X,
+        Y,
+        All
+    }
 }

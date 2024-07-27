@@ -245,6 +245,15 @@ public static class UIBuddy {
             case StyleProperty.BackgroundSize:
                 USS.ApplyBackgroundSize(el, value);
                 break;
+            case StyleProperty.BackgroundPositionY:
+                USS.ApplyBackgroundPosition(el, value, USSAxis.Y);
+                break;
+            case StyleProperty.BackgroundPositionX:
+                USS.ApplyBackgroundPosition(el, value, USSAxis.X);
+                break;
+            case StyleProperty.BackgroundPosition:
+                USS.ApplyBackgroundPosition(el, value, USSAxis.All);
+                break;
         }
     }
 

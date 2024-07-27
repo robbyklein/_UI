@@ -86,6 +86,8 @@ UIBuddy.Style(menuItem, StyleProperty.AlignItems, "flex-end");
 
 ### Styles
 
+⚠️represents a deprecated property.
+
 | Property                           | Implemented |
 | ---------------------------------- |-------------|
 | align-content                      | ✅           |
@@ -94,9 +96,9 @@ UIBuddy.Style(menuItem, StyleProperty.AlignItems, "flex-end");
 | all                                | ❌           |
 | background-color                   | ✅           |
 | background-image                   | ✅           |
-| background-position                | ❌           |
-| background-position-x              | ❌           |
-| background-position-y              | ❌           |
+| background-position                | ✅           |
+| background-position-x              | ✅           |
+| background-position-y              | ✅           |
 | background-repeat                  | ❌           |
 | background-size                    | ✅           |
 | border-bottom-color                | ✅           |
@@ -160,7 +162,7 @@ UIBuddy.Style(menuItem, StyleProperty.AlignItems, "flex-end");
 | transition-timing-function         | ❌           |
 | translate                          | ❌           |
 | -unity-background-image-tint-color | ✅           |
-| -unity-background-scale-mode       | ✅           |
+| -unity-background-scale-mode       | ⚠️           |
 | -unity-font                        | ❌           |
 | -unity-font-definition             | ❌           |
 | -unity-font-style                  | ✅           |
