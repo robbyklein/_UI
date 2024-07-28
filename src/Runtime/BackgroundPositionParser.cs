@@ -42,7 +42,14 @@ internal static class BackgroundPositionParser {
                 backgroundPositions.Add(new BackgroundPositionInfo(keyword, offset ?? Length.None(), axis));
             }
             // If it doesnt start with a keyword its invalid
-            else { throw new ArgumentException($"Invalid background position value: {positions[i]}"); }
+            else {
+                throw new ArgumentException($"Invalid background position value: {positions[i]}");
+            }
+        }
+
+        // Ensure that only one keyword is specified per axis
+        if (backgroundPositions.Count > 2) {
+            throw new ArgumentException("Too many keywords specified for background position.");
         }
 
         return backgroundPositions.ToArray();
@@ -65,8 +72,7 @@ internal static class BackgroundPositionParser {
         try {
             length = LengthParser.LengthStringToLength(value);
             return true;
-        }
-        catch {
+        } catch {
             length = default;
             return false;
         }
