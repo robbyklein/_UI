@@ -1,3 +1,4 @@
 {
-  "name": "UIBuddy.Runtime"
+  "name": "UIBuddy.Runtime",
+  "rootNamespace": "UIBuddy"
 }
