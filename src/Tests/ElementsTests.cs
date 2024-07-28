@@ -42,5 +42,7 @@ public class ElementsTests {
         VisualElement element = UIBuddy.Build<VisualElement>(elementXml);
         Assert.NotNull(element);
         Assert.AreEqual(expectedType, element.GetType());
+
+        //coment
     }
 }
