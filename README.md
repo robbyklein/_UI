@@ -103,7 +103,7 @@ UIBuddy.Style(menuItem, StyleProperty.AlignItems, "flex-end");
 | background-position                | ✅             |
 | background-position-x              | ✅             |
 | background-position-y              | ✅             |
-| background-repeat                  | ❌             |
+| background-repeat                  | ✅             |
 | background-size                    | ✅             |
 | border-bottom-color                | ✅             |
 | border-bottom-left-radius          | ✅             |
