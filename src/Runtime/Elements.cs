@@ -42,7 +42,9 @@ internal static class Elements {
             _ => throw new InvalidOperationException($"Cannot create element for type {name}.")
         };
 
-        if (element is T typedElement) { return typedElement; }
+        if (element is T typedElement) {
+            return typedElement;
+        }
 
         throw new InvalidOperationException(
             $"The created element is not of type {typeof(T).Name}. Element type is {element.GetType().Name}.");

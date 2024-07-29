@@ -62,4 +62,14 @@ internal static class Logging {
         Debug.LogWarning(
             $"Invalid image url value on {GetElementName(element)}:  {valueString}");
     }
+
+    internal static void InvalidFlexlWarning(VisualElement element, string valueString) {
+        Debug.LogWarning(
+            $"Invalid flex value on {GetElementName(element)}:  {valueString}");
+    }
+
+    internal static void InvalidValueWarning(VisualElement element, string valueString, string property) {
+        Debug.LogWarning(
+            $"Invalid {property} value on {GetElementName(element)}:  {valueString}");
+    }
 }

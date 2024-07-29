@@ -244,8 +244,7 @@ internal static class Attributes {
     private static void AddBoolean<T>(T el, XmlAttribute attr, Action<T, bool> add) where T : VisualElement {
         if (bool.TryParse(attr.Value, out bool boolean)) {
             add(el, boolean);
-        }
-        else {
+        } else {
             Logging.AttributeValueWarning(el, attr);
         }
     }
@@ -253,8 +252,7 @@ internal static class Attributes {
     private static void AddInt<T>(T el, XmlAttribute attr, Action<T, int> add) where T : VisualElement {
         if (int.TryParse(attr.Value, out int integer)) {
             add(el, integer);
-        }
-        else {
+        } else {
             Logging.AttributeValueWarning(el, attr);
         }
     }
@@ -263,8 +261,7 @@ internal static class Attributes {
         try {
             Hash128 hashValue = Hash128.Parse(attr.Value);
             add(el, hashValue);
-        }
-        catch (Exception) {
+        } catch (Exception) {
             Logging.AttributeValueWarning(el, attr);
         }
     }
@@ -272,8 +269,7 @@ internal static class Attributes {
     private static void AddFloat<T>(T el, XmlAttribute attr, Action<T, float> add) where T : VisualElement {
         if (float.TryParse(attr.Value, out float floatNum)) {
             add(el, floatNum);
-        }
-        else {
+        } else {
             Logging.AttributeValueWarning(el, attr);
         }
     }
@@ -281,8 +277,7 @@ internal static class Attributes {
     private static void AddUlong<T>(T el, XmlAttribute attr, Action<T, ulong> add) where T : VisualElement {
         if (ulong.TryParse(attr.Value, out ulong ulongNum)) {
             add(el, ulongNum);
-        }
-        else {
+        } else {
             Logging.AttributeValueWarning(el, attr);
         }
     }
@@ -290,8 +285,7 @@ internal static class Attributes {
     private static void AddUint<T>(T el, XmlAttribute attr, Action<T, uint> add) where T : VisualElement {
         if (uint.TryParse(attr.Value, out uint uintNum)) {
             add(el, uintNum);
-        }
-        else {
+        } else {
             Logging.AttributeValueWarning(el, attr);
         }
     }
@@ -299,8 +293,7 @@ internal static class Attributes {
     private static void AddLong<T>(T el, XmlAttribute attr, Action<T, long> add) where T : VisualElement {
         if (long.TryParse(attr.Value, out long longNum)) {
             add(el, longNum);
-        }
-        else {
+        } else {
             Logging.AttributeValueWarning(el, attr);
         }
     }
@@ -308,8 +301,7 @@ internal static class Attributes {
     private static void AddChar<T>(T el, XmlAttribute attr, Action<T, char> add) where T : VisualElement {
         if (char.TryParse(attr.Value, out char character)) {
             add(el, character);
-        }
-        else {
+        } else {
             Logging.AttributeValueWarning(el, attr);
         }
     }
@@ -318,8 +310,7 @@ internal static class Attributes {
         where T : VisualElement {
         if (map.TryGetValue(attr.Value, out T2 enumValue)) {
             add(el, enumValue);
-        }
-        else {
+        } else {
             Logging.AttributeValueWarning(el, attr);
         }
     }
@@ -328,8 +319,7 @@ internal static class Attributes {
         if (Enum.TryParse(enumType, value, true, out object enumValue)) {
             el.Init((Enum)enumValue);
             el.value = (Enum)enumValue;
-        }
-        else {
+        } else {
             XmlDocument doc = new();
             XmlAttribute attr = doc.CreateAttribute("value");
             attr.Value = value;
@@ -1026,8 +1016,7 @@ internal static class Attributes {
                         defaultEnumValue = enumValues.Cast<Enum>()
                             .FirstOrDefault(v => v.GetType().GetField(v.ToString())
                                 .GetCustomAttribute<ObsoleteAttribute>() != null);
-                    }
-                    else {
+                    } else {
                         // Default to the first non-obsolete value
                         defaultEnumValue = enumValues.Cast<Enum>()
                             .FirstOrDefault(v => v.GetType().GetField(v.ToString())
@@ -1039,13 +1028,11 @@ internal static class Attributes {
 
                     // Set the value
                     AddCustomEnumValue(el, attr.Value, enumType);
-                }
-                else {
+                } else {
                     // Handle the case where there are no enum values
                     Logging.AttributeValueWarning(el, attr);
                 }
-            }
-            else {
+            } else {
                 Logging.AttributeValueWarning(el, attr);
             }
         }
@@ -1329,8 +1316,7 @@ internal static class Attributes {
                     Logging.AttributeUnsupportedWarning(gEl, attr);
                     break;
             }
-        }
-        else {
+        } else {
             float x = xAttr != null && float.TryParse(xAttr.Value, out float xValue) ? xValue : 0f;
             float y = yAttr != null && float.TryParse(yAttr.Value, out float yValue) ? yValue : 0f;
             float z = zAttr != null && float.TryParse(zAttr.Value, out float zValue) ? zValue : 0f;

@@ -254,6 +254,48 @@ public static class UIBuddy {
             case StyleProperty.BackgroundPosition:
                 USS.ApplyBackgroundPosition(el, value, USSAxis.All);
                 break;
+            case StyleProperty.Cursor:
+                USS.ApplyCursor(el, value);
+                break;
+            case StyleProperty.Flex:
+                USS.ApplyFlex(el, value);
+                break;
+            case StyleProperty.UnityTextOutline:
+                USS.ApplyUnityTextOutline(el, value);
+                break;
+            case StyleProperty.TextShadow:
+                USS.ApplyTextShadow(el, value);
+                break;
+            case StyleProperty.UnityFont:
+                USS.ApplyUnityFont(el, value, false);
+                break;
+            case StyleProperty.UnityFontDefinition:
+                USS.ApplyUnityFont(el, value, true);
+                break;
+            case StyleProperty.TransitionDelay:
+                USS.ApplyTransitionDelay(el, value);
+                break;
+            case StyleProperty.TransitionProperty:
+                USS.ApplyTransitionProperty(el, value);
+                break;
+            case StyleProperty.TransitionDuration:
+                USS.ApplyTransitionDuration(el, value);
+                break;
+            case StyleProperty.TransitionTimingFunction:
+                USS.ApplyTransitionTimingFunction(el, value);
+                break;
+            case StyleProperty.Transition:
+                USS.ApplyTransition(el, value);
+                break;
+            case StyleProperty.TransformOrigin:
+                USS.ApplyTransformOrigin(el, value);
+                break;
+            case StyleProperty.Translate:
+                USS.ApplyTranslate(el, value);
+                break;
+            case StyleProperty.BackgroundRepeat:
+                USS.ApplyBackgroundRepeat(el, value);
+                break;
         }
     }
 
@@ -263,7 +305,9 @@ public static class UIBuddy {
 
         // Step 2: Add attributes (ex. style)
         if (element != null && node.Attributes != null) {
-            foreach (XmlAttribute attribute in node.Attributes) { Attributes.Add(element, attribute, node); }
+            foreach (XmlAttribute attribute in node.Attributes) {
+                Attributes.Add(element, attribute, node);
+            }
         }
 
         // Step 3: Build nested elements recursively
@@ -271,7 +315,9 @@ public static class UIBuddy {
             foreach (XmlNode childNode in node.ChildNodes) {
                 VisualElement childElement = CreateElement<VisualElement>(childNode);
 
-                if (childElement != null) element.Add(childElement);
+                if (childElement != null) {
+                    element.Add(childElement);
+                }
             }
         }
 

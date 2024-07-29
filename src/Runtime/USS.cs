@@ -4,15 +4,20 @@ using System.Xml;
 using UIBuddyTypes;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Cursor = UnityEngine.UIElements.Cursor;
 
 internal class USS {
     internal static void ParseAndApplyUSS(VisualElement el, XmlNode attr) {
         string ussString = attr.Value;
-        if (ussString == null) return;
+        if (ussString == null) {
+            return;
+        }
 
         Dictionary<StyleProperty, string> styles = ParseUSS(ussString);
 
-        foreach (KeyValuePair<StyleProperty, string> kvp in styles) UIBuddy.Style(el, kvp.Key, kvp.Value);
+        foreach (KeyValuePair<StyleProperty, string> kvp in styles) {
+            UIBuddy.Style(el, kvp.Key, kvp.Value);
+        }
     }
 
     internal static Dictionary<StyleProperty, string> ParseUSS(string ussString) {
@@ -27,7 +32,9 @@ internal class USS {
             string trimmedProperty = property.Trim();
 
             // Make sure we actually have a property to work with
-            if (string.IsNullOrEmpty(trimmedProperty)) continue;
+            if (string.IsNullOrEmpty(trimmedProperty)) {
+                continue;
+            }
 
             // Split by : giving us a key and value
             string[] keyValue = trimmedProperty.Split(new[] { ':' }, 2);
@@ -90,13 +97,18 @@ internal class USS {
 
     private static void ApplyEnumStyle<T>(VisualElement _, string v, Action<T> set, Dictionary<string, T> map) {
         // First check if value is in mapping
-        if (map.TryGetValue(v, out T mappedValue)) { set(mappedValue); }
+        if (map.TryGetValue(v, out T mappedValue)) {
+            set(mappedValue);
+        }
 
         // Second check if its a keyword (auto, none, etc.)
-        else if (ApplyIfKeyword(v, k => set((T)(object)k))) { }
+        else if (ApplyIfKeyword(v, k => set((T)(object)k))) {
+        }
 
         // Third log if both fail
-        else { Logging.StyleValueInvalidWarning(v); }
+        else {
+            Logging.StyleValueInvalidWarning(v);
+        }
     }
 
     private static void ApplyColorStyle(VisualElement el, string v, Action<StyleColor> set) {
@@ -104,13 +116,14 @@ internal class USS {
             // First check if its a value color string
             Color color = ColorParser.ColorStringToColor(v);
             set(new StyleColor(color));
-        }
-        catch {
+        } catch {
             // Second check if it was a keyword (auto, none, etc.)
             bool wasKeyword = ApplyIfKeyword(v, k => set((StyleColor)(object)k));
 
             // Third log an error
-            if (!wasKeyword) Logging.InvalidColorWarning(el, v);
+            if (!wasKeyword) {
+                Logging.InvalidColorWarning(el, v);
+            }
         }
     }
 
@@ -119,13 +132,14 @@ internal class USS {
             // First check if value length string
             StyleLength length = LengthParser.LengthStringToStyleLength(v);
             set(length);
-        }
-        catch {
+        } catch {
             // Second check if it was a keyword
             bool wasKeyword = ApplyIfKeyword(v, k => set((StyleLength)(object)k));
 
             // Third log an error if not
-            if (!wasKeyword) Logging.InvalidLengthWarning(el, v);
+            if (!wasKeyword) {
+                Logging.InvalidLengthWarning(el, v);
+            }
         }
     }
 
@@ -133,10 +147,11 @@ internal class USS {
         try {
             StyleFloat length = LengthParser.LengthStringToStyleFloat(v);
             set(length);
-        }
-        catch {
+        } catch {
             bool wasKeyword = ApplyIfKeyword(v, k => set((StyleFloat)(object)k));
-            if (!wasKeyword) Logging.InvalidLengthWarning(el, v);
+            if (!wasKeyword) {
+                Logging.InvalidLengthWarning(el, v);
+            }
         }
     }
 
@@ -144,10 +159,11 @@ internal class USS {
         try {
             Rotate rotate = AngleParser.AngleStringToRotate(v);
             set(new StyleRotate(rotate));
-        }
-        catch {
+        } catch {
             bool wasKeyword = ApplyIfKeyword(v, k => set(new StyleRotate((Rotate)(object)k)));
-            if (!wasKeyword) Logging.InvalidRotationWarning(el, v);
+            if (!wasKeyword) {
+                Logging.InvalidRotationWarning(el, v);
+            }
         }
     }
 
@@ -155,28 +171,27 @@ internal class USS {
         try {
             Scale scale = ScaleParser.ScaleStringToScale(v);
             set(new StyleScale(scale));
-        }
-        catch {
+        } catch {
             bool wasKeyword = ApplyIfKeyword(v, k => set(new StyleScale((Scale)(object)k)));
-            if (!wasKeyword) Logging.InvalidScaleWarning(el, v);
+            if (!wasKeyword) {
+                Logging.InvalidScaleWarning(el, v);
+            }
         }
     }
 
     internal static void ApplyStyleInt(VisualElement el, string value, Action<StyleInt> set) {
-        if (int.TryParse(value, out int intValue)) { set(new StyleInt(intValue)); }
-        else { Logging.InvalidIntValueWarning(el, value); }
+        if (int.TryParse(value, out int intValue)) {
+            set(new StyleInt(intValue));
+        } else {
+            Logging.InvalidIntValueWarning(el, value);
+        }
     }
-
 
     /*
      *  Style appliers
      */
 
     #region Enum styles
-
-    internal static void ApplyBackgroundRepeat(VisualElement el, string value) {
-        // el.style.backgroundRepeat = "";
-    }
 
     internal static void ApplyAlignContent(VisualElement el, string value) {
         Dictionary<string, Align> valueMap = new() {
@@ -447,8 +462,9 @@ internal class USS {
 
                     break;
             }
+        } catch {
+            Logging.InvalidLengthWarning(el, value);
         }
-        catch { Logging.InvalidLengthWarning(el, value); }
     }
 
     internal static void ApplyMargin(VisualElement el, string value, USSDirection direction) {
@@ -498,8 +514,9 @@ internal class USS {
 
                     break;
             }
+        } catch {
+            Logging.InvalidLengthWarning(el, value);
         }
-        catch { Logging.InvalidLengthWarning(el, value); }
     }
 
     internal static void ApplyBorderWidth(VisualElement el, string value, USSDirection direction) {
@@ -549,8 +566,9 @@ internal class USS {
 
                     break;
             }
+        } catch {
+            Logging.InvalidLengthWarning(el, value);
         }
-        catch { Logging.InvalidLengthWarning(el, value); }
     }
 
     internal static void ApplyDirection(VisualElement el, string value, USSDirection direction) {
@@ -569,8 +587,9 @@ internal class USS {
                     ApplyStyleLengthStyle(el, value, length => el.style.left = length);
                     break;
             }
+        } catch {
+            Logging.InvalidLengthWarning(el, value);
         }
-        catch { Logging.InvalidLengthWarning(el, value); }
     }
 
     internal static void ApplyWidth(VisualElement el, string value) {
@@ -644,8 +663,9 @@ internal class USS {
 
                     break;
             }
+        } catch {
+            Logging.InvalidLengthWarning(el, value);
         }
-        catch { Logging.InvalidLengthWarning(el, value); }
     }
 
     internal static void ApplyFontSize(VisualElement el, string value) {
@@ -721,29 +741,62 @@ internal class USS {
     }
 
     internal static void ApplyBackgroundImage(VisualElement el, string value) {
-        if (ApplyIfKeyword(value, k => el.style.backgroundImage = k)) { return; }
+        if (ApplyIfKeyword(value, k => el.style.backgroundImage = k)) {
+            return;
+        }
 
         try {
             Texture2D texture = UrlParser.UrlStringToTexture2d(value);
-            if (texture != null) { el.style.backgroundImage = new StyleBackground(texture); }
-            else { Logging.InvalidUrlWarning(el, value); }
-        }
-        catch (Exception ex) {
+            if (texture != null) {
+                el.style.backgroundImage = new StyleBackground(texture);
+            } else {
+                Logging.InvalidUrlWarning(el, value);
+            }
+        } catch {
             Logging.InvalidUrlWarning(el, value);
-            Debug.LogError($"Error applying background image: {ex.Message}");
         }
     }
 
+    internal static void ApplyCursor(VisualElement el, string value) {
+        if (ApplyIfKeyword(value, k => el.style.backgroundImage = k)) {
+            return;
+        }
+
+        try {
+            Texture2D cursorTexture = UrlParser.UrlStringToTexture2d(value);
+
+            if (cursorTexture != null) {
+                // Set the cursor with the loaded texture
+                el.style.cursor = new StyleCursor(new Cursor() {
+                    texture = cursorTexture,
+                    hotspot = Vector2.zero // You can customize the hotspot as needed
+                });
+            } else {
+                Logging.InvalidUrlWarning(el, value);
+            }
+        } catch {
+            Logging.InvalidUrlWarning(el, value);
+        }
+    }
 
     internal static void ApplyBackgroundSize(VisualElement el, string value) {
+        if (ApplyIfKeyword(value, k => el.style.backgroundImage = k)) {
+            return;
+        }
+
         try {
             Length[] sizes = LengthParser.LengthStringsToLengths(value);
 
-            if (sizes.Length == 1) { el.style.backgroundSize = new BackgroundSize(sizes[0], sizes[0]); }
-            else if (sizes.Length == 2) { el.style.backgroundSize = new BackgroundSize(sizes[0], sizes[1]); }
-            else { Logging.InvalidLengthWarning(el, value); }
+            if (sizes.Length == 1) {
+                el.style.backgroundSize = new BackgroundSize(sizes[0], sizes[0]);
+            } else if (sizes.Length == 2) {
+                el.style.backgroundSize = new BackgroundSize(sizes[0], sizes[1]);
+            } else {
+                Logging.InvalidLengthWarning(el, value);
+            }
+        } catch {
+            Logging.InvalidLengthWarning(el, value);
         }
-        catch { Logging.InvalidLengthWarning(el, value); }
     }
 
     internal static void ApplyBackgroundPosition(VisualElement el, string value, USSAxis axis) {
@@ -755,7 +808,9 @@ internal class USS {
                 if (axis == USSAxis.Y || axis == USSAxis.All) {
                     el.style.backgroundPositionY = new StyleBackgroundPosition(k);
                 }
-            })) { return; }
+            })) {
+            return;
+        }
 
         BackgroundPositionInfo[] positions = BackgroundPositionParser.Parse(value);
 
@@ -781,6 +836,322 @@ internal class USS {
 
                     break;
             }
+        }
+    }
+
+    internal static void ApplyFlex(VisualElement el, string value) {
+        if (ApplyIfKeyword(value, k => {
+                el.style.flexGrow = k;
+                el.style.flexShrink = k;
+                el.style.flexBasis = k;
+            })) {
+            return;
+        }
+
+        try {
+            FlexShorthand flexShorthand = FlexShorthandParser.ParseFlex(value);
+
+            if (flexShorthand.Keyword.HasValue) {
+                el.style.flexGrow = new StyleFloat(flexShorthand.Keyword.Value);
+                el.style.flexShrink = new StyleFloat(flexShorthand.Keyword.Value);
+                el.style.flexBasis = new StyleLength(flexShorthand.Keyword.Value);
+            } else {
+                el.style.flexGrow = new StyleFloat(flexShorthand.FlexGrow ?? 1);
+                el.style.flexShrink = new StyleFloat(flexShorthand.FlexShrink ?? 1);
+                el.style.flexBasis =
+                    new StyleLength(flexShorthand.FlexBasis ?? new Length(0, LengthUnit.Pixel));
+            }
+        } catch {
+            Logging.InvalidFlexlWarning(el, value);
+        }
+    }
+
+    internal static void ApplyUnityTextOutline(VisualElement el, string value) {
+        // Check for keywords first
+        if (ApplyIfKeyword(value, k => {
+                el.style.unityTextOutlineColor = k;
+                el.style.unityTextOutlineWidth = k;
+            })) {
+            return;
+        }
+
+        try {
+            OutlineShorthand outline = OutlineShorthandParser.ParseOutline(value);
+
+            if (outline.Width.HasValue) {
+                el.style.unityTextOutlineWidth = new StyleFloat(outline.Width.Value);
+            }
+
+            if (outline.Color.HasValue) {
+                el.style.unityTextOutlineColor = new StyleColor(outline.Color.Value);
+            }
+        } catch (ArgumentException) {
+            Logging.InvalidLengthWarning(el, value);
+        }
+    }
+
+    internal static void ApplyTextShadow(VisualElement el, string value) {
+        // Check for keywords first
+        if (ApplyIfKeyword(value, k => el.style.textShadow = k)) {
+            return;
+        }
+
+        try {
+            // Inline parsing logic for UnityEngine.UIElements.TextShadow
+            TextShadow parsedShadow = TextShadowParser.ParseTextShadow(value);
+            UnityEngine.UIElements.TextShadow uiTextShadow = new() {
+                offset = new Vector2(parsedShadow.OffsetX, parsedShadow.OffsetY),
+                blurRadius = parsedShadow.BlurRadius,
+                color = parsedShadow.Color
+            };
+
+            // Apply the parsed TextShadow value
+            el.style.textShadow = new StyleTextShadow(uiTextShadow);
+        } catch {
+            Logging.InvalidValueWarning(el, value, "text-shadow");
+        }
+    }
+
+
+    internal static void ApplyUnityFont(VisualElement el, string value, bool definition) {
+        if (ApplyIfKeyword(value, k => el.style.unityFont = k)) {
+            return;
+        }
+
+        try {
+            string fontPath = null;
+
+            if (value.StartsWith("url(") && value.EndsWith(")")) {
+                fontPath = value.Substring(4, value.Length - 5).Trim();
+            } else if (value.StartsWith("resource(") && value.EndsWith(")")) {
+                fontPath = value.Substring(9, value.Length - 10).Trim();
+            }
+
+            if (fontPath != null) {
+                Font font = Resources.Load<Font>(fontPath);
+
+                if (font == null) {
+                    Logging.InvalidValueWarning(el, value, "-unity-font");
+                    return;
+                }
+
+                if (definition) {
+                    el.style.unityFontDefinition = new StyleFontDefinition(font);
+                } else {
+                    el.style.unityFont = new StyleFont(font);
+                    el.style.unityFontDefinition = StyleKeyword.None;
+                }
+            } else {
+                Logging.InvalidValueWarning(el, value, "-unity-font");
+            }
+        } catch {
+            Logging.InvalidValueWarning(el, value, "-unity-font");
+        }
+    }
+
+    internal static void ApplyTransitionProperty(VisualElement el, string value) {
+        if (ApplyIfKeyword(value, k => el.style.transitionProperty = k)) {
+            return;
+        }
+
+        // Split by comma and trim each property name
+        string[] propertyNames = value.Split(',');
+
+        // Create a list of StylePropertyName
+        List<StylePropertyName> properties = new();
+
+        foreach (string propertyName in propertyNames) {
+            properties.Add(new StylePropertyName(propertyName.Trim()));
+        }
+
+        // Apply the transition properties
+        el.style.transitionProperty = new StyleList<StylePropertyName>(properties);
+    }
+
+    internal static void ApplyTransitionDuration(VisualElement el, string value) {
+        if (ApplyIfKeyword(value, k => el.style.transitionDuration = k)) {
+            return;
+        }
+
+        // Split by comma and trim each duration value
+        string[] durationValues = value.Split(',');
+
+        // Create a list of TimeValue
+        List<TimeValue> durations = new();
+
+        foreach (string durationValue in durationValues) {
+            float durationInSeconds = TimeParser.ParseTime(durationValue.Trim());
+            durations.Add(new TimeValue(durationInSeconds, TimeUnit.Second));
+        }
+
+        // Apply the transition durations
+        el.style.transitionDuration = new StyleList<TimeValue>(durations);
+    }
+
+    internal static void ApplyTransitionTimingFunction(VisualElement el, string value) {
+        if (ApplyIfKeyword(value, k => el.style.transitionTimingFunction = k)) {
+            return;
+        }
+
+        // Split by comma and trim each timing function
+        string[] timingFunctions = value.Split(',');
+
+        // Create a list of EasingFunction
+        List<EasingFunction> easingFunctions = new();
+
+        foreach (string timingFunction in timingFunctions) {
+            EasingMode mode = ParseEasingMode(timingFunction.Trim());
+            easingFunctions.Add(new EasingFunction(mode));
+        }
+
+        // Apply the transition timing functions
+        el.style.transitionTimingFunction = new StyleList<EasingFunction>(easingFunctions);
+    }
+
+    internal static void ApplyTransitionDelay(VisualElement el, string value) {
+        if (ApplyIfKeyword(value, k => el.style.transitionDelay = k)) {
+            return;
+        }
+
+        // Split by comma and trim each delay value
+        string[] delayValues = value.Split(',');
+
+        // Create a list of TimeValue
+        List<TimeValue> delays = new();
+
+        foreach (string delayValue in delayValues) {
+            float delayInSeconds = TimeParser.ParseTime(delayValue.Trim());
+            delays.Add(new TimeValue(delayInSeconds, TimeUnit.Second));
+        }
+
+        // Apply the transition delays
+        el.style.transitionDelay = new StyleList<TimeValue>(delays);
+    }
+
+    internal static void ApplyTransition(VisualElement el, string value) {
+        if (ApplyIfKeyword(value, k => {
+                el.style.transitionProperty = k;
+                el.style.transitionDuration = k;
+                el.style.transitionTimingFunction = k;
+                el.style.transitionDelay = k;
+            })) {
+            return;
+        }
+
+        // Split multiple transitions separated by commas
+        string[] transitions = value.Split(',');
+
+        // Temporary lists to hold values for all transitions
+        List<StylePropertyName> properties = new();
+        List<TimeValue> durations = new();
+        List<EasingFunction> timingFunctions = new();
+        List<TimeValue> delays = new();
+
+        // Parse each transition definition
+        foreach (string transition in transitions) {
+            // Split components of each transition (property, duration, timing-function, delay, behavior)
+            string[] components = transition.Trim().Split(' ');
+
+            if (components.Length >= 1) {
+                properties.Add(new StylePropertyName(components[0]));
+            }
+
+            if (components.Length >= 2) {
+                float durationInSeconds = TimeParser.ParseTime(components[1]);
+                durations.Add(new TimeValue(durationInSeconds, TimeUnit.Second));
+            }
+
+            if (components.Length >= 3) {
+                // Check if the third component is an easing function or delay
+                if (IsEasingFunction(components[2])) {
+                    EasingMode mode = ParseEasingMode(components[2]);
+                    timingFunctions.Add(new EasingFunction(mode));
+                } else {
+                    float delayInSeconds = TimeParser.ParseTime(components[2]);
+                    delays.Add(new TimeValue(delayInSeconds, TimeUnit.Second));
+                }
+            }
+
+            if (components.Length >= 4) {
+                // If the third component was an easing function, the fourth is the delay
+                if (timingFunctions.Count == delays.Count) {
+                    float delayInSeconds = TimeParser.ParseTime(components[3]);
+                    delays.Add(new TimeValue(delayInSeconds, TimeUnit.Second));
+                }
+            }
+        }
+
+        // Apply the parsed values
+        el.style.transitionProperty = new StyleList<StylePropertyName>(properties);
+        el.style.transitionDuration = new StyleList<TimeValue>(durations);
+        el.style.transitionTimingFunction = new StyleList<EasingFunction>(timingFunctions);
+        el.style.transitionDelay = new StyleList<TimeValue>(delays);
+    }
+
+    private static EasingMode ParseEasingMode(string timingFunction) {
+        // Implement parsing logic for timing function keywords
+        return timingFunction switch {
+            "ease" => EasingMode.Ease,
+            "ease-in" => EasingMode.EaseIn,
+            "ease-out" => EasingMode.EaseOut,
+            "ease-in-out" => EasingMode.EaseInOut,
+            "linear" => EasingMode.Linear,
+            // Add more mappings as needed
+            _ => EasingMode.Linear // Default fallback
+        };
+    }
+
+    private static bool IsEasingFunction(string value) {
+        // List of easing function keywords
+        string[] easingFunctions = {
+            "ease", "ease-in", "ease-out", "ease-in-out", "linear",
+            "ease-in-sine", "ease-out-sine", "ease-in-out-sine",
+            "ease-in-cubic", "ease-out-cubic", "ease-in-out-cubic",
+            "ease-in-circ", "ease-out-circ", "ease-in-out-circ",
+            "ease-in-elastic", "ease-out-elastic", "ease-in-out-elastic",
+            "ease-in-back", "ease-out-back", "ease-in-out-back",
+            "ease-in-bounce", "ease-out-bounce", "ease-in-out-bounce"
+        };
+        return Array.Exists(easingFunctions, ef => ef == value);
+    }
+
+
+    internal static void ApplyTransformOrigin(VisualElement el, string value) {
+        if (ApplyIfKeyword(value, k => el.style.transformOrigin = k)) {
+            return;
+        }
+
+        try {
+            TransformOrigin transformOrigin = TransformOriginParser.ParseTransformOrigin(value);
+            el.style.transformOrigin = new StyleTransformOrigin(transformOrigin);
+        } catch {
+            Logging.InvalidValueWarning(el, value, "transform-origin");
+        }
+    }
+
+    internal static void ApplyTranslate(VisualElement el, string value) {
+        if (ApplyIfKeyword(value, k => el.style.translate = k)) {
+            return;
+        }
+
+        try {
+            Translate translate = TranslateParser.ParseTranslate(value);
+            el.style.translate = new StyleTranslate(translate);
+        } catch (Exception ex) {
+            Debug.LogError($"Error applying translate: {ex.Message}");
+        }
+    }
+
+    internal static void ApplyBackgroundRepeat(VisualElement el, string value) {
+        if (ApplyIfKeyword(value, k => el.style.backgroundRepeat = k)) {
+            return;
+        }
+
+        try {
+            BackgroundRepeat backgroundRepeat = BackgroundRepeatParser.ParseBackgroundRepeat(value);
+            el.style.backgroundRepeat = new StyleBackgroundRepeat(backgroundRepeat);
+        } catch (Exception ex) {
+            Debug.LogError($"Error applying background-repeat: {ex.Message}");
         }
     }
 
