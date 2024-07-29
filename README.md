@@ -43,6 +43,7 @@ UIBuddy.Style(menuItem, StyleProperty.AlignItems, "flex-end");
 ## Notes
 - Index needs to come after choices in uxml
 - if -unity-font is found, it will set -unity-font-definition to none
+- Urls should be made to strip the extension automatically
 
 
 ## Support tables
