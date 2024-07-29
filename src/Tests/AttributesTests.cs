@@ -94,318 +94,318 @@ public class AttributesTests {
     }
 
     [Test]
-    public void TestClassAttribute() {
+    public void ClassAttribute() {
         TestClassListAttribute<VisualElement>("hello hello2");
     }
 
     [Test]
-    public void TestNameAttribute() {
+    public void NameAttribute() {
         TestStringAttribute<VisualElement>("name", StringAttributeValue);
     }
 
     [Test]
-    public void TestTooltipAttribute() {
+    public void TooltipAttribute() {
         TestStringAttribute<VisualElement>("tooltip", StringAttributeValue);
     }
 
     [Test]
-    public void TestViewDataKeyAttribute() {
+    public void ViewDataKeyAttribute() {
         TestStringAttribute<VisualElement>("view-data-key", StringAttributeValue);
     }
 
     [Test]
-    public void TestFocusableAttribute() {
+    public void FocusableAttribute() {
         TestBooleanAttribute<VisualElement>("focusable", true);
         TestBooleanAttribute<VisualElement>("focusable", false);
     }
 
     [Test]
-    public void TestVisibleAttribute() {
+    public void VisibleAttribute() {
         TestBooleanAttribute<VisualElement>("visible", true);
         TestBooleanAttribute<VisualElement>("visible", false);
     }
 
     [Test]
-    public void TestDelegatesFocusAttribute() {
+    public void DelegatesFocusAttribute() {
         TestBooleanAttribute<VisualElement>("delegates-focus", true);
         TestBooleanAttribute<VisualElement>("delegates-focus", false);
     }
 
     [Test]
-    public void TestPickingModeAttribute() {
+    public void PickingModeAttribute() {
         TestStringAttribute<VisualElement>("picking-mode", "Position");
     }
 
     [Test]
-    public void TestUsageHintsAttribute() {
+    public void UsageHintsAttribute() {
         TestStringAttribute<VisualElement>("usage-hints", "DynamicTransform");
     }
 
     [Test]
-    public void TestTabIndexAttribute() {
+    public void TabIndexAttribute() {
         TestNumericAttribute<VisualElement>("tabindex", "1");
     }
 
     [Test]
-    public void TestBindingPathAttribute() {
+    public void BindingPathAttribute() {
         TestStringAttribute<Label>("binding-path", StringAttributeValue);
     }
 
     [Test]
-    public void TestTextAttribute() {
+    public void TextAttribute() {
         TestStringAttribute<Label>("text", StringAttributeValue);
     }
 
     [Test]
-    public void TestParseEscapeSequencesAttribute() {
+    public void ParseEscapeSequencesAttribute() {
         TestBooleanAttribute<Label>("parse-escape-sequences", true);
         TestBooleanAttribute<Label>("parse-escape-sequences", false);
     }
 
     [Test]
-    public void TestDisplayTooltipWhenElidedAttribute() {
+    public void DisplayTooltipWhenElidedAttribute() {
         TestBooleanAttribute<Label>("display-tooltip-when-elided", true);
         TestBooleanAttribute<Label>("display-tooltip-when-elided", false);
     }
 
     [Test]
-    public void TestEnableRichTextAttribute() {
+    public void EnableRichTextAttribute() {
         TestBooleanAttribute<Label>("enable-rich-text", true);
         TestBooleanAttribute<Label>("enable-rich-text", false);
     }
 
     [Test]
-    public void TestModeAttribute() {
+    public void ModeAttribute() {
         TestStringAttribute<ScrollView>("mode", "VerticalAndHorizontal");
     }
 
     [Test]
-    public void TestHorizontalScrollerVisibilityAttribute() {
+    public void HorizontalScrollerVisibilityAttribute() {
         TestStringAttribute<ScrollView>("horizontal-scroller-visibility", "Auto");
     }
 
     [Test]
-    public void TestVerticalScrollerVisibilityAttribute() {
+    public void VerticalScrollerVisibilityAttribute() {
         TestStringAttribute<ScrollView>("vertical-scroller-visibility", "Auto");
     }
 
     [Test]
-    public void TestMouseWheelScrollSizeAttribute() {
+    public void MouseWheelScrollSizeAttribute() {
         TestNumericAttribute<ScrollView>("mouse-wheel-scroll-size", "10.0");
     }
 
     [Test]
-    public void TestTouchScrollTypeAttribute() {
+    public void TouchScrollTypeAttribute() {
         TestStringAttribute<ScrollView>("touch-scroll-type", "Elastic");
     }
 
     [Test]
-    public void TestScrollDecelerationRateAttribute() {
+    public void ScrollDecelerationRateAttribute() {
         TestNumericAttribute<ScrollView>("scroll-deceleration-rate", "0.135");
     }
 
     [Test]
-    public void TestElasticityAttribute() {
+    public void ElasticityAttribute() {
         TestNumericAttribute<ScrollView>("elasticity", "0.1");
     }
 
     [Test]
-    public void TestElasticAnimationIntervalMsAttribute() {
+    public void ElasticAnimationIntervalMsAttribute() {
         TestNumericAttribute<ScrollView>("elastic-animation-interval-ms", "150");
     }
 
     [Test]
-    public void TestShowBorderAttribute() {
+    public void ShowBorderAttribute() {
         TestBooleanAttribute<ListView>("show-border", true);
         TestBooleanAttribute<ListView>("show-border", false);
     }
 
     [Test]
-    public void TestSelectionTypeAttribute() {
+    public void SelectionTypeAttribute() {
         TestStringAttribute<ListView>("selection-type", "Single");
     }
 
     [Test]
-    public void TestShowAlternatingRowBackgroundsAttribute() {
+    public void ShowAlternatingRowBackgroundsAttribute() {
         TestStringAttribute<ListView>("show-alternating-row-backgrounds", "All");
     }
 
     [Test]
-    public void TestReorderableAttribute() {
+    public void ReorderableAttribute() {
         TestBooleanAttribute<ListView>("reorderable", true);
         TestBooleanAttribute<ListView>("reorderable", false);
     }
 
     [Test]
-    public void TestHorizontalScrollingAttribute() {
+    public void HorizontalScrollingAttribute() {
         TestBooleanAttribute<ListView>("horizontal-scrolling", true);
         TestBooleanAttribute<ListView>("horizontal-scrolling", false);
     }
 
     [Test]
-    public void TestShowFoldoutHeaderAttribute() {
+    public void ShowFoldoutHeaderAttribute() {
         TestBooleanAttribute<ListView>("show-foldout-header", true);
         TestBooleanAttribute<ListView>("show-foldout-header", false);
     }
 
     [Test]
-    public void TestHeaderTitleAttribute() {
+    public void HeaderTitleAttribute() {
         TestStringAttribute<ListView>("header-title", StringAttributeValue);
     }
 
     [Test]
-    public void TestShowAddRemoveFooterAttribute() {
+    public void ShowAddRemoveFooterAttribute() {
         TestBooleanAttribute<ListView>("show-add-remove-footer", true);
         TestBooleanAttribute<ListView>("show-add-remove-footer", false);
     }
 
     [Test]
-    public void TestReorderModeAttribute() {
+    public void ReorderModeAttribute() {
         TestStringAttribute<ListView>("reorder-mode", "Simple");
     }
 
     [Test]
-    public void TestShowBoundCollectionSizeAttribute() {
+    public void ShowBoundCollectionSizeAttribute() {
         TestBooleanAttribute<ListView>("show-bound-collection-size", true);
         TestBooleanAttribute<ListView>("show-bound-collection-size", false);
     }
 
     [Test]
-    public void TestFixedItemHeightAttribute() {
+    public void FixedItemHeightAttribute() {
         TestNumericAttribute<ListView>("fixed-item-height", "45.0");
     }
 
     [Test]
-    public void TestVirtualizationMethodAttribute() {
+    public void VirtualizationMethodAttribute() {
         TestStringAttribute<ListView>("virtualization-method", "FixedHeight");
     }
 
     [Test]
-    public void TestAutoExpandAttribute() {
+    public void AutoExpandAttribute() {
         TestBooleanAttribute<TreeView>("auto-expand", true);
         TestBooleanAttribute<TreeView>("auto-expand", false);
     }
 
     [Test]
-    public void TestLabelAttribute() {
+    public void LabelAttribute() {
         TestStringAttribute<TextField>("label", StringAttributeValue);
     }
 
     [Test]
-    public void TestHighValueAttribute() {
+    public void HighValueAttribute() {
         TestNumericAttribute<Slider>("high-value", "100.0");
     }
 
     [Test]
-    public void TestValueAttribute() {
+    public void ValueAttribute() {
         TestStringAttribute<TextField>("value", StringAttributeValue);
     }
 
     [Test]
-    public void TestLowValueAttribute() {
+    public void LowValueAttribute() {
         TestNumericAttribute<Slider>("low-value", "0.0");
     }
 
     [Test]
-    public void TestDirectionAttribute() {
+    public void DirectionAttribute() {
         TestStringAttribute<Slider>("direction", "Horizontal");
     }
 
     [Test]
-    public void TestMaxLengthAttribute() {
+    public void MaxLengthAttribute() {
         TestStringAttribute<TextField>("max-length", "100");
     }
 
     [Test]
-    public void TestPasswordAttribute() {
+    public void PasswordAttribute() {
         TestBooleanAttribute<TextField>("password", true);
         TestBooleanAttribute<TextField>("password", false);
     }
 
     [Test]
-    public void TestMaskCharacterAttribute() {
+    public void MaskCharacterAttribute() {
         TestStringAttribute<TextField>("mask-character", "*");
     }
 
     [Test]
-    public void TestReadOnlyAttribute() {
+    public void ReadOnlyAttribute() {
         TestBooleanAttribute<TextField>("readonly", true);
         TestBooleanAttribute<TextField>("readonly", false);
     }
 
     [Test]
-    public void TestIsDelayedAttribute() {
+    public void IsDelayedAttribute() {
         TestBooleanAttribute<TextField>("is-delayed", true);
         TestBooleanAttribute<TextField>("is-delayed", false);
     }
 
     [Test]
-    public void TestHideMobileInputAttribute() {
+    public void HideMobileInputAttribute() {
         TestBooleanAttribute<TextField>("hide-mobile-input", true);
         TestBooleanAttribute<TextField>("hide-mobile-input", false);
     }
 
     [Test]
-    public void TestKeyboardTypeAttribute() {
+    public void KeyboardTypeAttribute() {
         TestStringAttribute<TextField>("keyboard-type", "NumberPad");
     }
 
     [Test]
-    public void TestAutoCorrectionAttribute() {
+    public void AutoCorrectionAttribute() {
         TestBooleanAttribute<TextField>("auto-correction", true);
         TestBooleanAttribute<TextField>("auto-correction", false);
     }
 
     [Test]
-    public void TestMultilineAttribute() {
+    public void MultilineAttribute() {
         TestBooleanAttribute<TextField>("multiline", true);
         TestBooleanAttribute<TextField>("multiline", false);
     }
 
     [Test]
-    public void TestPageSizeAttribute() {
+    public void PageSizeAttribute() {
         TestNumericAttribute<Slider>("page-size", "5.0");
     }
 
     [Test]
-    public void TestShowInputFieldAttribute() {
+    public void ShowInputFieldAttribute() {
         TestBooleanAttribute<Slider>("show-input-field", true);
         TestBooleanAttribute<Slider>("show-input-field", false);
     }
 
     [Test]
-    public void TestInvertedAttribute() {
+    public void InvertedAttribute() {
         TestBooleanAttribute<Slider>("inverted", true);
         TestBooleanAttribute<Slider>("inverted", false);
     }
 
     [Test]
-    public void TestMinValueAttribute() {
+    public void MinValueAttribute() {
         TestNumericAttribute<MinMaxSlider>("min-value", "0.0");
     }
 
     [Test]
-    public void TestMaxValueAttribute() {
+    public void MaxValueAttribute() {
         TestNumericAttribute<MinMaxSlider>("max-value", "100.0");
     }
 
     [Test]
-    public void TestLowLimitAttribute() {
+    public void LowLimitAttribute() {
         TestNumericAttribute<MinMaxSlider>("low-limit", "0.0");
     }
 
     [Test]
-    public void TestHighLimitAttribute() {
+    public void HighLimitAttribute() {
         TestNumericAttribute<MinMaxSlider>("high-limit", "100.0");
     }
 
     [Test]
-    public void TestTitleAttribute() {
+    public void TitleAttribute() {
         TestStringAttribute<ProgressBar>("title", StringAttributeValue);
     }
 
     [Test]
-    public void TestIndexAttribute() {
+    public void IndexAttribute() {
         // Build the element
         DropdownField el = UIBuddy.Build<DropdownField>(
             "<ui:DropdownField label=\"Dropdown\"  choices=\"one,two,three\" index=\"2\" />");
@@ -414,7 +414,7 @@ public class AttributesTests {
     }
 
     [Test]
-    public void TestChoicesAttribute() {
+    public void ChoicesAttribute() {
         TestListAttribute<DropdownField>("choices", new List<string> { "Choice1", "Choice2", "Choice3" });
     }
 }
