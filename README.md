@@ -13,7 +13,7 @@ git@github.com:robbyklein/_UI.git?path=src
 
 <img width="330" alt="image" src="https://github.com/robbyklein/UIBuddy/assets/6813372/e0619b86-b5df-4191-9842-dbe8774c6293">
 
-<img width="258" alt="image" src="https://github.com/robbyklein/UIBuddy/assets/6813372/ee835cf7-b6bc-4d38-8a7f-5007cbe27f12">
+<img width="340" alt="Screenshot 2024-07-30 at 2 21 04 PM" src="https://github.com/user-attachments/assets/bd00c68f-993a-454d-9373-fcb38e515984">
 
 ## Examples
 
