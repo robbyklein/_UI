@@ -1,15 +1,14 @@
-# UIBuddy
+# _UI
 
 A Unity package that simplifies the creation of dynamic UI elements and the application of dynamic styles.
 
-⚠️ This library is under active development and is subject to breaking changes.
 
 ## Installation
 
-UIBuddy can be installed with the Unity Package Manager via git url.
+_UI can be installed with the Unity Package Manager via git url.
 
 ```
-git@github.com:robbyklein/UIBuddy.git?path=src
+git@github.com:robbyklein/_UI.git?path=src
 ```
 
 <img width="330" alt="image" src="https://github.com/robbyklein/UIBuddy/assets/6813372/e0619b86-b5df-4191-9842-dbe8774c6293">
@@ -20,9 +19,11 @@ git@github.com:robbyklein/UIBuddy.git?path=src
 
 ### UI Element construction
 
+Easily rebuild UI Elements using C#. Design in UI Builder then copy and paste the string into the `_UI.Build` method.
+
 ```cs
-VisualElement menuItem = UIBuddy.Build<VisualElement>(@"
-    <ui:VisualElement name=""MenuItem"" view-data-key=""aabc"" picking-mode=""Ignore"" tooltip=""Click to select"" usage-hints=""DynamicTransform"" tabindex=""1"" focusable=""true"" style=""flex-grow: 1;"">
+VisualElement menuItem = _UI.Build<VisualElement>(@"
+    <ui:VisualElement name=""MenuItem"" view-data-key=""aabc"" picking-mode=""Ignore"" tooltip=""Click to select"" usage-hints=""DynamicTransform"" tabindex=""1"" focusable=""true"" style=""flex-grow: 1; background-color: red; border-color: #000000; border-width: 40px;"">
         <ui:Label tabindex=""2"" text=""Option"" parse-escape-sequences=""false"" display-tooltip-when-elided=""true"" view-data-key=""qwe"" usage-hints=""GroupTransform"" focusable=""true"" binding-path=""apples"" enable-rich-text=""false"" />
         <ui:Button text=""Select"" parse-escape-sequences=""true"" display-tooltip-when-elided=""false"" view-data-key=""xcbv"" usage-hints=""DynamicTransform"" tabindex=""3"" focusable=""false"" binding-path=""potatoe"" enable-rich-text=""false"" />
     </ui:VisualElement>
@@ -31,9 +32,22 @@ VisualElement menuItem = UIBuddy.Build<VisualElement>(@"
 
 ### Styling
 
+Easily style UI elements by passing a USS string or key/value.
+
 ```csharp
-UIBuddy.Style(menuItem, StyleProperty.FlexDirection, "row");
-UIBuddy.Style(menuItem, StyleProperty.AlignItems, "flex-end");
+// USS Strings
+_UI.Style(el, @"
+    width: 200px;
+    height: 200px;
+    background-color: red;
+");
+
+// StyleProp + Value
+_UI.Style(el, StyleProperty.BorderBottomColor, "orange");
+
+// Key + Value
+_UI.Style(el, "border-bottom-width", "10px");
+
 ```
 
 ## Issues
@@ -43,8 +57,6 @@ UIBuddy.Style(menuItem, StyleProperty.AlignItems, "flex-end");
 ## Notes
 - Index needs to come after choices in uxml
 - if -unity-font is found, it will set -unity-font-definition to none
-- Urls should be made to strip the extension automatically
-
 
 ## Support tables
 

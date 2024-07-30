@@ -1,4 +1,4 @@
-namespace UIBuddyTypes {
+namespace _UITypes {
     internal enum ColorType {
         Named,
         RGB,

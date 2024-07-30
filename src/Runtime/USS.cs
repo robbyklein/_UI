@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
-using UIBuddyTypes;
+using _UITypes;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Cursor = UnityEngine.UIElements.Cursor;
@@ -16,11 +16,18 @@ internal class USS {
         Dictionary<StyleProperty, string> styles = ParseUSS(ussString);
 
         foreach (KeyValuePair<StyleProperty, string> kvp in styles) {
-            UIBuddy.Style(el, kvp.Key, kvp.Value);
+            _UI.ApplyStyle(el, kvp.Key, kvp.Value);
         }
     }
 
     internal static Dictionary<StyleProperty, string> ParseUSS(string ussString) {
+        // Remove {} if exists
+        ussString = ussString.Trim();
+        if (ussString.StartsWith("{") && ussString.EndsWith("}")) {
+            ussString = ussString.Substring(1, ussString.Length - 2).Trim();
+        }
+
+
         Dictionary<StyleProperty, string> styles = new();
 
         // Split into properties

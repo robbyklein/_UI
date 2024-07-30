@@ -39,7 +39,7 @@ public class ElementsTests {
     [TestCase("<ui:RectIntField />", typeof(RectIntField), TestName = "RectIntField")]
     [TestCase("<ui:BoundsIntField />", typeof(BoundsIntField), TestName = "BoundsIntField")]
     public void ValidInputs(string elementXml, Type expectedType) {
-        VisualElement element = UIBuddy.Build<VisualElement>(elementXml);
+        VisualElement element = _UI.Build<VisualElement>(elementXml);
         Assert.NotNull(element);
         Assert.AreEqual(expectedType, element.GetType());
     }

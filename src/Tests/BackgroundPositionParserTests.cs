@@ -1,6 +1,6 @@
 using System;
 using NUnit.Framework;
-using UIBuddyTypes;
+using _UITypes;
 using UnityEngine.UIElements;
 
 internal class BackgroundPositionParserTests {

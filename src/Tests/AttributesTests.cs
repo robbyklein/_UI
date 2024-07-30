@@ -9,7 +9,7 @@ public class AttributesTests {
     public const string StringAttributeValue = "hello";
 
     public T BuildElementWithAttribute<T>(string attributeName, string attributeValue) where T : VisualElement, new() {
-        return UIBuddy.Build<T>($"<ui:{typeof(T).Name} {attributeName}=\"{attributeValue}\"/>");
+        return _UI.Build<T>($"<ui:{typeof(T).Name} {attributeName}=\"{attributeValue}\"/>");
     }
 
     private Dictionary<string, string> attributeToPropertyNameMap = new() {
@@ -407,7 +407,7 @@ public class AttributesTests {
     [Test]
     public void IndexAttribute() {
         // Build the element
-        DropdownField el = UIBuddy.Build<DropdownField>(
+        DropdownField el = _UI.Build<DropdownField>(
             "<ui:DropdownField label=\"Dropdown\"  choices=\"one,two,three\" index=\"2\" />");
         Assert.NotNull(el);
         Assert.AreEqual(2, el.index);

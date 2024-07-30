@@ -8,68 +8,63 @@ internal static class Logging {
         return string.IsNullOrEmpty(element.name) ? "Unnamed element" : element.name;
     }
 
+    private static void Log(string text) {
+        #if UNITY_EDITOR
+        Debug.LogWarning(text);
+        #endif
+    }
+
     internal static void AttributeNameWarning(VisualElement element, XmlAttribute attribute) {
-        Debug.LogWarning(
-            $"Invalid attribute name on {GetElementName(element)}: {attribute.Name}=\"{attribute.Value}\"");
+        #if UNITY_EDITOR
+        Log($"Invalid attribute name on {GetElementName(element)}: {attribute.Name}=\"{attribute.Value}\"");
+        #endif
     }
 
     internal static void AttributeValueWarning(VisualElement element, XmlAttribute attribute) {
-        Debug.LogWarning(
-            $"Invalid attribute value on {GetElementName(element)}: {attribute.Name}=\"{attribute.Value}\"");
+        Log($"Invalid attribute value on {GetElementName(element)}: {attribute.Name}=\"{attribute.Value}\"");
     }
 
     internal static void AttributeUnsupportedWarning(VisualElement element, XmlAttribute attribute) {
-        Debug.LogWarning(
-            $"Unsupported attribute on {GetElementName(element)}: {attribute.Name}=\"{attribute.Value}\"");
+        Log($"Unsupported attribute on {GetElementName(element)}: {attribute.Name}=\"{attribute.Value}\"");
     }
 
     internal static void StylePropertyInvalidWarning(string property) {
-        Debug.LogWarning(
-            $"Unknown uss property: {property}");
+        Log($"Unknown uss property: {property}");
     }
 
     internal static void StyleValueInvalidWarning(string property) {
-        Debug.LogWarning(
-            $"Unsupported uss value: {property}");
+        Log($"Unsupported uss value: {property}");
     }
 
     internal static void InvalidColorWarning(VisualElement element, string colorString) {
-        Debug.LogWarning(
-            $"Invalid color value on {GetElementName(element)}:  {colorString}");
+        Log($"Invalid color value on {GetElementName(element)}:  {colorString}");
     }
 
     internal static void InvalidLengthWarning(VisualElement element, string lengthString) {
-        Debug.LogWarning(
-            $"Invalid length value on {GetElementName(element)}:  {lengthString}");
+        Log($"Invalid length value on {GetElementName(element)}:  {lengthString}");
     }
 
     internal static void InvalidRotationWarning(VisualElement element, string rotateString) {
-        Debug.LogWarning(
-            $"Invalid rotation value on {GetElementName(element)}:  {rotateString}");
+        Log($"Invalid rotation value on {GetElementName(element)}:  {rotateString}");
     }
 
     internal static void InvalidScaleWarning(VisualElement element, string valueString) {
-        Debug.LogWarning(
-            $"Invalid scale value on {GetElementName(element)}:  {valueString}");
+        Log($"Invalid scale value on {GetElementName(element)}:  {valueString}");
     }
 
     internal static void InvalidIntValueWarning(VisualElement element, string valueString) {
-        Debug.LogWarning(
-            $"Invalid integer value on {GetElementName(element)}:  {valueString}");
+        Log($"Invalid integer value on {GetElementName(element)}:  {valueString}");
     }
 
     internal static void InvalidUrlWarning(VisualElement element, string valueString) {
-        Debug.LogWarning(
-            $"Invalid image url value on {GetElementName(element)}:  {valueString}");
+        Log($"Invalid image url value on {GetElementName(element)}:  {valueString}");
     }
 
     internal static void InvalidFlexlWarning(VisualElement element, string valueString) {
-        Debug.LogWarning(
-            $"Invalid flex value on {GetElementName(element)}:  {valueString}");
+        Log($"Invalid flex value on {GetElementName(element)}:  {valueString}");
     }
 
     internal static void InvalidValueWarning(VisualElement element, string valueString, string property) {
-        Debug.LogWarning(
-            $"Invalid {property} value on {GetElementName(element)}:  {valueString}");
+        Log($"Invalid {property} value on {GetElementName(element)}:  {valueString}");
     }
 }

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UIBuddyTypes;
+using _UITypes;
 using UnityEngine.UIElements;
 
 internal struct BackgroundPositionInfo {

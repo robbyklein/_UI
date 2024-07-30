@@ -47,9 +47,6 @@ internal static class UrlParser {
             throw new ArgumentException("Invalid url value");
         }
 
-        Debug.Log(path);
-
-
         if (urlString.StartsWith("resource('")) {
             Texture2D texture = LoadResourceTexture(path);
             if (texture != null) {

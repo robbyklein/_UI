@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Xml;
-using UIBuddyTypes;
+using _UITypes;
 using UnityEngine.UIElements;
 
-
-public static class UIBuddy {
+public class _UI {
+    /*
+     *  Public API
+     */
     public static T Build<T>(string uiString) where T : VisualElement {
         // Create an xml document
         XmlDocument doc = new();
@@ -21,7 +24,34 @@ public static class UIBuddy {
         throw new InvalidOperationException("The XML document does not have a valid root element.");
     }
 
-    public static void Style(VisualElement el, StyleProperty property, string value) {
+    public static void Style(VisualElement element, string ussString) {
+        // Parse the USS
+        Dictionary<StyleProperty, string> styles = USS.ParseUSS(ussString);
+
+        // Apply the styles
+        foreach (KeyValuePair<StyleProperty, string> kvp in styles) {
+            ApplyStyle(element, kvp.Key, kvp.Value);
+        }
+    }
+
+    public static void Style(VisualElement element, StyleProperty property, string value) {
+        ApplyStyle(element, property, value);
+    }
+
+    public static void Style(VisualElement element, string property, string value) {
+        if (Maps.StyleProperties.TryGetValue(property, out StyleProperty styleProperty)) {
+            ApplyStyle(element, styleProperty, value);
+        } else {
+            Logging.StylePropertyInvalidWarning(property);
+        }
+    }
+
+
+    /*
+     *  Internals
+     */
+
+    internal static void ApplyStyle(VisualElement el, StyleProperty property, string value) {
         switch (property) {
             case StyleProperty.AlignItems:
                 USS.ApplyAlignItems(el, value);

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using UIBuddyTypes;
+using _UITypes;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -99,7 +99,6 @@ internal static class Maps {
         { "align-content", StyleProperty.AlignContent },
         { "align-items", StyleProperty.AlignItems },
         { "align-self", StyleProperty.AlignSelf },
-        { "all", StyleProperty.All },
         { "background-color", StyleProperty.BackgroundColor },
         { "background-image", StyleProperty.BackgroundImage },
         { "background-position", StyleProperty.BackgroundPosition },

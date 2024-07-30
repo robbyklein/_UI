@@ -1,6 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
-using UIBuddyTypes;
+using _UITypes;
 using UnityEngine;
 
 internal static class ColorParser {

@@ -73,7 +73,7 @@ internal static class LengthParser {
         // Check for unsupported percentage unit
         if (lengthString.EndsWith("%")) {
             if (float.TryParse(lengthString.Substring(0, lengthString.Length - 1), out float percentValue)) {
-                throw new ArgumentException("UIBuddy does not currently support percentage-based border lengths");
+                throw new ArgumentException("_UI does not currently support percentage-based border lengths");
             }
         }
 

@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class StylesTests {
     [Test]
     public void AlignContent() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""align-content: center;"" />
         ");
         Assert.AreEqual(Align.Center, el.style.alignContent.value);
@@ -15,7 +15,7 @@ public class StylesTests {
 
     [Test]
     public void AlignItems() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""align-items: center;"" />
         ");
         Assert.AreEqual(Align.Center, el.style.alignItems.value);
@@ -23,7 +23,7 @@ public class StylesTests {
 
     [Test]
     public void AlignSelf() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""align-self: center;"" />
         ");
         Assert.AreEqual(Align.Center, el.style.alignSelf.value);
@@ -31,7 +31,7 @@ public class StylesTests {
 
     [Test]
     public void BackgroundColor() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""background-color: red;"" />
         ");
         Assert.AreEqual(UnityEngine.Color.red, el.style.backgroundColor.value);
@@ -39,7 +39,7 @@ public class StylesTests {
 
     [Test]
     public void BackgroundImage() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""background-image: url('image.png');"" />
         ");
         Assert.IsNotNull(el.style.backgroundImage.value);
@@ -47,7 +47,7 @@ public class StylesTests {
 
     [Test]
     public void BackgroundPosition() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""background-position: top 50% left 50%;"" />
         ");
 
@@ -57,7 +57,7 @@ public class StylesTests {
 
     [Test]
     public void BackgroundPositionX() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""background-position-x: right 40px;"" />
         ");
         Assert.AreEqual(new BackgroundPosition(BackgroundPositionKeyword.Right, new Length(40, LengthUnit.Pixel)),
@@ -66,7 +66,7 @@ public class StylesTests {
 
     [Test]
     public void BackgroundPositionY() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""background-position-y: top;"" />
         ");
         Assert.AreEqual(BackgroundPositionKeyword.Top, el.style.backgroundPositionY.value.keyword);
@@ -74,7 +74,7 @@ public class StylesTests {
 
     [Test]
     public void BackgroundRepeat() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""background-repeat: repeat-x;"" />
         ");
         BackgroundRepeat repeat = el.style.backgroundRepeat.value;
@@ -84,7 +84,7 @@ public class StylesTests {
 
     [Test]
     public void BackgroundSize() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""background-size: 70px;"" />
         ");
         Assert.AreEqual(new BackgroundSize(new Length(70, LengthUnit.Pixel), new Length(70, LengthUnit.Pixel)),
@@ -93,7 +93,7 @@ public class StylesTests {
 
     [Test]
     public void BorderColor() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-color: black;"" />
         ");
         Assert.AreEqual(UnityEngine.Color.black, el.style.borderLeftColor.value);
@@ -104,7 +104,7 @@ public class StylesTests {
 
     [Test]
     public void BorderBottomColor() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-bottom-color: black;"" />
         ");
         Assert.AreEqual(UnityEngine.Color.black, el.style.borderBottomColor.value);
@@ -112,7 +112,7 @@ public class StylesTests {
 
     [Test]
     public void BorderBottomLeftRadius() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-bottom-left-radius: 5px;"" />
         ");
         Assert.AreEqual(5f, el.style.borderBottomLeftRadius.value.value);
@@ -120,7 +120,7 @@ public class StylesTests {
 
     [Test]
     public void BorderBottomRightRadius() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-bottom-right-radius: 5px;"" />
         ");
         Assert.AreEqual(5f, el.style.borderBottomRightRadius.value.value);
@@ -128,7 +128,7 @@ public class StylesTests {
 
     [Test]
     public void BorderBottomWidth() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-bottom-width: 10px;"" />
         ");
         Assert.AreEqual(10f, el.style.borderBottomWidth.value);
@@ -136,7 +136,7 @@ public class StylesTests {
 
     [Test]
     public void BorderLeftColor() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-left-color: black;"" />
         ");
         Assert.AreEqual(UnityEngine.Color.black, el.style.borderLeftColor.value);
@@ -144,7 +144,7 @@ public class StylesTests {
 
     [Test]
     public void BorderLeftWidth() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-left-width: 10px;"" />
         ");
         Assert.AreEqual(10f, el.style.borderLeftWidth.value);
@@ -152,7 +152,7 @@ public class StylesTests {
 
     [Test]
     public void BorderRadius() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-radius: 5px;"" />
         ");
         Assert.AreEqual(5f, el.style.borderTopLeftRadius.value.value);
@@ -163,7 +163,7 @@ public class StylesTests {
 
     [Test]
     public void BorderRightColor() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-right-color: black;"" />
         ");
         Assert.AreEqual(UnityEngine.Color.black, el.style.borderRightColor.value);
@@ -171,7 +171,7 @@ public class StylesTests {
 
     [Test]
     public void BorderRightWidth() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-right-width: 10px;"" />
         ");
         Assert.AreEqual(10f, el.style.borderRightWidth.value);
@@ -179,7 +179,7 @@ public class StylesTests {
 
     [Test]
     public void BorderTopColor() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-top-color: black;"" />
         ");
         Assert.AreEqual(UnityEngine.Color.black, el.style.borderTopColor.value);
@@ -187,7 +187,7 @@ public class StylesTests {
 
     [Test]
     public void BorderTopLeftRadius() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-top-left-radius: 5px;"" />
         ");
         Assert.AreEqual(5f, el.style.borderTopLeftRadius.value.value);
@@ -195,7 +195,7 @@ public class StylesTests {
 
     [Test]
     public void BorderTopRightRadius() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-top-right-radius: 5px;"" />
         ");
         Assert.AreEqual(5f, el.style.borderTopRightRadius.value.value);
@@ -203,7 +203,7 @@ public class StylesTests {
 
     [Test]
     public void BorderTopWidth() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-top-width: 10px;"" />
         ");
         Assert.AreEqual(10f, el.style.borderTopWidth.value);
@@ -211,7 +211,7 @@ public class StylesTests {
 
     [Test]
     public void BorderWidth() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""border-width: 10px;"" />
         ");
         Assert.AreEqual(10f, el.style.borderLeftWidth.value);
@@ -222,7 +222,7 @@ public class StylesTests {
 
     [Test]
     public void Bottom() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""bottom: 10px;"" />
         ");
         Assert.AreEqual(10f, el.style.bottom.value.value);
@@ -230,7 +230,7 @@ public class StylesTests {
 
     [Test]
     public void Color() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""color: red;"" />
         ");
         Assert.AreEqual(UnityEngine.Color.red, el.style.color.value);
@@ -238,7 +238,7 @@ public class StylesTests {
 
     [Test]
     public void Cursor() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""cursor: resource('image2');"" />
         ");
         Assert.IsNotNull(el.style.cursor.value.texture);
@@ -246,7 +246,7 @@ public class StylesTests {
 
     [Test]
     public void Display() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""display: flex;"" />
         ");
         Assert.AreEqual(DisplayStyle.Flex, el.style.display.value);
@@ -254,7 +254,7 @@ public class StylesTests {
 
     [Test]
     public void Flex() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
         <ui:VisualElement style=""flex: 1 1 auto;"" />
     ");
         Assert.AreEqual(1f, el.style.flexGrow.value);
@@ -264,7 +264,7 @@ public class StylesTests {
 
     [Test]
     public void FlexBasis() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""flex-basis: 50px;"" />
         ");
         Assert.AreEqual(50f, el.style.flexBasis.value.value);
@@ -272,7 +272,7 @@ public class StylesTests {
 
     [Test]
     public void FlexDirection() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""flex-direction: row;"" />
         ");
         Assert.AreEqual(UnityEngine.UIElements.FlexDirection.Row, el.style.flexDirection.value);
@@ -280,7 +280,7 @@ public class StylesTests {
 
     [Test]
     public void FlexGrow() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""flex-grow: 1;"" />
         ");
         Assert.AreEqual(1f, el.style.flexGrow.value);
@@ -288,7 +288,7 @@ public class StylesTests {
 
     [Test]
     public void FlexShrink() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""flex-shrink: 1;"" />
         ");
         Assert.AreEqual(1f, el.style.flexShrink.value);
@@ -296,7 +296,7 @@ public class StylesTests {
 
     [Test]
     public void FlexWrap() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""flex-wrap: wrap;"" />
         ");
         Assert.AreEqual(Wrap.Wrap, el.style.flexWrap.value);
@@ -304,7 +304,7 @@ public class StylesTests {
 
     [Test]
     public void FontSize() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""font-size: 16px;"" />
         ");
         Assert.AreEqual(16f, el.style.fontSize.value.value);
@@ -312,7 +312,7 @@ public class StylesTests {
 
     [Test]
     public void Height() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""height: 200px;"" />
         ");
         Assert.AreEqual(200f, el.style.height.value.value);
@@ -320,7 +320,7 @@ public class StylesTests {
 
     [Test]
     public void JustifyContent() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""justify-content: center;"" />
         ");
         Assert.AreEqual(Justify.Center, el.style.justifyContent.value);
@@ -328,7 +328,7 @@ public class StylesTests {
 
     [Test]
     public void Left() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""left: 10px;"" />
         ");
         Assert.AreEqual(10f, el.style.left.value.value);
@@ -336,7 +336,7 @@ public class StylesTests {
 
     [Test]
     public void LetterSpacing() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""letter-spacing: 1px;"" />
         ");
         Assert.AreEqual(1f, el.style.letterSpacing.value.value);
@@ -344,7 +344,7 @@ public class StylesTests {
 
     [Test]
     public void Margin() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""margin: 5px;"" />
         ");
         Assert.AreEqual(5f, el.style.marginLeft.value.value);
@@ -355,7 +355,7 @@ public class StylesTests {
 
     [Test]
     public void MarginBottom() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""margin-bottom: 5px;"" />
         ");
         Assert.AreEqual(5f, el.style.marginBottom.value.value);
@@ -363,7 +363,7 @@ public class StylesTests {
 
     [Test]
     public void MarginLeft() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""margin-left: 5px;"" />
         ");
         Assert.AreEqual(5f, el.style.marginLeft.value.value);
@@ -371,7 +371,7 @@ public class StylesTests {
 
     [Test]
     public void MarginRight() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""margin-right: 5px;"" />
         ");
         Assert.AreEqual(5f, el.style.marginRight.value.value);
@@ -379,7 +379,7 @@ public class StylesTests {
 
     [Test]
     public void MarginTop() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""margin-top: 5px;"" />
         ");
         Assert.AreEqual(5f, el.style.marginTop.value.value);
@@ -387,7 +387,7 @@ public class StylesTests {
 
     [Test]
     public void MaxHeight() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""max-height: 500px;"" />
         ");
         Assert.AreEqual(500f, el.style.maxHeight.value.value);
@@ -395,7 +395,7 @@ public class StylesTests {
 
     [Test]
     public void MaxWidth() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""max-width: 100px;"" />
         ");
         Assert.AreEqual(100f, el.style.maxWidth.value.value);
@@ -403,7 +403,7 @@ public class StylesTests {
 
     [Test]
     public void MinHeight() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""min-height: 100px;"" />
         ");
         Assert.AreEqual(100f, el.style.minHeight.value.value);
@@ -411,7 +411,7 @@ public class StylesTests {
 
     [Test]
     public void MinWidth() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""min-width: 50px;"" />
         ");
         Assert.AreEqual(50f, el.style.minWidth.value.value);
@@ -419,7 +419,7 @@ public class StylesTests {
 
     [Test]
     public void Opacity() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""opacity: 0.5;"" />
         ");
         Assert.AreEqual(0.5f, el.style.opacity.value);
@@ -427,7 +427,7 @@ public class StylesTests {
 
     [Test]
     public void Overflow() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""overflow: hidden;"" />
         ");
         Assert.AreEqual(UnityEngine.UIElements.Overflow.Hidden, el.style.overflow.value);
@@ -435,7 +435,7 @@ public class StylesTests {
 
     [Test]
     public void Padding() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""padding: 10px;"" />
         ");
         Assert.AreEqual(10f, el.style.paddingLeft.value.value);
@@ -446,7 +446,7 @@ public class StylesTests {
 
     [Test]
     public void PaddingBottom() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""padding-bottom: 10px;"" />
         ");
         Assert.AreEqual(10f, el.style.paddingBottom.value.value);
@@ -454,7 +454,7 @@ public class StylesTests {
 
     [Test]
     public void PaddingLeft() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""padding-left: 10px;"" />
         ");
         Assert.AreEqual(10f, el.style.paddingLeft.value.value);
@@ -462,7 +462,7 @@ public class StylesTests {
 
     [Test]
     public void PaddingRight() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""padding-right: 10px;"" />
         ");
         Assert.AreEqual(10f, el.style.paddingRight.value.value);
@@ -470,7 +470,7 @@ public class StylesTests {
 
     [Test]
     public void PaddingTop() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""padding-top: 10px;"" />
         ");
         Assert.AreEqual(10f, el.style.paddingTop.value.value);
@@ -478,7 +478,7 @@ public class StylesTests {
 
     [Test]
     public void Position() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""position: absolute;"" />
         ");
         Assert.AreEqual(UnityEngine.UIElements.Position.Absolute, el.style.position.value);
@@ -486,7 +486,7 @@ public class StylesTests {
 
     [Test]
     public void Right() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""right: 10px;"" />
         ");
         Assert.AreEqual(10f, el.style.right.value.value);
@@ -494,7 +494,7 @@ public class StylesTests {
 
     [Test]
     public void Rotate() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""rotate: 45deg;"" />
         ");
         Assert.AreEqual(45, el.style.rotate.value.angle.value);
@@ -502,7 +502,7 @@ public class StylesTests {
 
     [Test]
     public void Scale() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
         <ui:VisualElement style=""scale: 2;"" />
     ");
         Assert.AreEqual(new Vector3(2, 2, 1), el.style.scale.value.value);
@@ -510,7 +510,7 @@ public class StylesTests {
 
     [Test]
     public void TextOverflow() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""text-overflow: ellipsis;"" />
         ");
         Assert.AreEqual(UnityEngine.UIElements.TextOverflow.Ellipsis, el.style.textOverflow.value);
@@ -518,7 +518,7 @@ public class StylesTests {
 
     [Test]
     public void TextShadow() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""text-shadow: 1px 1px 2px black;"" />
         ");
         UnityEngine.UIElements.TextShadow shadow = el.style.textShadow.value;
@@ -529,7 +529,7 @@ public class StylesTests {
 
     [Test]
     public void Top() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""top: 10px;"" />
         ");
         Assert.AreEqual(10f, el.style.top.value.value);
@@ -537,7 +537,7 @@ public class StylesTests {
 
     [Test]
     public void TransformOrigin() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""transform-origin: 50% 50%;"" />
         ");
         TransformOrigin origin = el.style.transformOrigin.value;
@@ -547,7 +547,7 @@ public class StylesTests {
 
     [Test]
     public void Transition() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
         <ui:VisualElement style=""transition: width 0.5s ease-in, height 1s ease-out;"" />
     ");
         List<StylePropertyName> properties = el.style.transitionProperty.value;
@@ -565,7 +565,7 @@ public class StylesTests {
 
     [Test]
     public void TransitionDelay() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
         <ui:VisualElement style=""transition-delay: 1s, 2s;"" />
     ");
         List<TimeValue> delays = el.style.transitionDelay.value;
@@ -575,7 +575,7 @@ public class StylesTests {
 
     [Test]
     public void TransitionDuration() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
         <ui:VisualElement style=""transition-duration: 2s, 4s;"" />
     ");
         List<TimeValue> durations = el.style.transitionDuration.value;
@@ -585,7 +585,7 @@ public class StylesTests {
 
     [Test]
     public void TransitionProperty() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""transition-property: width, height;"" />
         ");
         List<StylePropertyName> properties = el.style.transitionProperty.value;
@@ -595,7 +595,7 @@ public class StylesTests {
 
     [Test]
     public void TransitionTimingFunction() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""transition-timing-function: ease-in, linear;"" />
         ");
         List<EasingFunction> functions = el.style.transitionTimingFunction.value;
@@ -605,7 +605,7 @@ public class StylesTests {
 
     [Test]
     public void Translate() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""translate: 10px 20px;"" />
         ");
         Translate translate = el.style.translate.value;
@@ -615,7 +615,7 @@ public class StylesTests {
 
     [Test]
     public void UnityBackgroundImageTintColor() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-background-image-tint-color: blue;"" />
         ");
         Assert.AreEqual(UnityEngine.Color.blue, el.style.unityBackgroundImageTintColor.value);
@@ -623,7 +623,7 @@ public class StylesTests {
 
     [Test]
     public void UnityFont() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-font: resource(slabo)"" />
         ");
         Assert.IsNotNull(el.style.unityFont.value);
@@ -631,7 +631,7 @@ public class StylesTests {
 
     [Test]
     public void UnityFontDefinition() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-font-definition: resource('slabo')"" />
         ");
         Assert.IsNotNull(el.style.unityFontDefinition.value);
@@ -639,7 +639,7 @@ public class StylesTests {
 
     [Test]
     public void UnityFontStyle() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-font-style: bold;"" />
         ");
         Assert.AreEqual(FontStyle.Bold, el.style.unityFontStyleAndWeight.value);
@@ -647,7 +647,7 @@ public class StylesTests {
 
     [Test]
     public void UnityOverflowClipBox() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-overflow-clip-box: padding-box;"" />
         ");
         Assert.AreEqual(OverflowClipBox.PaddingBox, el.style.unityOverflowClipBox.value);
@@ -655,7 +655,7 @@ public class StylesTests {
 
     [Test]
     public void UnityParagraphSpacing() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-paragraph-spacing: 5px;"" />
         ");
         Assert.AreEqual(5f, el.style.unityParagraphSpacing.value.value);
@@ -663,7 +663,7 @@ public class StylesTests {
 
     [Test]
     public void UnitySliceBottom() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-slice-bottom: 10;"" />
         ");
         Assert.AreEqual(10, el.style.unitySliceBottom.value);
@@ -671,7 +671,7 @@ public class StylesTests {
 
     [Test]
     public void UnitySliceLeft() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-slice-left: 10;"" />
         ");
         Assert.AreEqual(10, el.style.unitySliceLeft.value);
@@ -679,7 +679,7 @@ public class StylesTests {
 
     [Test]
     public void UnitySliceRight() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-slice-right: 10;"" />
         ");
         Assert.AreEqual(10, el.style.unitySliceRight.value);
@@ -687,7 +687,7 @@ public class StylesTests {
 
     [Test]
     public void UnitySliceScale() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-slice-scale: 0.5;"" />
         ");
         Assert.AreEqual(0.5f, el.style.unitySliceScale.value);
@@ -695,7 +695,7 @@ public class StylesTests {
 
     [Test]
     public void UnitySliceTop() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-slice-top: 10;"" />
         ");
         Assert.AreEqual(10, el.style.unitySliceTop.value);
@@ -703,7 +703,7 @@ public class StylesTests {
 
     [Test]
     public void UnityTextAlign() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-text-align: upper-left;"" />
         ");
         Assert.AreEqual(TextAnchor.UpperLeft, el.style.unityTextAlign.value);
@@ -711,7 +711,7 @@ public class StylesTests {
 
     [Test]
     public void UnityTextOutline() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-text-outline: 10px black;"" />
         ");
         Assert.AreEqual(10f, el.style.unityTextOutlineWidth.value);
@@ -720,7 +720,7 @@ public class StylesTests {
 
     [Test]
     public void UnityTextOutlineColor() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
         <ui:VisualElement style=""-unity-text-outline-color: green;"" />
     ");
         Color expectedGreen = new(0f, 0.5f, 0f, 1f); // Expected value
@@ -735,7 +735,7 @@ public class StylesTests {
 
     [Test]
     public void UnityTextOutlineWidth() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-text-outline-width: 2px;"" />
         ");
         Assert.AreEqual(2f, el.style.unityTextOutlineWidth.value);
@@ -743,7 +743,7 @@ public class StylesTests {
 
     [Test]
     public void UnityTextOverflowPosition() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""-unity-text-overflow-position: start;"" />
         ");
         Assert.AreEqual(TextOverflowPosition.Start, el.style.unityTextOverflowPosition.value);
@@ -751,7 +751,7 @@ public class StylesTests {
 
     [Test]
     public void Visibility() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""visibility: hidden;"" />
         ");
         Assert.AreEqual(UnityEngine.UIElements.Visibility.Hidden, el.style.visibility.value);
@@ -759,7 +759,7 @@ public class StylesTests {
 
     [Test]
     public void WhiteSpace() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""white-space: nowrap;"" />
         ");
         Assert.AreEqual(UnityEngine.UIElements.WhiteSpace.NoWrap, el.style.whiteSpace.value);
@@ -767,7 +767,7 @@ public class StylesTests {
 
     [Test]
     public void Width() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""width: 300px;"" />
         ");
         Assert.AreEqual(300f, el.style.width.value.value);
@@ -775,7 +775,7 @@ public class StylesTests {
 
     [Test]
     public void WordSpacing() {
-        VisualElement el = UIBuddy.Build<VisualElement>(@"
+        VisualElement el = _UI.Build<VisualElement>(@"
             <ui:VisualElement style=""word-spacing: 2px;"" />
         ");
         Assert.AreEqual(2f, el.style.wordSpacing.value.value);
